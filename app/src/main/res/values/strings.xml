@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">好多车友</string>
+    <!--基本数据-->
+    <string name="sf_progress_dialog_image_loading">数据加载中…</string>
+    <string name="title_net_error">无网络</string>
+    <string name="content_net_error">糟糕，网络不见了</string>
+    <string name="title_null_data">空结果</string>
+    <string name="content_null_data">抱歉，还没有内容</string>
+    <string name="loading_error">加载失败</string>
+
+    <!--权限处理-->
+    <string name="tips_permission_camera">需要获取相机权限才能进行下一步哟</string>
+    <string name="tips_permission_storage">需要获取存储读写权限才能进行下一步哟</string>
+    <string name="tips_permission_camera_storage">需要获取相机和存储读写权限才能进行下一步哟</string>
+    <string name="tips_permission_call_phone">需要获取拨打电话权限才能进行下一步哟</string>
+    <string name="tips_permission_location">需要获取定位权限才能进行下一步哟</string>
+    <string name="tips_permission_ask_again">没有赋予应用程序所需权限，该应用程序可能无法正常工作，请打开应用程序设置界面修改权限</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="press_again_exit">再按一次退出</string>
+    <string name="send">发送</string>
+</resources>

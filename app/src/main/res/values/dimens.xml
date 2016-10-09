@@ -1,0 +1,58 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">24dp</dimen>
+    <dimen name="app_bar_height">160dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="bottombar_height">48dp</dimen>
+    <dimen name="bottombar_wechat_height">52dp</dimen>
+    <!--高度-->
+    <dimen name="line_width">2px</dimen><!--APP线宽-->
+    <dimen name="line_width_bold">4px</dimen><!--APP粗线宽-->
+    <dimen name="title_height">44dp</dimen><!--APP标题栏高度(具体和代码同步)-->
+    <dimen name="list_height_single">126px</dimen><!--APP单行列表高度-->
+    <dimen name="list_height_two">174px</dimen><!--APP两行列表高度-->
+    <dimen name="button_height">114px</dimen><!--APP按钮高度(登录等按钮)-->
+    <dimen name="button_height_small">88px</dimen><!--APP按钮高度小(子项等按钮)-->
+    <dimen name="label_height">58px</dimen><!--APP标签高度(评论标签等)-->
+    <dimen name="wheel_height">378px</dimen><!--APP滚动WheelView高度-->
+
+    <!--圆角-->
+    <dimen name="corners">2dp</dimen><!--APP圆角半径-->
+    <dimen name="corners_round">100dp</dimen><!--APP圆形-->
+
+    <!--图标大小-->
+    <dimen name="icon_big">172px</dimen><!--APP大icon(头像等)-->
+    <dimen name="icon_small">114px</dimen><!--APP小icon(头像等)-->
+    <dimen name="arrow_width">24px</dimen><!--APP箭头宽-->
+    <dimen name="arrow_height">40px</dimen><!--APP箭头高-->
+    <dimen name="list_icon">42px</dimen><!--APP列表icon-->
+    <dimen name="photo_grid_view">244px</dimen><!--APP图片大小(添加按钮、GridView图片等)-->
+
+    <!--文字大小-->
+    <dimen name="font_title_bar">50px</dimen><!--APP导航栏标题(一级标题)-->
+    <dimen name="font_title_subtitle">42px</dimen><!--APP副标题-->
+    <dimen name="main_font">40px</dimen><!--APP正文-->
+    <dimen name="main_font_body">34px</dimen><!--APP内容-->
+    <dimen name="main_font_tips">28px</dimen><!--APP提示文字-->
+    <dimen name="main_font_line_space">24px</dimen><!--APP正文行间距)-->
+    <dimen name="main_font_body_line_space">18px</dimen><!--APP内容行间距)-->
+
+    <!--控件间距-->
+    <dimen name="list_icon_text_space">28px</dimen><!--APP列表icon和文字间距)-->
+    <dimen name="list_text_space">44px</dimen><!--APP列表文字和文字间距)-->
+    <dimen name="grid_view_space">16px</dimen><!--APPGridView间距)-->
+
+    <!--内外间距-->
+    <dimen name="main_margin">28px</dimen><!--APP左外间距)-->
+    <dimen name="main_margin_left">28px</dimen><!--APP左外间距)-->
+    <dimen name="main_margin_right">28px</dimen><!--APP右外间距)-->
+    <dimen name="main_margin_top">28px</dimen><!--APP上外间距)-->
+    <dimen name="main_margin_bottom">28px</dimen><!--APP下外间距)-->
+    <dimen name="main_padding">@dimen/main_margin</dimen><!--APP下外间距)-->
+    <dimen name="main_padding_left">@dimen/main_margin_left</dimen><!--APP左内间距)-->
+    <dimen name="main_padding_right">@dimen/main_margin_right</dimen><!--APP右内间距)-->
+    <dimen name="main_padding_top">@dimen/main_margin_top</dimen><!--APP上内间距)-->
+    <dimen name="main_padding_bottom">@dimen/main_margin_bottom</dimen><!--APP下内间距)-->
+</resources>

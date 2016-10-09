@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#8FAFCA</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="bg_app">#F1F1F1</color>
+
+    <color name="tab_unselect">#c9c9c9</color>
+    <color name="bg_btn">#dadada</color>
+
+    <color name="transparent">@android:color/transparent</color><!--透明色-->
+    <color name="transparent_black_20">#33000000</color><!--半透明黑色-->
+    <color name="transparent_black_50">#80000000</color><!--半透明黑色-->
+    <color name="transparent_black_60">#9A000000</color><!--半透明黑色-->
+    <color name="transparent_white_50">#80FFFFFF</color><!--半透明白色-->
+    <color name="white">#FFFFFFFF</color><!--白色-->
+    <color name="black">#FF000000</color><!--黑色-->
+    <color name="gray">#FFF5F5F9</color><!--灰色-->
+    <color name="main">#FFFF6537</color><!--APP主色-->
+    <color name="main_aid">#FFF8B551</color><!--APP辅助色-->
+    <color name="main_title_bar">#FF2D2C32</color><!--APP导航栏颜色-->
+    <color name="main_bg">@color/gray</color><!--APP主背景色-->
+    <color name="main_font">#FF333333</color><!--APP主字体颜色-->
+    <color name="main_font_gray_1">#FF666666</color><!--APP一级字体色-->
+    <color name="main_font_gray_2">#FF999999</color><!--APP二级字体色-->
+    <!--<color name="main_font_gray_3">#FFABABAB</color>&lt;!&ndash;APP三级字体色&ndash;&gt;-->
+    <color name="main_line">#FFCCCCCC</color><!--APP线主色-->
+    <color name="main_line_2">#FFEEEEEE</color><!--APP线主色-->
+    <color name="main_checked">@color/main_font</color><!--APP选中字体颜色-->
+    <color name="main_unchecked">@color/main_font_gray_2</color><!--APP未选中字体颜色-->
+    <color name="main_enable">@color/white</color><!--APP可用字体颜色-->
+    <color name="main_disable">@color/main_font_gray_2</color><!--APP不可用字体颜色-->
+    <color name="main_enable_bg">@color/main</color><!--APP可用背景颜色-->
+    <color name="main_disable_bg">#FFDDDDDD</color><!--APP不可用背景颜色-->
+    <color name="main_income_wallet">#FF009944</color><!--APP收入(钱包)-->
+    <color name="main_pay_wallet">@color/main</color><!--APP支出(钱包)-->
+
+    <!--评论框-->
+    <color name="color_efeff4">#ffefeff4</color>
+    <color name="color_efeff1">#ffefeff1</color>
+
+</resources>

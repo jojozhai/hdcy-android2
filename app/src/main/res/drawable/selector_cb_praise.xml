@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/content_con_zambia_default" android:state_checked="true"></item>
+    <item android:drawable="@drawable/content_icon_zambia_pressed" android:state_checked="false"></item>
+
+</selector>
