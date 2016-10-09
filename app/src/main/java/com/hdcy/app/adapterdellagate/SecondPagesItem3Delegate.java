@@ -40,9 +40,9 @@ public class SecondPagesItem3Delegate implements ItemViewDelegate<Content> {
     @Override
     public void convert(ViewHolder holder, Content content, int position) {
         iv_info_cover = (ImageView) holder.getView(R.id.iv_article_bg);
-/*        Date time = content.getCreatedTime();
+        Date time = content.getCreatedTime();
         String nowdate = RelativeTimeUtils.format(time);
-        holder.setText(R.id.tv_created_time, nowdate);*/
+        holder.setText(R.id.tv_created_time, nowdate);
         holder.setText(R.id.tv_article_title,content.getTitle());
         holder.setText(R.id.bt_tag_title,content.getTagInfos().get(0).getName());
         holder.setText(R.id.tv_info_watched,content.getReadCount()+"");

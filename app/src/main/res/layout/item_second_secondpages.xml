@@ -26,14 +26,16 @@
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
+            android:layout_weight="1"
             >
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textColor="#BBBBBB"
-                android:layout_marginLeft="22dp"
-                android:layout_marginTop="25dp"
                 android:textSize="11sp"
                 android:text="置顶"/>
 
@@ -41,7 +43,6 @@
                 android:id="@+id/bt_tag_title"
                 android:layout_height="20dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
                 android:layout_width="60dp"
                 android:text="全球活动"
                 android:textSize="11sp"
@@ -53,7 +54,6 @@
                 android:id="@+id/tv_created_time"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="25dp"
                 android:layout_marginLeft="22dp"
                 android:textColor="#BBBBBB" />
             <RelativeLayout
@@ -78,6 +78,11 @@
                     android:textColor="@color/main_font_gray_2"
                     android:textSize="11sp"/>
             </RelativeLayout>
+
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/main_checked" />
     </LinearLayout>
 </LinearLayout>

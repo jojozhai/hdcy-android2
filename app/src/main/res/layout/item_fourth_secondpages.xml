@@ -26,16 +26,22 @@
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginLeft="20dp"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:textColor="#BBBBBB"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
                 android:textSize="11sp"
                 android:text="广告"/>
         </LinearLayout>
 
-    </LinearLayout>>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/main_checked" />
 </LinearLayout>
