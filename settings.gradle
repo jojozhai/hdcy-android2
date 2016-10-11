@@ -1,1 +1,1 @@
-include ':app', ':fragmentation'
+include ':app', ':fragmentation', ':base-adapter-library'

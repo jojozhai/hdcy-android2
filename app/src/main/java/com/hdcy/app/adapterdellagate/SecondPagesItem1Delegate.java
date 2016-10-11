@@ -35,6 +35,8 @@ public class SecondPagesItem1Delegate implements ItemViewDelegate<Content> {
         }
     }
 
+
+
     @Override
     public void convert(ViewHolder holder, Content content, int position) {
         iv_info_cover = (ImageView) holder.getView(R.id.iv_article_bg);

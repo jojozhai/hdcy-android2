@@ -77,11 +77,10 @@ public class MainFragment extends BaseFragment {
             mFragments[SECOND] = SecondFragment.newInstance();
             mFragments[THIRD] = ThirdFragment.newInstance();
             mFragments[FOURTH]= FourthFragment.newInstance();
-            loadMultipleRootFragment(R.id.mainPager,FIRST,mFragments[FIRST],
+/*            loadMultipleRootFragment(R.id.mainPager,FIRST,mFragments[FIRST],
                     mFragments[SECOND],
                     mFragments[THIRD],
-                    mFragments[FOURTH]);
-
+                    mFragments[FOURTH]);*/
         }else {
             mFragments[FIRST] = findChildFragment(FirstFragment.class);
             mFragments[SECOND] = findChildFragment(SecondFragment.class);

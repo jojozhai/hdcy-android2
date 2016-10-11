@@ -16,6 +16,10 @@ import com.hdcy.app.fragment.first.FirstFragment;
 
 public class ThirdFragment extends BaseLazyMainFragment {
 
+    private static final String TAG = "ThirdFragment";
+
+
+
 
     public static ThirdFragment newInstance() {
 

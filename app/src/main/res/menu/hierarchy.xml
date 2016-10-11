@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_hierarchy"
-        android:title="栈视图"
-        android:icon="@drawable/nav_menu_share"
+        android:id="@+id/action_comment"
+        android:title="评论"
+        android:icon="@drawable/nav_menu_comment"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_hierarchy"
+        android:title="分享"
+        android:icon="@mipmap/nav_menu_share"
+        app:showAsAction="ifRoom"/>
+
 </menu>

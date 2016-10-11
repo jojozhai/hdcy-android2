@@ -2,21 +2,31 @@ package com.hdcy.app.fragment.second.childpages;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.SecondPagesAdapter;
 import com.hdcy.app.basefragment.BaseFragment;
+import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.fragment.second.ArticleInfoDeatailFragment;
+import com.hdcy.app.fragment.third.ThirdFragment;
 import com.hdcy.app.model.Content;
 import com.hdcy.app.model.RootListInfo;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
+import com.zhy.adapter.abslistview.CommonAdapter;
+import com.zhy.adapter.abslistview.MultiItemTypeAdapter;
+import com.zhy.adapter.abslistview.ViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,7 +72,28 @@ public class SecondPagesFragment extends BaseFragment  {
 
     private void initView(View view){
         mListview = (ListView) view.findViewById(R.id.recy);
-      //  mListview.setAdapter(new SecondPagesItem1Delegate(getContext(),contentList));
+        mAdapter = new SecondPagesAdapter(getContext(),contentList);
+        mListview.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new CommonAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, ViewHolder holder, int position) {
+                Toast.makeText(getActivity(), "Click:" + position , Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new StartBrotherEvent(ArticleInfoDeatailFragment.newInstance(contentList.get(position).getId()+"")));
+
+            }
+
+            @Override
+            public boolean onItemLongClick(View view, ViewHolder holder, int position) {
+                return false;
+            }
+        });
+        //  mListview.setAdapter(new SecondPagesItem1Delegate(getContext(),contentList));
+/*        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EventBus.getDefault().post(new StartBrotherEvent(ThirdFragment.newInstance()));
+            }
+        });*/
     }
 
     private void initData(){
@@ -74,9 +105,7 @@ public class SecondPagesFragment extends BaseFragment  {
     }
 
     private void setData(){
-        mAdapter = new SecondPagesAdapter(getContext(),contentList);
-        mListview.setAdapter(mAdapter);
-
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

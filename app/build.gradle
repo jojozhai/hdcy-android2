@@ -36,8 +36,10 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:cardview-v7:23.3.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.zhy:base-adapter:3.0.3'
-
+    compile project(':base-adapter-library')
     compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.makeramen:roundedimageview:2.2.1'
+    compile 'com.jakewharton:butterknife:8.2.1'
+
     testCompile 'junit:junit:4.12'
 }
