@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.hdcy.app.R;
 import com.hdcy.app.fragment.BootFragment;
 import com.hdcy.app.fragment.MainFragment;
+import com.umeng.socialize.PlatformConfig;
 
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
@@ -26,6 +27,7 @@ public class MainActivity extends SupportActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PlatformConfig.setWeixin("wx6619f92e0cc550da","431c26c014b6ea3c4aab0b1d8016b2b9");
         if(savedInstanceState == null){
             loadRootFragment(R.id.fl_container_activity1, BootFragment.newInstance());
             handler.postDelayed(new Runnable() {

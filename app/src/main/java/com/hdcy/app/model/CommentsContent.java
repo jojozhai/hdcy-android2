@@ -35,6 +35,8 @@ public class CommentsContent implements Serializable {
 
     private List<Replys> replys ;
 
+    private Boolean isLike;
+
     public void setReplys(List<Replys> replys){
         this.replys = replys;
     }
@@ -110,5 +112,13 @@ public class CommentsContent implements Serializable {
     public int getPraiseCount(){
         return this.praiseCount;
     }
+    public boolean isLike() {
+        return isLike;
+    }
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
+
 
 }

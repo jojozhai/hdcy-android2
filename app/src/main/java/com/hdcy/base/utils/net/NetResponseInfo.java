@@ -14,6 +14,7 @@ import com.hdcy.app.model.LeaderInfo;
 import com.hdcy.app.model.NewsArticleInfo;
 import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.PraiseResult;
+import com.hdcy.app.model.PraiseStatus;
 import com.hdcy.app.model.Replys;
 import com.hdcy.app.model.Result;
 import com.hdcy.app.model.RootListInfo;
@@ -58,6 +59,16 @@ public class NetResponseInfo {
 
 
     public List<GiftContent> giftContent;
+
+    public PraiseStatus getBooleanList() {
+        return booleanList;
+    }
+
+    public void setBooleanList(PraiseStatus booleanList) {
+        this.booleanList = booleanList;
+    }
+
+    public PraiseStatus booleanList;
 
 
 

@@ -1,8 +1,12 @@
 package com.hdcy.base.utils.net;
 
 import android.util.Log;
+import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.JSONSerializable;
+import com.alibaba.fastjson.serializer.JSONSerializableSerializer;
+import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.hdcy.app.model.ActivityContent;
 import com.hdcy.app.model.ActivityDetails;
 import com.hdcy.app.model.ArticleInfo;
@@ -14,6 +18,7 @@ import com.hdcy.app.model.GiftContent;
 import com.hdcy.app.model.LeaderInfo;
 import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.PraiseResult;
+import com.hdcy.app.model.PraiseStatus;
 import com.hdcy.app.model.Replys;
 import com.hdcy.app.model.Result;
 import com.hdcy.app.model.RootListInfo;
@@ -24,6 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by WeiYanGeorge on 2016-08-10.
@@ -314,7 +322,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/comments/");
         request.addParam("targetId",tagId);
         request.addParam("page",pagecount);
-        request.addParam("size",30);
+        request.addParam("size",20);
         request.addParam("sort","createdTime,desc");
         request.addParam("target",target);
         return request.postarray(new NetRequestCallBack() {
@@ -812,37 +820,39 @@ public class NetHelper {
         });
     }
 
-    public Callback.Cancelable GetCommentPraiseStatus(int pagecount,final NetRequestCallBack callBack){
+    public Callback.Cancelable GetCommentPraiseStatus(String targetid,String targettype,int pagecount,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/comment/praise/");
         request.addHeader("Authorization","Basic MToxMjM0NTY=");
         request.addHeader("Content-Type", "application/json;charset=UTF-8");
 
+        request.addParam("targetId",targetid);
+        request.addParam("target",targettype);
         request.addParam("enable","true");
         request.addParam("page",pagecount);
         request.addParam("size",20);
-        request.addParam("sort","pagecount");
-        return request.postarray(new NetRequestCallBack() {
+        request.addParam("sort","createdTime,desc");
+        return request.getpraisearray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONArray dataObj = responseInfo.getDataArr();
-                JSONObject dataObj1 = responseInfo.getDataObj();
-                if (dataObj != null){
-                    responseInfo.setContentList(JSON.parseArray(dataObj.toString(), Content.class));
-                    responseInfo.setRootListInfo(JSON.parseObject(dataObj1.toString(),RootListInfo.class));
-                }
+                List<Boolean> list = new ArrayList<Boolean>();
+                list =JSON.parseArray(dataObj.toString() , Boolean.class);
+                //JSON.parseArray(dataObj.toString(), )
+/*                if (dataObj != null){
+                    responseInfo.setBooleanList(JSON.parseObject(dataObj.toString(), PraiseStatus.class));
+                }*/
                 callBack.onSuccess(requestInfo, responseInfo);
-                Log.e("article2","sucess");
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                Log.e("article2","onfailure");
+                Log.e("commentpraise","onfailure");
 
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                Log.e("article2","onfailure");
+                Log.e("commentpraise","onfailure");
 
             }
         });
