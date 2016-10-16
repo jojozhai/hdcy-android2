@@ -18,6 +18,7 @@ import com.hdcy.app.R;
 import com.hdcy.app.adapter.CommonsAdapter;
 import com.hdcy.app.adapter.ThirdPageFragmentAdapter;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
+import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.first.FirstFragment;
 import com.hdcy.app.model.ActivityContent;
 import com.hdcy.app.model.RootListInfo;
@@ -30,6 +31,8 @@ import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,6 +107,14 @@ public class ThirdFragment extends BaseLazyMainFragment {
         initHeaderBanner();
         mListView.addHeaderView(headview);
         mListView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new ThirdPageFragmentAdapter.OnItemClickListener() {
+            @Override
+            public void onItem(int position) {
+
+                String ActivityId = activityContentList.get(position).getId() + "";
+                EventBus.getDefault().post(new StartBrotherEvent(OfflineActivityFragment.newInstance(ActivityId)));
+            }
+        });
     }
 
     private void initData(){
