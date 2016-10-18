@@ -178,7 +178,6 @@ public class ThirdFragment extends BaseLazyMainFragment {
     private void initHeaderBanner(){
         mViewPager.setPageMargin(40);
         mViewPager.setOffscreenPageLimit(3);
-
         mAdapter4Banner = new PagerAdapter() {
 
             @Override

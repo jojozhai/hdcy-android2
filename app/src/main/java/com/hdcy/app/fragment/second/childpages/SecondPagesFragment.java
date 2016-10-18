@@ -16,6 +16,7 @@ import com.hdcy.app.R;
 import com.hdcy.app.adapter.SecondPagesAdapter;
 import com.hdcy.app.basefragment.BaseFragment;
 import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.fragment.OutLinkWebFragment;
 import com.hdcy.app.fragment.second.ArticleInfoDeatailFragment;
 import com.hdcy.app.fragment.third.ThirdFragment;
 import com.hdcy.app.model.Content;
@@ -78,7 +79,13 @@ public class SecondPagesFragment extends BaseFragment  {
             @Override
             public void onItemClick(View view, ViewHolder holder, int position) {
                 Toast.makeText(getActivity(), "Click:" + position , Toast.LENGTH_SHORT).show();
-                EventBus.getDefault().post(new StartBrotherEvent(ArticleInfoDeatailFragment.newInstance(contentList.get(position).getId()+"")));
+                Content temp = contentList.get(position);
+                if(temp.isLinkOut()){
+                    Toast.makeText(getActivity(), "Click:" + temp.getOutLink() , Toast.LENGTH_SHORT).show();
+                    EventBus.getDefault().post(new StartBrotherEvent(OutLinkWebFragment.newInstance(temp.getOutLink()+"")));
+                }else {
+                    EventBus.getDefault().post(new StartBrotherEvent(ArticleInfoDeatailFragment.newInstance(contentList.get(position).getId()+"")));
+                }
 
             }
 

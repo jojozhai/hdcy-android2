@@ -23,6 +23,7 @@ import com.hdcy.app.model.Replys;
 import com.hdcy.app.model.Result;
 import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.model.UserBaseInfo;
+import com.hdcy.app.model.VideoBasicInfo;
 import com.hdcy.base.utils.logger.LogF;
 
 import org.json.JSONArray;
@@ -446,13 +447,13 @@ public class NetHelper {
 //        request.addParam("size","10");
         request.addParam("sort","createdTime,desc");
         request.addParam("top","true");
-        return request.getObj(new NetRequestCallBack() {
+        return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                JSONObject dataObj = responseInfo.getDataObj();
-                LogF.json(dataObj.toString());//LOG
+                JSONArray dataObj = responseInfo.getDataArr();
+                // LogF.json(dataObj.toString());//LOG
                 if (dataObj != null){
-                    responseInfo.vedioBannerList=JSON.parseArray(dataObj.opt("content").toString(), Bean4VedioBanner.class);
+                    responseInfo.setVideoBasicInfoList(JSON.parseArray(dataObj.toString(), VideoBasicInfo.class));
                 }
                 callBack.onSuccess(requestInfo, responseInfo);
             }
@@ -481,15 +482,15 @@ public class NetHelper {
         request.addParam("page",pageIndex);
 //        request.addParam("enable","false");
 //        request.addParam("size","10");
-//        request.addParam("sort","createdTime,desc");
+        request.addParam("sort","createdTime,desc");
         request.addParam("top","false");
-        return request.getObj(new NetRequestCallBack() {
+        return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                JSONObject dataObj = responseInfo.getDataObj();
-                LogF.json(dataObj.toString());//LOG
+                JSONArray dataObj = responseInfo.getDataArr();
+               // LogF.json(dataObj.toString());//LOG
                 if (dataObj != null){
-                    responseInfo.vedioBannerList=JSON.parseArray(dataObj.optJSONArray("content").toString(), Bean4VedioBanner.class);
+                    responseInfo.setVideoBasicInfoList(JSON.parseArray(dataObj.toString(), VideoBasicInfo.class));
                 }
                 callBack.onSuccess(requestInfo, responseInfo);
             }

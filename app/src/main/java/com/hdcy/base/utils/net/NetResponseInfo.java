@@ -19,6 +19,7 @@ import com.hdcy.app.model.Replys;
 import com.hdcy.app.model.Result;
 import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.model.UserBaseInfo;
+import com.hdcy.app.model.VideoBasicInfo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -56,6 +57,8 @@ public class NetResponseInfo {
     public List<Bean4VedioBanner> vedioBannerList;
     /**  视频详情页面的信息*/
     public Bean4VedioDetail mBean4VedioDetail;
+
+    public List<VideoBasicInfo> videoBasicInfoList;
 
 
     public List<GiftContent> giftContent;
@@ -242,6 +245,16 @@ public class NetResponseInfo {
     public void setGiftContent(List<GiftContent> giftContent) {
         this.giftContent = giftContent;
     }
+
+
+    public List<VideoBasicInfo> getVideoBasicInfoList() {
+        return videoBasicInfoList;
+    }
+
+    public void setVideoBasicInfoList(List<VideoBasicInfo> videoBasicInfoList) {
+        this.videoBasicInfoList = videoBasicInfoList;
+    }
+
 
 
 
