@@ -108,12 +108,7 @@ public class SecondFragment extends BaseLazyMainFragment {
     }
 
     public class ViewPageFragmentAdapter extends FragmentPagerAdapter {
-
         private List<NewsCategory> data;
-
-
-
-
         public ViewPageFragmentAdapter(FragmentManager fm, List<NewsCategory> data) {
             super(fm);
             this.data = data;

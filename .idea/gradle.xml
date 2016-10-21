@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base-adapter-library" />
             <option value="$PROJECT_DIR$/fragmentation" />
+            <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/multi-image-selector" />
           </set>
         </option>

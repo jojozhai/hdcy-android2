@@ -14,9 +14,13 @@ public class LeaderInfo implements Serializable {
 
     private int userId;
 
-    private String nickname;
+    private String name;
 
-    private String headimgurl;
+    private String slogan;
+
+    private boolean organ;
+
+    private boolean enable;
 
     private String level;
 
@@ -28,82 +32,129 @@ public class LeaderInfo implements Serializable {
 
     private boolean top;
 
+    private String image;
+
+
     private int topIndex;
 
     private String topImage;
 
-    private int participationCount;
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
-    public int getId(){
+
+    public int getId() {
         return this.id;
     }
-    public void setUserId(int userId){
-        this.userId = userId;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    public int getUserId(){
-        return this.userId;
+
+    public String getName() {
+        return this.name;
     }
-    public void setNickname(String nickname){
-        this.nickname = nickname;
-    }
-    public String getNickname(){
-        return this.nickname;
-    }
-    public void setHeadimgurl(String headimgurl){
-        this.headimgurl = headimgurl;
-    }
-    public String getHeadimgurl(){
-        return this.headimgurl;
-    }
-    public void setLevel(String level){
-        this.level = level;
-    }
-    public String getLevel(){
-        return this.level;
-    }
-    public void setTags(String tags){
-        this.tags = tags;
-    }
-    public String getTags(){
-        return this.tags;
-    }
-    public void setIntro(String intro){
-        this.intro = intro;
-    }
-    public String getIntro(){
-        return this.intro;
-    }
-    public void setStatus(String status){
-        this.status = status;
-    }
-    public String getStatus(){
-        return this.status;
-    }
-    public void setTop(boolean top){
+
+    public void setTop(boolean top) {
         this.top = top;
     }
-    public boolean getTop(){
+
+    public boolean getTop() {
         return this.top;
     }
-    public void setTopIndex(int topIndex){
+
+    public String getSlogan() {
+        return slogan;
+    }
+
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
+    }
+
+    public boolean isOrgn() {
+        return organ;
+    }
+
+    public void setOrgan(boolean organ) {
+        this.organ = organ;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    public boolean isTop() {
+        return top;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getTopIndex() {
+        return topIndex;
+    }
+
+    public void setTopIndex(int topIndex) {
         this.topIndex = topIndex;
     }
-    public int getTopIndex(){
-        return this.topIndex;
+
+    public String getTopImage() {
+        return topImage;
     }
-    public void setTopImage(String topImage){
+
+    public void setTopImage(String topImage) {
         this.topImage = topImage;
     }
-    public String getTopImage(){
-        return this.topImage;
-    }
-    public void setParticipationCount(int participationCount){
-        this.participationCount = participationCount;
-    }
-    public int getParticipationCount(){
-        return this.participationCount;
-    }
+
+
 }

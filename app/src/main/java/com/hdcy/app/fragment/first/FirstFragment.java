@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.CommonsAdapter;
 import com.hdcy.app.adapter.ViewHolder;
@@ -33,6 +34,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bingoogolapple.bgabanner.BGABanner;
+
 import static com.hdcy.base.utils.DateUtil.date2Str;
 
 /**
@@ -43,11 +46,9 @@ public class FirstFragment extends BaseLazyMainFragment{
 
     private static final String TAG = "FirstFragment";
 
-    private Toolbar mToolbar;
-    private TextView title;
     private ListView mListView;
 
-    private ViewPager mViewPager;
+    private BGABanner mBanner;
     private PagerAdapter mAdapter4Banner;
     private CommonsAdapter mAdapters;
 
@@ -56,6 +57,9 @@ public class FirstFragment extends BaseLazyMainFragment{
 
     private List<VideoBasicInfo> videoBasicInfoList = new ArrayList<>();
     private List<VideoBasicInfo> videoBannerList = new ArrayList<>();
+
+    private List<String> imgurls = new ArrayList<>();
+    private List<String> tips = new ArrayList<>();
 
     private int pagecount = 0;
 
@@ -97,26 +101,41 @@ public class FirstFragment extends BaseLazyMainFragment{
                         .into(iv_video_bg);
             }
         };
-
         View headView = View.inflate(getContext(),R.layout.item_headview_first,null);
-        mViewPager = (ViewPager) headView.findViewById(R.id.id_viewpager);
-        initHeaderBanner();
+        mBanner = (BGABanner) headView.findViewById(R.id.banner);
+
         mListView.addHeaderView(headView);
+        mBanner.setAdapter(new BGABanner.Adapter() {
+            @Override
+            public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                Glide.with(banner.getContext()).load(model).placeholder(R.mipmap.icon_chat_camera).error(R.mipmap.icon_chat_camera).dontAnimate().thumbnail(0.1f).into((ImageView) view);
+            }
+        });
         mListView.setAdapter(mAdapter);
+
+
+        //initHeaderBanner();
+        //mListView.addHeaderView(headView);
+
     }
 
     private void initData(){
-        getBannerDatas();
+        GetVideoBasicInfo();
+        GetBannerDatas();
     }
 
     private void setData(){
         mAdapter.notifyDataSetChanged();
-        mAdapter4Banner.notifyDataSetChanged();
+    }
+
+    private void setData1(){
+
+        mBanner.setData(imgurls,tips);
     }
 
     private void initHeaderBanner(){
-        mViewPager.setPageMargin(40);
-        mViewPager.setOffscreenPageLimit(3);
+/*        mViewPager.setPageMargin(40);
+        mViewPager.setOffscreenPageLimit(3);*/
         mAdapter4Banner = new PagerAdapter() {
 
             @Override
@@ -160,8 +179,8 @@ public class FirstFragment extends BaseLazyMainFragment{
                 return view == o;
             }
         };
-        mViewPager.setAdapter(mAdapter4Banner);
-        mViewPager.setPageTransformer(true, new ScaleInTransformer());
+/*        mViewPager.setAdapter(mAdapter4Banner);
+        mViewPager.setPageTransformer(true, new ScaleInTransformer());*/
 
     }
 
@@ -170,16 +189,22 @@ public class FirstFragment extends BaseLazyMainFragment{
 
     }
     /** 获取轮播图的数据*/
-    private void getBannerDatas(){
+    private void GetBannerDatas(){
         NetHelper.getInstance().GetVedioTopBanner(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                List<VideoBasicInfo> tempList = responseInfo.getVideoBasicInfoList();
-                videoBannerList.addAll(tempList);
-                Log.e("videobannersize",videoBannerList.size()+"");
-
-                GetVideoBasicInfo();// 初始化banner
-
+                if(videoBannerList.isEmpty()) {
+                    List<VideoBasicInfo> tempList = responseInfo.getVideoBasicInfoList();
+                    videoBannerList.addAll(tempList);
+                    Log.e("videobannersize", videoBannerList.size() + "");
+                    for (int i = 0; i < videoBannerList.size(); i++) {
+                        imgurls.add(i, videoBannerList.get(i).getImage());
+                        tips.add(i, videoBannerList.get(i).getName());
+                    }
+                }
+                Log.e("imgurlssize", imgurls.size() + "");
+                Log.e("tipssize", tips.size() + "");
+                setData1();
 
             }
 

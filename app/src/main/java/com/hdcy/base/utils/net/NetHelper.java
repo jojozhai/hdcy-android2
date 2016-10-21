@@ -759,7 +759,7 @@ public class NetHelper {
 
     public Callback.Cancelable GetLeaderInfo(final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/leader/");
-        request.addParam("top","true");
+       // request.addParam("top","true");
         return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
@@ -784,8 +784,35 @@ public class NetHelper {
 
             }
         });
+    }
 
+    public Callback.Cancelable GetLeaderBanner(final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/leader/");
+         request.addParam("top","true");
+        return request.postarray(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONArray dataObj = responseInfo.getDataArr();
 
+                if (dataObj != null){
+                    responseInfo.setLeaderInfo(JSON.parseArray(dataObj.toString(), LeaderInfo.class));
+                }
+                callBack.onSuccess(requestInfo, responseInfo);
+                Log.e("leaderinfo","sucess");
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+        });
     }
 
     public Callback.Cancelable GetMineGiftList(int pagecount,final NetRequestCallBack callBack){

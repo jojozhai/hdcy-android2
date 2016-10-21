@@ -18,6 +18,7 @@ import com.hdcy.app.basefragment.BaseFragment;
 import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.first.FirstFragment;
 import com.hdcy.app.fragment.fourth.FourthFragment;
+import com.hdcy.app.fragment.fourth.child.FourthPagesFragment;
 import com.hdcy.app.fragment.second.SecondFragment;
 import com.hdcy.app.fragment.third.ThirdFragment;
 
