@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="uvod_demoNames">
+        <item>demo1</item>
+        <item>demo2</item>
+    </string-array>
+    <string-array name="uvod_demoDirects">
+        <item>com.hdcy.app.uvod.impl.Demo1Activity</item>
+        <item>com.hdcy.app.uvod.impl.Demo2Activity</item>
+    </string-array>
+</resources>

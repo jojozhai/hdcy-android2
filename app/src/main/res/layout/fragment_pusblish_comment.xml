@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
+
+    <EditText
+        android:id="@+id/edt_comment_content"
+        style="@style/EditText_Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/main_margin_left"
+        android:layout_marginRight="@dimen/main_margin_right"
+        android:layout_marginTop="@dimen/main_margin_top"
+        android:background="@drawable/shape_stroke_line_bg_white"
+        android:gravity="left|top"
+        android:hint="写点什么吧......"
+        android:lineSpacingExtra="@dimen/main_font_body_line_space"
+        android:lines="5"
+        android:maxLength="70"
+        android:paddingBottom="@dimen/main_padding_bottom"
+        android:paddingLeft="@dimen/main_padding_left"
+        android:paddingRight="@dimen/main_padding_right"
+        android:paddingTop="@dimen/main_padding_top"
+        android:textColor="@color/main_font"
+        android:textColorHint="@color/main_font_gray_2"
+        android:textSize="@dimen/main_font_body" />
+
+    <TextView
+        android:id="@+id/tv_limit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginBottom="@dimen/main_margin_bottom"
+        android:layout_marginLeft="@dimen/main_margin_left"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="-30dp"
+        android:text="70"
+        android:textColor="@color/main_font_gray_2"
+        android:textSize="@dimen/main_font_body" />
+</LinearLayout>

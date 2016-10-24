@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 24
+        //配置为true，表示需要将dex分包，false则不分包
+        multiDexEnabled false
+    }
+
+    sourceSets {
+        main {
+            aidl.srcDirs = ['src']
+            assets.srcDirs = ['assets']
+            // 关键是这句
+            jniLibs.srcDirs = ['libs'];
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile files('libs/Rong_IMKit_v2_6_4.jar')
+}

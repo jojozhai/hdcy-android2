@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="demoNames">
+        <item>视频发布</item>
+        <item>DEBUG</item>
+    </string-array>
+    <string-array name="demoDirects">
+        <item>ucloud.intent.action.videopublish</item>
+        <item>ucloud.intent.action.debug</item>
+    </string-array>
+
+</resources>

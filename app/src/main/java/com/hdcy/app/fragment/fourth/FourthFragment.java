@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.hdcy.app.R;
@@ -22,6 +23,7 @@ import com.hdcy.app.fragment.second.SecondFragment;
 import com.hdcy.app.fragment.second.childpages.SecondPagesFragment;
 import com.hdcy.app.model.LeaderInfo;
 import com.hdcy.app.model.NewsCategory;
+import com.hdcy.app.view.CustomViewPager;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -39,7 +41,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 public class FourthFragment extends BaseLazyMainFragment{
 
     private TabLayout mTab;
-    private ViewPager mViewPager;
+    private CustomViewPager mViewPager;
     private BGABanner leaderBanner;
     private String[] pagetitles = new String[]{"全部","个人","机构"};
     private List<LeaderInfo> leaderBannerInfo;
@@ -71,7 +73,8 @@ public class FourthFragment extends BaseLazyMainFragment{
 
     private void initView(View view){
         mTab = (TabLayout) view.findViewById(R.id.tab);
-        mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        mViewPager = (CustomViewPager) view.findViewById(R.id.viewPager);
+        mViewPager.setFocusable(false);
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());

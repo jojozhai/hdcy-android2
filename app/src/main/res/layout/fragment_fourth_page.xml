@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hdcy.app.view.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:scrollbars="vertical">
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,10 +51,10 @@
             app:tabTextAppearance="@style/tab_appearance"
             app:tabTextColor="#8FAFCA" />
 
-        <android.support.v4.view.ViewPager
+        <com.hdcy.app.view.CustomViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-</LinearLayout>
+</com.hdcy.app.view.CustomScrollView>
 

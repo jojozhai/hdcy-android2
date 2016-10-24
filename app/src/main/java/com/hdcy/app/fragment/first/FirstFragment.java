@@ -1,5 +1,6 @@
 package com.hdcy.app.fragment.first;
 
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -10,9 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hdcy.app.R;
@@ -22,6 +25,7 @@ import com.hdcy.app.basefragment.BaseLazyMainFragment;
 import com.hdcy.app.model.Bean4VedioBanner;
 import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.VideoBasicInfo;
+import com.hdcy.app.video.impl.VideoDetailActivity;
 import com.hdcy.app.view.ScaleInTransformer;
 import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.net.NetHelper;
@@ -78,6 +82,7 @@ public class FirstFragment extends BaseLazyMainFragment{
         View view = inflater.inflate(R.layout.fragment_first_page,container,false);
         initView(view);
         initData();
+        setListener();
         return view;
     }
 
@@ -114,9 +119,6 @@ public class FirstFragment extends BaseLazyMainFragment{
         mListView.setAdapter(mAdapter);
 
 
-        //initHeaderBanner();
-        //mListView.addHeaderView(headView);
-
     }
 
     private void initData(){
@@ -129,8 +131,49 @@ public class FirstFragment extends BaseLazyMainFragment{
     }
 
     private void setData1(){
-
         mBanner.setData(imgurls,tips);
+    }
+
+    private void goToOneDetail(VideoBasicInfo bean){
+/*        if (!SystemUtil.isNetworkConnected(getActivity())){
+            Toast.makeText(getActivity(),"当前网络不可用",Toast.LENGTH_SHORT).show();
+        }
+        switch (SystemUtil.getConnectedType(getActivity())) {
+            case ConnectivityManager.TYPE_MOBILE:
+//				Toast.makeText(getActivity(), "当前网络: mobile", Toast.LENGTH_SHORT).show();
+                break;
+            case ConnectivityManager.TYPE_ETHERNET:
+//				Toast.makeText(getActivity(), "当前网络: ehternet", Toast.LENGTH_SHORT).show();
+                break;
+            case ConnectivityManager.TYPE_WIFI:
+//				Toast.makeText(getActivity(), "当前网络: wifi", Toast.LENGTH_SHORT).show();
+                break;
+        }*/
+
+        if(bean !=null ){
+            if(bean.getLive()){
+                return;
+            }else {
+                VideoDetailActivity.getInstance(getActivity(),bean);
+            }
+        }
+    }
+
+    private void setListener(){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int acutualposition = position -1;
+                goToOneDetail(videoBasicInfoList.get(acutualposition));
+                Toast.makeText(getActivity(), acutualposition+"" , Toast.LENGTH_SHORT).show();
+            }
+        });
+        mBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
+            @Override
+            public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
+                Toast.makeText(getActivity(), position+"", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initHeaderBanner(){
@@ -179,8 +222,6 @@ public class FirstFragment extends BaseLazyMainFragment{
                 return view == o;
             }
         };
-/*        mViewPager.setAdapter(mAdapter4Banner);
-        mViewPager.setPageTransformer(true, new ScaleInTransformer());*/
 
     }
 
