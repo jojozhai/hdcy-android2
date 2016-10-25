@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/fragmentation" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/multi-image-selector" />
+            <option value="$PROJECT_DIR$/ulive-android-sdk" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

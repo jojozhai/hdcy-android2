@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/hdcy-android2.iml" filepath="$PROJECT_DIR$/hdcy-android2.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/multi-image-selector/multi-image-selector.iml" filepath="$PROJECT_DIR$/multi-image-selector/multi-image-selector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ulive-android-sdk/ulive-android-sdk.iml" filepath="$PROJECT_DIR$/ulive-android-sdk/ulive-android-sdk.iml" />
     </modules>
   </component>
 </project>

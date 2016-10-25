@@ -8,22 +8,39 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.hdcy.app.R;
+import com.hdcy.app.adapter.VideoCommentListAdapter;
 import com.hdcy.app.basefragment.BaseFragment;
+import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.VideoBasicInfo;
 import com.hdcy.app.view.MyPlayView;
+import com.hdcy.app.view.NoScrollListView;
+import com.hdcy.base.utils.net.NetHelper;
+import com.hdcy.base.utils.net.NetRequestCallBack;
+import com.hdcy.base.utils.net.NetRequestInfo;
+import com.hdcy.base.utils.net.NetResponseInfo;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONArray;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fm.jiecao.jcvideoplayer_lib.JCMediaPlayerListener;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import me.yokeyword.fragmentation.SupportActivity;
@@ -37,35 +54,49 @@ public class VideoDetailActivity extends SupportActivity {
 
     private TabLayout mTab;
     private ViewPager mViewPager;
+    private TextView tv_video_desc;
+    private NoScrollListView mListView;
+
     private List<BaseFragment> mFragments = new ArrayList<>();
+    private List<CommentsContent> commentsList = new ArrayList<>();
+
+    private List<Boolean> praisestatus = new ArrayList<>();
+
+    private VideoCommentListAdapter mAdapter;
+
+
+
+
 
     private VideoBasicInfo mBean;
 
     private MyPlayView jcVideoPlayerStandard;
 
-    public static void getInstance(Context context, VideoBasicInfo  bean){
-        Intent intent=new Intent();
+    public static void getInstance(Context context, VideoBasicInfo bean) {
+        Intent intent = new Intent();
 //		intent.setAction("com.hdcy.app.uvod.impl.Activity4VedioDetail");
-        intent.setClass(context,VideoDetailActivity.class);
+        intent.setClass(context, VideoDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("title", bean.getName());
-        if(TextUtils.isEmpty(bean.getUrl2())){// 这里暂时用  一个默认地址
+        if (TextUtils.isEmpty(bean.getUrl2())) {// 这里暂时用  一个默认地址
             bundle.putString("videoPath", "http://mediademo.ufile.ucloud.com.cn/ucloud_promo_140s.mp4");
-        }else{
+        } else {
             bundle.putString("videoPath", bean.getUrl2());
         }
-        bundle.putSerializable("bean",bean);
+        bundle.putSerializable("bean", bean);
 
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
 
     @Override
-    protected void onCreate( Bundle bundles) {
+    protected void onCreate(Bundle bundles) {
         super.onCreate(bundles);
         setContentView(R.layout.activity_video_detail);
+        Context context;
         mBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         String intentAction = getIntent().getAction();
+        init();
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(1000);
@@ -73,16 +104,42 @@ public class VideoDetailActivity extends SupportActivity {
         registerReceiver(mNetworkStateListener, filter);
     }
 
-    private void initView(){
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()){
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    private void init() {
+        initView();
+        GetData();
+        GetCommentSList();
+    }
+
+    private void initView() {
         jcVideoPlayerStandard = (MyPlayView) findViewById(R.id.custom_videoplayer_standard);
 
         String urlForVideo = "http://mediademo.ufile.ucloud.com.cn/ucloud_promo_140s.mp4";
-        if(!TextUtils.isEmpty(mBean.getUrl2())){
+        if (!TextUtils.isEmpty(mBean.getUrl2())) {
             urlForVideo = mBean.getUrl2();
         }
 
         jcVideoPlayerStandard.setUp(urlForVideo
-                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST,mBean.getName());
+                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, mBean.getName());
         ImageLoader.getInstance().displayImage(mBean.getImage(),
                 jcVideoPlayerStandard.thumbImageView);
         jcVideoPlayerStandard.backButton.setVisibility(View.VISIBLE);
@@ -148,14 +205,12 @@ public class VideoDetailActivity extends SupportActivity {
 
             @Override
             public void goBackThisListener() {
-
+                showToast("goBackThisListener");
             }
 
             @Override
             public boolean goToOtherListener() {
-
-
-
+                showToast("goToOtherListener");
                 return false;
             }
 
@@ -175,7 +230,19 @@ public class VideoDetailActivity extends SupportActivity {
             }
         });
 
+        tv_video_desc = (TextView) findViewById(R.id.tv_video_desc);
+        if (mBean.getDesc() != null) {
+            Document document = Jsoup.parse(mBean.getDesc());
+            String htmlcontent = document.select("html").text();
+            tv_video_desc.setText(htmlcontent);
+        }
+        mListView = (NoScrollListView) findViewById(R.id.lv_video_dianbo);
+        mAdapter = new VideoCommentListAdapter(this.getBaseContext(),commentsList, praisestatus);
+        mListView.setAdapter(mAdapter);
+        //mFragments.add()
+
     }
+
     private BroadcastReceiver mNetworkStateListener = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -189,8 +256,87 @@ public class VideoDetailActivity extends SupportActivity {
         }
     };
 
+    private void setData(){
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void GetData() {
+        if (mBean == null) {
+            return;
+        }
+        NetHelper.getInstance().getOneVedioDetail(mBean.getId(), new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                Log.d(TAG, "onSuccess() called with: " + "requestInfo = [" + requestInfo + "], responseInfo = [" + responseInfo + "]");
+
+                showToast(responseInfo.mBean4VedioDetail.toString());
+
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+
+    public void GetCommentSList(){
+        NetHelper.getInstance().GetCommentsList("630240", "article", 0, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                if(commentsList.isEmpty()){
+                    List<CommentsContent> temp = responseInfo.getCommentsContentList();
+                    commentsList.addAll(temp);
+                }
+                GetPraiseStatus();
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+
+    public void GetPraiseStatus(){
+        NetHelper.getInstance().GetCommentPraiseStatus("630240", "article", 0, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONArray jsonArray = responseInfo.getDataArr();
+                praisestatus = JSON.parseArray(jsonArray.toString(),Boolean.class);
+                for (int i = 0; i < praisestatus.size(); i++){
+                    commentsList.get(i).setLike(praisestatus.get(i));
+                }
+                setData();
+
+
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+
     private void showToast(String s) {
-        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 
 

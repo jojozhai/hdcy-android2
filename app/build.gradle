@@ -28,6 +28,7 @@ dependencies {
     compile project(':fragmentation')
     compile project(':multi-image-selector')
     compile project(':library')
+    compile project(':ulive-android-sdk')
     compile 'fm.jiecao:jiecaovideoplayer:4.6.3'
     //轮播图
     compile 'com.github.bumptech.glide:glide:3.7.0'

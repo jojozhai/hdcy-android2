@@ -24,6 +24,7 @@
         android:layout_marginLeft="8dp"
         android:text="touser"
         android:textColor="@color/blue"/>
+
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
