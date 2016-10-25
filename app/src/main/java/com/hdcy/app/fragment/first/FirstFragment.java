@@ -25,6 +25,7 @@ import com.hdcy.app.basefragment.BaseLazyMainFragment;
 import com.hdcy.app.model.Bean4VedioBanner;
 import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.VideoBasicInfo;
+import com.hdcy.app.video.impl.LiveDetailActivity;
 import com.hdcy.app.video.impl.VideoDetailActivity;
 import com.hdcy.app.view.ScaleInTransformer;
 import com.hdcy.base.BaseInfo;
@@ -152,6 +153,7 @@ public class FirstFragment extends BaseLazyMainFragment{
 
         if(bean !=null ){
             if(bean.getLive()){
+                LiveDetailActivity.getInstance(getActivity(),bean);
                 return;
             }else {
                 VideoDetailActivity.getInstance(getActivity(),bean);
@@ -171,7 +173,8 @@ public class FirstFragment extends BaseLazyMainFragment{
         mBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
             @Override
             public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
-                Toast.makeText(getActivity(), position+"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), position+"", Toast.LENGTH_SHORT).show();
+                goToOneDetail(videoBannerList.get(position));
             }
         });
     }

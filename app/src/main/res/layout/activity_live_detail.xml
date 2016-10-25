@@ -1,6 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical" >
 
+
+    <com.ucloud.player.widget.v2.UVideoView
+        android:id="@+id/custom_liveplayer_standard"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/uvod_tab"
+            android:layout_width="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:tabIndicatorColor="@android:color/holo_orange_dark"
+            app:tabSelectedTextColor="@android:color/holo_orange_dark"
+            app:tabTextColor="@color/main_font_gray_2"
+            app:tabTextAppearance="@style/tab_appearance"
+            android:layout_height="45dp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/uvod_viewPager"
+            android:layout_below="@+id/uvod_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
 </LinearLayout>

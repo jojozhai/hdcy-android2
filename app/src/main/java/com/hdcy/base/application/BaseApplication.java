@@ -10,6 +10,7 @@ import com.hdcy.base.utils.logger.AndroidLogTool;
 import com.hdcy.base.utils.logger.LogF;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.ucloud.live.UEasyStreaming;
 
 import org.xutils.x;
 
@@ -32,9 +33,9 @@ public class BaseApplication extends MultiDexApplication {
         super.onCreate();
         instance = this;
         initData();
-/*        // 视频播放
+        // 视频播放
         UEasyStreaming.initStreaming("publish3-key");
-        UEasyStreaming.syncMobileConfig(this, 3600 * 24);*/
+        UEasyStreaming.syncMobileConfig(this, 3600 * 24);
         handler.post(new Runnable() {
             @Override
             public void run() {
