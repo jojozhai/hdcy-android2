@@ -24,6 +24,7 @@ import com.hdcy.app.adapter.ViewHolder;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
 import com.hdcy.app.model.Bean4VedioBanner;
 import com.hdcy.app.model.NewsCategory;
+import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.model.VideoBasicInfo;
 import com.hdcy.app.video.impl.LiveDetailActivity;
 import com.hdcy.app.video.impl.VideoDetailActivity;
@@ -40,6 +41,8 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 import static com.hdcy.base.utils.DateUtil.date2Str;
 
@@ -47,11 +50,12 @@ import static com.hdcy.base.utils.DateUtil.date2Str;
  * Created by WeiYanGeorge on 2016-10-07.
  */
 
-public class FirstFragment extends BaseLazyMainFragment{
+public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
 
     private static final String TAG = "FirstFragment";
 
     private ListView mListView;
+    private BGARefreshLayout mRefreshLayout;
 
     private BGABanner mBanner;
     private PagerAdapter mAdapter4Banner;
@@ -62,6 +66,8 @@ public class FirstFragment extends BaseLazyMainFragment{
 
     private List<VideoBasicInfo> videoBasicInfoList = new ArrayList<>();
     private List<VideoBasicInfo> videoBannerList = new ArrayList<>();
+    private RootListInfo rootListInfo = new RootListInfo();
+    private boolean isLast;
 
     private List<String> imgurls = new ArrayList<>();
     private List<String> tips = new ArrayList<>();
@@ -87,8 +93,33 @@ public class FirstFragment extends BaseLazyMainFragment{
         return view;
     }
 
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        videoBasicInfoList.clear();
+        pagecount = 0;
+        initData();
+        mRefreshLayout.endRefreshing();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        pagecount++;
+        if(isLast){
+            mRefreshLayout.endLoadingMore();
+            Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            initData();
+            return true;
+        }
+
+    }
+
     private void initView(View view){
         mListView = (ListView) view.findViewById(R.id.lv_videolive);
+        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
         mAdapter  = new CommonsAdapter<VideoBasicInfo>(getActivity(),videoBasicInfoList,R.layout.item_second_fragment) {
             @Override
             public void convert(ViewHolder holder, VideoBasicInfo item) {
@@ -129,6 +160,7 @@ public class FirstFragment extends BaseLazyMainFragment{
 
     private void setData(){
         mAdapter.notifyDataSetChanged();
+        mRefreshLayout.endLoadingMore();
     }
 
     private void setData1(){
@@ -270,8 +302,9 @@ public class FirstFragment extends BaseLazyMainFragment{
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 List<VideoBasicInfo> tempList = responseInfo.getVideoBasicInfoList();
                 videoBasicInfoList.addAll(tempList);
+                rootListInfo = responseInfo.getRootListInfo();
+                isLast = rootListInfo.isLast();
                 setData();
-
             }
 
             @Override

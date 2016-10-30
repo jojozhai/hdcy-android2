@@ -144,17 +144,7 @@ public class CommentListViewFragmentAdapter extends BaseAdapter {
             holder.lv_replys.setVisibility(View.VISIBLE);
         }
 
-/*        View footview = View.inflate(context,R.layout.item_replys_showmore,null);
-        holder.lv_replys.addFooterView(footview);
-        final TextView tv_more = (TextView) footview.findViewById(R.id.tv_more);*/
-       // holder.tv_more.setVisibility(View.GONE);
-
         replysAdapter = new ReplysAdapter(context, replysList);
-        /*if(replysList.size()>2){
-            replysAdapter.addItemNum(2);
-        }else{
-            replysAdapter.addItemNum(replysList.size());
-        }*/
         holder.lv_replys.setTag(replysList);// set tags
         holder.lv_replys.setAdapter(replysAdapter);
         replysAdapter.setOnItemsClickListeners(new ReplysAdapter.OnItemsClickListeners() {
@@ -168,6 +158,7 @@ public class CommentListViewFragmentAdapter extends BaseAdapter {
                 target = "article";
                 targetid = replysList.get(replyposition).getTargetId() + "";
                 //Toast.makeText(context, "点击的位置" + replyid, Toast.LENGTH_SHORT).show();
+                ShowInputDialog();
             }
         });
 
@@ -221,11 +212,11 @@ public class CommentListViewFragmentAdapter extends BaseAdapter {
                                     isPraised = true;
                                     int count = actualcount + 1;
                                     Log.e("actualcount", count + "");
-                                    holder.iv_praise.setImageResource(R.drawable.content_icon_zambia_pressed);
+                                    holder.iv_praise.setImageResource(R.drawable.content_press_praise);
                                     holder.tv_praise_count.setText(count + "");
                                 } else {
                                     Toast.makeText(context, "你已经赞过", Toast.LENGTH_SHORT).show();
-                                    holder.iv_praise.setImageResource(R.drawable.content_icon_zambia_pressed);
+                                    holder.iv_praise.setImageResource(R.drawable.content_press_praise);
                                     isPraised = true;
                                     return;
                                 }
@@ -375,7 +366,6 @@ public class CommentListViewFragmentAdapter extends BaseAdapter {
                 replys = responseInfo.getReplys();
                 replysList.add(0, replys);
                 replysAdapter.notifyDataSetChanged();
-
                 Toast.makeText(context, "评论发布成功", Toast.LENGTH_LONG).show();
 
             }
@@ -403,6 +393,63 @@ public class CommentListViewFragmentAdapter extends BaseAdapter {
 
     public interface OnReplyClickListener {
         void onReplyClick(int position, Replys replys);
+    }
+
+    public void ShowInputDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+
+        View view = mInflater.inflate(R.layout.fragment_edit_dialog, null);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isEdit = s.length() > 0;
+                resetViewData();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        tv_limit = (TextView) view.findViewById(R.id.tv_limit);
+        tv_comment_submit = (TextView) view.findViewById(R.id.tv_submit_comment);
+        tv_comment_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkData()) {
+                    PublishComment();
+                }
+            }
+        });
+        tv_comment_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+        tv_comment_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        editText = (EditText) view.findViewById(R.id.edt_comment);
+        editText.addTextChangedListener(textWatcher);
+        editText.requestFocus();
+        builder.setView(view);
+        builder.create();
+        alertDialog = builder.create();
+        Window windowManager = alertDialog.getWindow();
+        windowManager.setGravity(Gravity.BOTTOM);
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+        alertDialog.show();
     }
 
 }

@@ -42,6 +42,10 @@ public class UserBaseInfo implements Serializable {
 
     private int point;
 
+    private int beans;
+
+    private int unreadMessages;
+
     private String level;
 
     private String tags;
@@ -55,6 +59,12 @@ public class UserBaseInfo implements Serializable {
     private boolean vip;
 
     private String car;
+
+    private int money;
+
+    private int moneyPlus;
+
+    private String job;
 
     private int participationCount;
 
@@ -154,6 +164,18 @@ public class UserBaseInfo implements Serializable {
     public int getPoint(){
         return this.point;
     }
+    public void setBeans(int beans){
+        this.beans = beans;
+    }
+    public int getBeans(){
+        return this.beans;
+    }
+    public void setUnreadMessages(int unreadMessages){
+        this.unreadMessages = unreadMessages;
+    }
+    public int getUnreadMessages(){
+        return this.unreadMessages;
+    }
     public void setLevel(String level){
         this.level = level;
     }
@@ -195,6 +217,24 @@ public class UserBaseInfo implements Serializable {
     }
     public String getCar(){
         return this.car;
+    }
+    public void setMoney(int money){
+        this.money = money;
+    }
+    public int getMoney(){
+        return this.money;
+    }
+    public void setMoneyPlus(int moneyPlus){
+        this.moneyPlus = moneyPlus;
+    }
+    public int getMoneyPlus(){
+        return this.moneyPlus;
+    }
+    public void setJob(String job){
+        this.job = job;
+    }
+    public String getJob(){
+        return this.job;
     }
     public void setParticipationCount(int participationCount){
         this.participationCount = participationCount;

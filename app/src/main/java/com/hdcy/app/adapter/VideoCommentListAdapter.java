@@ -1,10 +1,12 @@
 package com.hdcy.app.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.model.CommentsContent;
+import com.hdcy.app.model.Replys;
 import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.RelativeTimeUtils;
 import com.hdcy.base.utils.net.NetHelper;
@@ -35,7 +38,24 @@ import butterknife.ButterKnife;
 public class VideoCommentListAdapter  extends BaseAdapter{
 
     private List<CommentsContent> data = new ArrayList<>();
+    List<Replys> replysList = new ArrayList<>();
     private List<Boolean> status = new ArrayList<>();
+    private Replys replys;
+    ReplysVideoAdapter replysAdapter;
+
+    private String replyid;
+    private String targetid;
+    private String target;
+
+    TextView tv_comment_submit;
+    TextView tv_comment_cancel;
+    TextView tv_limit;
+    EditText editText;
+    AlertDialog alertDialog;
+
+    private String content;
+
+    private boolean isEdit = false;//是否编辑过
 
     private LayoutInflater mInflater;
     private Context context;
@@ -69,7 +89,7 @@ public class VideoCommentListAdapter  extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
          ViewHolder holder;
         if (convertView == null){
-            convertView = View.inflate(context, R.layout.item_comments,null);
+            convertView = View.inflate(context, R.layout.item_video_comments,null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
             AutoUtils.autoSize(convertView);
@@ -83,7 +103,33 @@ public class VideoCommentListAdapter  extends BaseAdapter{
 
     private void setView(final int position, final ViewHolder holder){
         final CommentsContent item = getItem(position);
+        replysList = item.getReplys();
+        if(replysList.isEmpty()){
+            holder.lv_replys.setVisibility(View.GONE);
+        }else {
+            holder.lv_replys.setVisibility(View.VISIBLE);
+        }
+        holder.tv_more.setTag(replysList);
+        if(replysList.size() > 2){
+            holder.tv_more.setVisibility(View.VISIBLE);
+            holder.tv_more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replysList=(ArrayList<Replys>)v.getTag();
+                    replysAdapter = new ReplysVideoAdapter(context, replysList);
+                    holder.lv_replys.setAdapter(replysAdapter);
+                    replysAdapter.addItemNum(replysList.size());
+                    replysAdapter.notifyDataSetChanged();
+                    holder.tv_more.setVisibility(View.GONE);
+                }
+            });
+        }else {
+            holder.tv_more.setVisibility(View.GONE);
+        }
 
+        replysAdapter = new ReplysVideoAdapter(context, replysList);
+        holder.lv_replys.setTag(replysList);
+        holder.lv_replys.setAdapter(replysAdapter);
         holder.tv_name.setText(item.getCreaterName()+"");
         Picasso.with(context).load((item.getCreaterHeadimgurl()))
                 .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
@@ -96,7 +142,7 @@ public class VideoCommentListAdapter  extends BaseAdapter{
         holder.tv_comment_content.setText(item.getContent());
         holder.tv_praise_count.setText(item.getPraiseCount()+"");
         if(item.isLike()){
-            holder.iv_praise.setImageResource(R.drawable.content_press_praise);
+            holder.iv_praise.setImageResource(R.drawable.video_praise_pressed);
             // holder.iv_praise.setVisibility(View.VISIBLE);
         }else {
             holder.iv_praise.setImageResource(R.drawable.content_con_zambia_default);
@@ -134,7 +180,7 @@ public class VideoCommentListAdapter  extends BaseAdapter{
                         NetHelper.getInstance().DoPraise(targetId, new NetRequestCallBack() {
                             @Override
                             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                                holder.iv_praise.setImageResource(R.drawable.content_press_praise);
+                                holder.iv_praise.setImageResource(R.drawable.video_praise_pressed);
                                 item.setLike(true);
                                 int number = actualcount + 1;
                                 holder.tv_praise_count.setText(number + "");
@@ -156,9 +202,6 @@ public class VideoCommentListAdapter  extends BaseAdapter{
             }
         });
 
-        holder.lv_replys.setVisibility(View.GONE);
-        holder.ly_sub_replys.setVisibility(View.GONE);
-
 
     }
 
@@ -168,6 +211,7 @@ public class VideoCommentListAdapter  extends BaseAdapter{
         private TextView tv_name, tv_praise_count, tv_time, tv_comment_content;
         private ListView lv_replys;
         private LinearLayout ly_sub_replys;
+        private LinearLayout tv_more;
 
         private Object tag;
 
@@ -191,6 +235,7 @@ public class VideoCommentListAdapter  extends BaseAdapter{
             ly_sub_replys = (LinearLayout) itemView.findViewById(R.id.ly_sub_reply);
             lv_replys = (ListView) itemView.findViewById(R.id.lv_replys);
             tv_comment_content = (TextView) itemView.findViewById(R.id.tv_comment_content);
+            tv_more = (LinearLayout) itemView.findViewById(R.id.tv_more);
 
         }
     }

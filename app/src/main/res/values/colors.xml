@@ -3,6 +3,7 @@
     <color name="colorPrimary">#8FAFCA</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorTopbar">#00FEFC</color>
 
     <color name="bg_app">#F1F1F1</color>
 

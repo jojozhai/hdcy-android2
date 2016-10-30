@@ -34,14 +34,18 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+
 /**
  * Created by WeiYanGeorge on 2016-10-08.
  */
 
-public class SecondPagesFragment extends BaseFragment  {
+public class SecondPagesFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
 
     private ListView mListview;
     private SecondPagesAdapter mAdapter;
+    private BGARefreshLayout mRefreshLayout;
 
     private List<Content> contentList = new ArrayList<>();
     private RootListInfo rootListInfo = new RootListInfo();
@@ -71,8 +75,34 @@ public class SecondPagesFragment extends BaseFragment  {
         return view;
     }
 
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        contentList.clear();
+        pagecount = 0;
+        initData();
+        mRefreshLayout.endRefreshing();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        pagecount++;
+        Log.e("isLastStatus",isLast+"");
+        Log.e("loadTagid", tagId+"");
+        if(isLast){
+            mRefreshLayout.endLoadingMore();
+            Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            initData();
+            return true;
+        }
+    }
+
     private void initView(View view){
         mListview = (ListView) view.findViewById(R.id.recy);
+        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
         mAdapter = new SecondPagesAdapter(getContext(),contentList);
         mListview.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new CommonAdapter.OnItemClickListener() {
@@ -94,13 +124,6 @@ public class SecondPagesFragment extends BaseFragment  {
                 return false;
             }
         });
-        //  mListview.setAdapter(new SecondPagesItem1Delegate(getContext(),contentList));
-/*        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EventBus.getDefault().post(new StartBrotherEvent(ThirdFragment.newInstance()));
-            }
-        });*/
     }
 
     private void initData(){
@@ -113,6 +136,7 @@ public class SecondPagesFragment extends BaseFragment  {
 
     private void setData(){
         mAdapter.notifyDataSetChanged();
+        mRefreshLayout.endLoadingMore();
     }
 
     @Override

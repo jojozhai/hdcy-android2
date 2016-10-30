@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
+import com.hdcy.app.fragment.third.child.OfflineActivityDialogFragment;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
@@ -40,6 +41,9 @@ public class PublishCommentFragment extends BaseBackFragment {
     private boolean isEdit;
     private String content;
     private String targetid;
+    private String target;
+
+    private CommentsContent commentsContent;
 
 
 
@@ -58,6 +62,7 @@ public class PublishCommentFragment extends BaseBackFragment {
         View view = inflater.inflate(R.layout.fragment_pusblish_comment, container, false);
         Bundle bundle = getArguments();
         targetid = bundle.getString("param");
+        target = bundle.getString("param1");
 
         initView(view);
 
@@ -120,18 +125,31 @@ public class PublishCommentFragment extends BaseBackFragment {
 
     }
 
+    private void setInfo(){
+        if(target == "article"){
+            Bundle bundle = new Bundle();
+            bundle.putString(ArticleCommentListFragment.KEY_RESULT_COMMENT, JSON.toJSONString(commentsContent));
+            setFramgentResult(RESULT_OK,bundle);
+            Toast.makeText(getActivity(), "评论发布成功", Toast.LENGTH_LONG).show();
+            _mActivity.onBackPressed();
+        }else if(target == "activity"){
+            Bundle bundle = new Bundle();
+            bundle.putString(OfflineActivityDialogFragment.KEY_RESULT_ACTIVITY,JSON.toJSONString(commentsContent));
+            setFramgentResult(RESULT_OK,bundle);
+            Toast.makeText(getActivity(), "信息发布成功", Toast.LENGTH_LONG).show();
+            _mActivity.onBackPressed();
+        }
+    }
+
     public void PublishComment() {
-        NetHelper.getInstance().PublishComments(targetid, content, "article", null, new NetRequestCallBack() {
+        NetHelper.getInstance().PublishComments(targetid, content, target, null, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 CommentsContent temp = responseInfo.getCommentsContent();
                 temp.setLike(false);
                 Log.e("Callbackinfo",temp.getContent()+"");
-                Bundle bundle = new Bundle();
-                bundle.putString(ArticleCommentListFragment.KEY_RESULT_COMMENT, JSON.toJSONString(temp));
-                setFramgentResult(RESULT_OK,bundle);
-                Toast.makeText(getActivity(), "评论发布成功", Toast.LENGTH_LONG).show();
-
+                commentsContent = temp;
+                setInfo();
             }
 
             @Override

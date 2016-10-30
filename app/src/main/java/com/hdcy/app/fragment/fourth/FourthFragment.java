@@ -7,12 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hdcy.app.R;
@@ -33,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bingoogolapple.bgabanner.BGABanner;
+import me.nereo.multi_image_selector.bean.Image;
 
 /**
  * Created by WeiYanGeorge on 2016-10-07.
@@ -40,14 +45,21 @@ import cn.bingoogolapple.bgabanner.BGABanner;
 
 public class FourthFragment extends BaseLazyMainFragment{
 
+
+    private ImageView iv_leader_fl_bt;
     private TabLayout mTab;
     private CustomViewPager mViewPager;
     private BGABanner leaderBanner;
     private String[] pagetitles = new String[]{"全部","个人","机构"};
-    private List<LeaderInfo> leaderBannerInfo;
+    private List<LeaderInfo> leaderBannerInfo = new ArrayList<>();
 
     private List<String> imgurls = new ArrayList<>();
     private List<String> tips = new ArrayList<>();
+
+    private AlertDialog alertDialogAsk;
+    private AlertDialog alertDialogOrg;
+
+    private TextView tv_leader_orga_apply;
 
     public static FourthFragment newInstance() {
         Bundle args = new Bundle();
@@ -78,11 +90,18 @@ public class FourthFragment extends BaseLazyMainFragment{
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
-        leaderBanner = (BGABanner) view.findViewById(R.id.leader_banner);
+        leaderBanner = (BGABanner) view.findViewById(R.id.leader_banners);
         leaderBanner.setAdapter(new BGABanner.Adapter() {
             @Override
             public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
                 Glide.with(banner.getContext()).load(model).placeholder(R.mipmap.icon_chat_camera).error(R.mipmap.icon_chat_camera).dontAnimate().thumbnail(0.1f).into((ImageView) view);
+            }
+        });
+        iv_leader_fl_bt = (ImageView) view.findViewById(R.id.iv_leader_fl_bt);
+        iv_leader_fl_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowLeaderApplyforDialog();
             }
         });
         setData();
@@ -97,6 +116,38 @@ public class FourthFragment extends BaseLazyMainFragment{
         mTab.setupWithViewPager(mViewPager);
     }
 
+    private void ShowLeaderApplyforDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.alertdialog_applyleaders,null);
+        tv_leader_orga_apply = (TextView) view.findViewById(R.id.tv_leader_orga_apply);
+        tv_leader_orga_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowOrganizationDialog();
+            }
+        });
+        builder.setView(view);
+        builder.create();
+        alertDialogAsk = builder.create();
+        Window wm = alertDialogAsk.getWindow();
+        wm.setGravity(Gravity.CENTER);
+        alertDialogAsk.show();
+    }
+
+    private void ShowOrganizationDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.alertdialog_leader_organization,null);
+        builder.setView(view);
+        builder.create();
+        alertDialogOrg = builder.create();
+        Window wm = alertDialogOrg.getWindow();
+        wm.setGravity(Gravity.CENTER);
+        alertDialogOrg.show();
+        alertDialogAsk.dismiss();
+    }
+
     private void setData1(){
         leaderBanner.setData(imgurls,tips);
     }
@@ -105,12 +156,14 @@ public class FourthFragment extends BaseLazyMainFragment{
         NetHelper.getInstance().GetLeaderBanner(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                leaderBannerInfo.clear();
                 leaderBannerInfo = responseInfo.getLeaderInfo();
                 for (int i = 0; i < leaderBannerInfo.size(); i++) {
-                    imgurls.add(i, leaderBannerInfo.get(i).getImage());
+                    imgurls.add(i, leaderBannerInfo.get(i).getTopImage());
                     tips.add(i, leaderBannerInfo.get(i).getName());
                 }
                 setData1();
+
             }
 
             @Override
@@ -128,13 +181,20 @@ public class FourthFragment extends BaseLazyMainFragment{
 
 
     public class ViewPageFragmentAdapter extends FragmentPagerAdapter {
-        private String[] data;
         public ViewPageFragmentAdapter(FragmentManager fm) {
             super(fm);
         }
         @Override
         public Fragment getItem(int position) {
-            return FourthPagesFragment.newInstance();
+            if (position == 0) {
+                return FourthPagesFragment.newInstance("whole");
+            }else if(position ==1){
+                return FourthPagesFragment.newInstance("false");
+            }else if(position ==2){
+                return FourthPagesFragment.newInstance("true");
+            }else {
+                return null;
+            }
         }
 
         @Override
@@ -147,19 +207,6 @@ public class FourthFragment extends BaseLazyMainFragment{
             return pagetitles[position];
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

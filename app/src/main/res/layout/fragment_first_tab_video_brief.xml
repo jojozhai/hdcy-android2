@@ -19,6 +19,7 @@
     <WebView
         android:id="@+id/wv_vedio_desc"
         android:layout_width="match_parent"
+        android:background="@mipmap/bg_main"
         android:layout_height="match_parent">
 
     </WebView>

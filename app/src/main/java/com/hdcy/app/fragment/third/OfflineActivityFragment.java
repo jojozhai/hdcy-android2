@@ -1,18 +1,24 @@
 package com.hdcy.app.fragment.third;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.ImageListViewAdapter;
 import com.hdcy.app.adapter.OfflineActivityCommentListAdapter;
@@ -25,6 +31,7 @@ import com.hdcy.app.model.ActivityDetails;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Result;
 import com.hdcy.app.view.NoScrollListView;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -38,25 +45,28 @@ import com.umeng.socialize.media.UMImage;
 import org.greenrobot.eventbus.EventBus;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.xutils.common.util.LogUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import it.sephiroth.android.library.widget.AdapterView;
 import it.sephiroth.android.library.widget.HListView;
 
+import static com.hdcy.app.fragment.third.child.OfflineActivityDialogFragment.KEY_RESULT_ACTIVITY;
 import static com.hdcy.base.BaseData.URL_BASE;
 
 /**
  * Created by WeiYanGeorge on 2016-10-16.
  */
 
-public class OfflineActivityFragment extends BaseBackFragment {
+public class OfflineActivityFragment extends BaseBackFragment{
 
-
+    public static final int REQ_PUBLISH_FRAGMENT = 1;
     private static final int REQ_REGISTER_FRAGMENT = 100;
-    final static String KEY_RESULT_REGISTER = "register";
+    static final String KEY_RESULT_REGISTER = "register";
     private boolean isRegister;
 
     private Toolbar mToolbar;
@@ -74,6 +84,7 @@ public class OfflineActivityFragment extends BaseBackFragment {
     private ImageView iv_activity_comment;
     private TextView tv_more_comment;
     private TextView tv_activity_comment_status;
+    private ImageView fl_activity_dialog;
 
 
     private String target="activity";
@@ -106,12 +117,16 @@ public class OfflineActivityFragment extends BaseBackFragment {
     private ActivityDetails activityDetails;
     private Result result;
     private List<CommentsContent> commentsList = new ArrayList<>();
+    private CommentsContent commentsContent =new CommentsContent();
 
     private List<String> imgurls = new ArrayList<String>();
 
     private String htmlcontent;
     private String Url = URL_BASE + "/activityDetails.html?id=";
     private String loadurl;
+
+    private AlertDialog alertDialogphone;
+
 
     public static OfflineActivityFragment newInstance(String ActivityId){
         OfflineActivityFragment fragment = new OfflineActivityFragment();
@@ -128,8 +143,8 @@ public class OfflineActivityFragment extends BaseBackFragment {
         activityid = getArguments().getString("param");
         loadurl = Url + activityid;
         initView(view);
-        //GetCommentsList();
         initData();
+        setListener();
         return view;
     }
 
@@ -144,6 +159,13 @@ public class OfflineActivityFragment extends BaseBackFragment {
                 button_submit.setText("已报名");
             }
         }
+        if(requestCode == REQ_PUBLISH_FRAGMENT && resultCode == RESULT_OK && data != null){
+            commentsContent = JSON.parseObject(data.getString(KEY_RESULT_ACTIVITY),CommentsContent.class);
+            commentsList.add(0,commentsContent);
+            Log.e("commentlistsizeafter",commentsList.size()+"");
+            mAdapter.notifyDataSetChanged();
+        }
+        //if(requestCode== )
     }
 
     private void initView(View view){
@@ -166,6 +188,8 @@ public class OfflineActivityFragment extends BaseBackFragment {
         tv_activity_comment_status =(TextView) view.findViewById(R.id.tv_activity_comment_status);
         tv_activity_address = (TextView) view.findViewById(R.id.tv_activity_address);
         bt_show_more = (Button) view.findViewById(R.id.tv_show_more);
+        iv_activity_phone = (ImageView) view.findViewById(R.id.iv_activity_phone);
+        fl_activity_dialog = (ImageView) view.findViewById(R.id.iv_activity_fl_bt);
 
         //iv_activity_comment = (ImageView) view.findViewById(R.id.iv_activity_comment);
         button_submit = (Button) view.findViewById(R.id.bt_send);
@@ -195,12 +219,41 @@ public class OfflineActivityFragment extends BaseBackFragment {
             }
         });
 
+        iv_activity_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowPhoneAlertDialog();
+            }
+        });
 
+
+    }
+
+
+    public void doCallPhone(String phone) {
+        if(BaseUtils.isEmptyString(phone)){
+            Toast.makeText(getActivity(), "客服电话为空", Toast.LENGTH_LONG).show();
+            return;
+        }
+        LogUtil.i("doCallPhone：" + phone);
+        final String finalPhone = phone.startsWith("tel:") ? phone : ("tel:" + phone);
+        LogUtil.i("doCallPhone finalPhone：" + finalPhone);
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(finalPhone));
+        startActivity(intent);
     }
 
     private void initData(){
         GetCommentsList();
         GetActivityAttendStatus();
+    }
+
+    private void setListener(){
+        fl_activity_dialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startForResult(PublishCommentFragment.newInstance(activityid, target),REQ_PUBLISH_FRAGMENT );
+            }
+        });
     }
 
     private void setData(){
@@ -268,6 +321,41 @@ public class OfflineActivityFragment extends BaseBackFragment {
             bt_show_more.setVisibility(View.VISIBLE);
         }
     }
+
+    private void ShowPhoneAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.alertdialog_phone,null);
+        tv_activity_waiter = (TextView) view.findViewById(R.id.tv_activity_waiter);
+        tv_activity_waiter_phone = (TextView) view.findViewById(R.id.tv_activity_waiter_phone);
+        iv_call_phone = (ImageView) view.findViewById(R.id.iv_call_phone);
+        iv_cal_cancel = (ImageView) view.findViewById(R.id.iv_call_cancel);
+
+        tv_activity_waiter.setText(activityDetails.getWaiterName()+"");
+        tv_activity_waiter_phone.setText(activityDetails.getWaiterPhone());
+        builder.setView(view);
+        builder.create();
+        alertDialogphone = builder.create();
+        Window wm = alertDialogphone.getWindow();
+        wm.setGravity(Gravity.CENTER);
+
+        iv_cal_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogphone.dismiss();
+            }
+        });
+        iv_call_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doCallPhone(activityDetails.getWaiterPhone());
+            }
+        });
+        alertDialogphone.show();
+
+    }
+
 
 
     private void GetActivityDetails(){

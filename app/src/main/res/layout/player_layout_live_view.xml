@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hdcy.app.view.MyLiveView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_liveplayer_standard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--<include layout="@layout/player_layout_rotate_video_view"/>-->
+<!--    <include layout="@layout/player_layout_rotate_video_view"/>
+
+    <include layout="@layout/player_layout_top_view" />
+
+    <include layout="@layout/player_layout_volume_view" />
+
+    <include layout="@layout/player_layout_brightness_view" />
+
+    <include layout="@layout/player_layout_setting_menu" />
+
+    <include layout="@layout/player_layout_status_view"/>
+
+    <include layout="@layout/plyaer_layout_simple_menu"/>
+
+    <include layout="@layout/player_layout_bottom_view" />
+
+    <include layout="@layout/player_layout_loading_view"/>-->
+
+</com.hdcy.app.view.MyLiveView>

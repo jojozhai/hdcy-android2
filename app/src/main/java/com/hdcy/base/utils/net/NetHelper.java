@@ -480,17 +480,19 @@ public class NetHelper {
     public Callback.Cancelable getVedioListDatas( int pageIndex, final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/video");
         request.addParam("page",pageIndex);
-//        request.addParam("enable","false");
-//        request.addParam("size","10");
+        request.addParam("enable","true");
+        request.addParam("size","10");
         request.addParam("sort","createdTime,desc");
         request.addParam("top","false");
         return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONArray dataObj = responseInfo.getDataArr();
+                JSONObject dataObj1 = responseInfo.getDataObj();
                // LogF.json(dataObj.toString());//LOG
                 if (dataObj != null){
                     responseInfo.setVideoBasicInfoList(JSON.parseArray(dataObj.toString(), VideoBasicInfo.class));
+                    responseInfo.setRootListInfo(JSON.parseObject(dataObj1.toString(),RootListInfo.class));
                 }
                 callBack.onSuccess(requestInfo, responseInfo);
             }
@@ -785,6 +787,65 @@ public class NetHelper {
             }
         });
     }
+
+    public Callback.Cancelable GetLeaderInfoCategory(String category,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/leader/");
+        request.addParam("organ","true");
+        return request.postarray(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONArray dataObj = responseInfo.getDataArr();
+
+                if (dataObj != null){
+                    responseInfo.setLeaderInfo(JSON.parseArray(dataObj.toString(), LeaderInfo.class));
+                }
+                callBack.onSuccess(requestInfo, responseInfo);
+                Log.e("leaderinfo","sucess");
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+        });
+    }
+
+    public Callback.Cancelable GetLeaderDetailInfo(String leaderId,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/leader/"+leaderId);
+        // request.addParam("top","true");
+        return request.postarray(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONArray dataObj = responseInfo.getDataArr();
+
+                if (dataObj != null){
+                    responseInfo.setLeaderInfo(JSON.parseArray(dataObj.toString(), LeaderInfo.class));
+                }
+                callBack.onSuccess(requestInfo, responseInfo);
+                Log.e("leaderinfo","sucess");
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+        });
+    }
+
 
     public Callback.Cancelable GetLeaderBanner(final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/leader/");

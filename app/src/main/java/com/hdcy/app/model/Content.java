@@ -52,6 +52,10 @@ public class Content implements Serializable {
 
     private List<TagInfos> tagInfos ;
 
+    private String displayType;
+
+
+
     public void setId(int id){
         this.id = id;
     }
@@ -180,7 +184,13 @@ public class Content implements Serializable {
     public void setReadCountPlus(int readCountPlus) {
         this.readCountPlus = readCountPlus;
     }
+    public String getDisplayType() {
+        return displayType;
+    }
 
+    public void setDisplayType(String displayType) {
+        this.displayType = displayType;
+    }
 
 
 }

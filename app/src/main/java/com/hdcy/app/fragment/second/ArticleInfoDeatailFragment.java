@@ -46,6 +46,8 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.nereo.multi_image_selector.bean.Image;
+
 import static com.hdcy.app.fragment.second.ArticleCommentListFragment.KEY_RESULT_COMMENT;
 import static com.hdcy.base.BaseData.URL_BASE;
 
@@ -62,6 +64,8 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     TextView title;
     TextView tv_show_more;
     ImageView iv_article_fl_bt;
+    ImageView iv_nav_menu_comment;
+    ImageView iv_nav_menu_share;
 
     private String targetId;
     private String Url = URL_BASE +"/articleDetails.html?id=";
@@ -138,9 +142,13 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     private void initView(View view){
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         title = (TextView) view.findViewById(R.id.toolbar_title);
+        iv_nav_menu_comment = (ImageView) view.findViewById(R.id.iv_nav_menu_comment);
+        iv_nav_menu_comment.setVisibility(View.VISIBLE);
+        iv_nav_menu_share = (ImageView) view.findViewById(R.id.iv_nav_menu_share);
+        iv_nav_menu_share.setVisibility(View.VISIBLE);
         title.setText("资讯详情");
         initToolbarNav(mToolbar);
-        mToolbar.inflateMenu(R.menu.hierarchy);
+        //mToolbar.inflateMenu(R.menu.hierachy);
         iv_article_fl_bt = (ImageView) view.findViewById(R.id.iv_article_fl_bt);
         iv_article_fl_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,27 +156,14 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
                 startForResult(PublishCommentFragment.newInstance(targetId+"","article"),REQ_PUBLISH_FRAGMENT);
             }
         });
+
         tv_comment_count = (TextView) view.findViewById(R.id.tv_comment_count);
         lv_article_comment = (NoScrollListView) view.findViewById(R.id.lv_article_comment);
         tv_show_more =(TextView) view.findViewById(R.id.tv_show_more);
         mAdapter = new ArticleCommentListAdapter(getContext(),commentsList,praisestatus);
         lv_article_comment.setAdapter(mAdapter);
         lv_article_comment.setFocusable(false);
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
 
-                new ShareAction(getActivity()).setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
-                        .withTitle(articleInfo.getTitle()+"")
-                        .withText("好多车友")
-                        .withTargetUrl(loadurl+"&show=YES")
-                        .withMedia(new UMImage(getContext(),articleInfo.getImage()))
-                        .setListenerList(umShareListener)
-                        .open();
-                Toast.makeText(getActivity(),   " 分享成功啦", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
     }
 
     private void initWebview(View view) {
@@ -193,11 +188,30 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     private void setData(){
         tv_comment_count.setText("("+articleInfo.getCommentCount()+")");
         mAdapter.notifyDataSetChanged();
+        iv_nav_menu_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(ArticleCommentListFragment.newInstance(articleInfo.getId() + "", "article")));
+            }
+        });
         tv_show_more.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new StartBrotherEvent(ArticleCommentListFragment.newInstance(articleInfo.getId() + "", "article")));
 
+            }
+        });
+        iv_nav_menu_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(getActivity()).setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .withTitle(articleInfo.getTitle()+"")
+                        .withText("好多车友")
+                        .withTargetUrl(loadurl+"&show=YES")
+                        .withMedia(new UMImage(getContext(),articleInfo.getImage()))
+                        .setListenerList(umShareListener)
+                        .open();
+                Toast.makeText(getActivity(),   " 分享成功啦", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -1,21 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tl_custom"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp"
+        android:orientation="vertical"
+        >
     <TextView
         android:id="@+id/toolbar_btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:textColor="@color/white"
         android:text="视频"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nav_button_choice_pressed"
+            android:id="@+id/nav_pressed1"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="vertical"
+        >
     <TextView
         android:id="@+id/toolbar_btn2"
         android:layout_width="wrap_content"
@@ -24,6 +47,21 @@
         android:text="资讯"
         android:textColor="@color/white"
         />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nav_button_choice_pressed"
+            android:id="@+id/nav_pressed2"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="vertical"
+        >
     <TextView
         android:id="@+id/toolbar_btn3"
         android:layout_width="wrap_content"
@@ -32,6 +70,21 @@
         android:text="活动"
         android:textColor="@color/white"
         />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nav_button_choice_pressed"
+            android:id="@+id/nav_pressed3"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="vertical"
+        >
     <TextView
         android:id="@+id/toolbar_btn4"
         android:layout_width="wrap_content"
@@ -40,6 +93,30 @@
         android:text="大咖"
         android:textColor="@color/white"
         />
-
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/nav_button_choice_pressed"
+            android:id="@+id/nav_pressed4"/>
+    </LinearLayout>
 </android.support.v7.widget.Toolbar>
+    <ImageView
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="60dp"
+        android:src="@drawable/nav_button_information"
+        />
+    <ImageView
+        android:id="@+id/iv_nav_mine_info"
+        android:layout_gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="30dp"
+        android:layout_width="30dp"
+        android:src="@drawable/nav_button_mine_info"/>
+</FrameLayout>

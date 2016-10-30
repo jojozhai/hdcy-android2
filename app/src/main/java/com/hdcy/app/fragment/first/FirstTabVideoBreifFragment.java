@@ -34,6 +34,12 @@ public class FirstTabVideoBreifFragment extends BaseFragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mStr = getArguments().getString(Params_VideoStr);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,7 +52,7 @@ public class FirstTabVideoBreifFragment extends BaseFragment {
         mTvTitle = (TextView) view.findViewById(R.id.tv_title);
         mTvTitle.setText("视频简介");
         mWebView= (WebView) view.findViewById(R.id.wv_vedio_desc);
-//        mWebView.loadUrl("http://baidu.com");
+        //mWebView.loadUrl("http://baidu.com");
         mWebView.loadDataWithBaseURL(null, mStr, "text/html", "utf-8", null);
         mWebView.getSettings().setJavaScriptEnabled(true);
 

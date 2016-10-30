@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hdcy.app.view.CustomScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -16,15 +19,15 @@
             android:layout_height="wrap_content"
             >
 
-            <FrameLayout
+<!--            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:clipChildren="false"
                 android:layout_centerInParent="true"
                 android:background="@android:color/white"
-                >
+                >-->
                 <cn.bingoogolapple.bgabanner.BGABanner
-                    android:id="@+id/leader_banner"
+                    android:id="@+id/leader_banners"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:banner_indicatorGravity="bottom|center_horizontal"
@@ -38,7 +41,9 @@
                     android:layout_alignParentStart="true">
                 </cn.bingoogolapple.bgabanner.BGABanner>
 
+<!--
             </FrameLayout>
+-->
 
         </RelativeLayout>
         <android.support.design.widget.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -56,5 +61,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-</com.hdcy.app.view.CustomScrollView>
+</ScrollView>
+    <ImageView
+        android:id="@+id/iv_leader_fl_bt"
+        android:layout_height="80dp"
+        android:layout_width="80dp"
+        android:src="@drawable/float_button"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_gravity="bottom"
+        />
+</FrameLayout>
 

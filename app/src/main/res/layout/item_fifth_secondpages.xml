@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="300dp">
+    <ImageView
+        android:id="@+id/iv_article_bg"
+        android:layout_height="300dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="match_parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_article_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="145dp"
+        android:padding="12dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:text="sdfasd"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="#BBBBBB"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="bottom"
+        android:textSize="11sp"
+        android:layout_marginBottom="34dp"
+        android:text="广告"/>
+<TextView
+android:layout_width="match_parent"
+android:layout_height="8dp"
+android:layout_gravity="bottom"
+android:background="@color/main_checked" />
+
+</FrameLayout>

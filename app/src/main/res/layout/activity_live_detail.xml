@@ -1,37 +1,113 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/black"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
+    <!--<include layout="@layout/player_layout_live_view"/>-->
 
-    <com.ucloud.player.widget.v2.UVideoView
-        android:id="@+id/custom_liveplayer_standard"
+    <!--    <com.ucloud.player.widget.v2.UVideoView
+            android:id="@+id/custom_liveplayer_standard"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>-->
+    <FrameLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.hdcy.app.view.MyLiveView
+        android:id="@+id/custom_liveview"
+        android:layout_width="wrap_content"
         android:layout_height="200dp"/>
+        <ImageView
+            android:id="@+id/iv_live_originback"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:src="@drawable/ic_arrow_back_white_24dp"/>
+        <ImageView
+            android:id="@+id/iv_live_landscapeback"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:visibility="gone"/>
+        <ImageView
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/nav_menu_share"/>
+        <ImageView
+            android:id="@+id/icon_live"
+            android:layout_height="30dp"
+            android:layout_width="30dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="visible"
+            android:src="@drawable/jc_enlarge"/>
+        <ImageView
+            android:id="@+id/icon_live_recover"
+            android:background="@color/black"
+            android:layout_height="50dp"
+            android:layout_width="50dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="invisible"
+            android:src="@drawable/jc_enlarge"/>
+        <TextView
+            android:id="@+id/tv_live_name"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:maxEms="8"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="15sp"
+            android:text="视频直播"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/ic_launcher"
+            app:riv_corner_radius="100dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:textSize="15sp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="70dp"
+            android:text="好多车友"
+            android:textColor="@color/colorTopbar"/>
+    </FrameLayout>
 
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:background="@android:color/white"
+        android:orientation="vertical"
         android:layout_height="match_parent">
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/uvod_tab"
+            android:id="@+id/live_tab"
             android:layout_width="match_parent"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:tabIndicatorColor="@android:color/holo_orange_dark"
-            app:tabSelectedTextColor="@android:color/holo_orange_dark"
-            app:tabTextColor="@color/main_font_gray_2"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="#8FAFCA"
             app:tabTextAppearance="@style/tab_appearance"
+            app:tabBackground="@mipmap/bg_main"
             android:layout_height="45dp"/>
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/uvod_viewPager"
-            android:layout_below="@+id/uvod_tab"
+            android:id="@+id/live_viewPager"
+            android:layout_below="@+id/live_tab"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
