@@ -35,7 +35,6 @@
                     app:banner_pointContainerBackground="@android:color/transparent"
                     app:banner_tipTextColor="#FFFFFF"
                     app:banner_tipTextSize="20sp"
-                    app:banner_transitionEffect="defaultEffect"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true">

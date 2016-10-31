@@ -81,8 +81,8 @@ public class LeaderDetailInfoFragment extends BaseBackFragment {
                     .into(iv_leader_avatar);
         }
         tv_leader_name.setText(leaderInfo.getName());
-        tv_leader_info.setText(leaderInfo.getSlogan());
-        tv_leader_desc.setText(leaderInfo.getIntro());
+        tv_leader_info.setText(leaderInfo.getIntro());
+        tv_leader_desc.setText(leaderInfo.getSlogan());
     }
 
 }

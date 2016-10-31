@@ -72,6 +72,8 @@ public class VideoDetailActivity extends SupportActivity {
 
     private MyPlayView jcVideoPlayerStandard;
 
+    private int pagecount = 0;
+
     public static void getInstance(Context context, VideoBasicInfo bean) {
         Intent intent = new Intent();
 //		intent.setAction("com.hdcy.app.uvod.impl.Activity4VedioDetail");
@@ -287,7 +289,7 @@ public class VideoDetailActivity extends SupportActivity {
     }
 
     public void GetCommentSList(){
-        NetHelper.getInstance().GetCommentsList("630240", "article", 0, new NetRequestCallBack() {
+        NetHelper.getInstance().GetCommentsList(mBean.getId()+"", "article", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 if(commentsList.isEmpty()){
@@ -310,7 +312,7 @@ public class VideoDetailActivity extends SupportActivity {
     }
 
     public void GetPraiseStatus(){
-        NetHelper.getInstance().GetCommentPraiseStatus("630240", "article", 0, new NetRequestCallBack() {
+        NetHelper.getInstance().GetCommentPraiseStatus(mBean.getId()+"", "article", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONArray jsonArray = responseInfo.getDataArr();

@@ -248,15 +248,15 @@ public class MainFragment extends BaseFragment {
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-                    return FirstFragment.newInstance();
+                    return mFragments[0];
                 case 1:
-                    return SecondFragment.newInstance();
+                    return mFragments[1];
                 case 2:
-                    return ThirdFragment.newInstance();
+                    return mFragments[2];
                 case 3:
-                    return FourthFragment.newInstance();
+                    return mFragments[3];
                 case 4:
-                    return MineFragment.newInstance();
+                    return mFragments[4];
                 default:
                     return null;
 

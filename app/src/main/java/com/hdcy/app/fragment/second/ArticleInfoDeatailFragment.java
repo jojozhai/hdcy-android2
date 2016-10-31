@@ -68,7 +68,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     ImageView iv_nav_menu_share;
 
     private String targetId;
-    private String Url = URL_BASE +"/articleDetails.html?id=";
+    private String Url = URL_BASE +"/new-articleDetails.html?id=";
     private String loadurl;
     private Toolbar mToolbar;
 
@@ -176,6 +176,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         webSettings.setDomStorageEnabled(true);
         myWebView.canGoBack();
         myWebView.loadUrl(loadurl);
+        myWebView.getContentHeight();
         myWebView.fetchHeight(600);
 
     }

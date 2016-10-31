@@ -35,6 +35,7 @@ public class MineFragment extends BaseLazyMainFragment{
 
     private LinearLayout ll_mine_info;
     private LinearLayout ll_mine_gift;
+    private LinearLayout ll_mine_activity;
     private ImageView iv_mine_avatar;
     private TextView  tv_mine_level;
     private TextView  tv_mine_credits;
@@ -72,6 +73,7 @@ public class MineFragment extends BaseLazyMainFragment{
         tv_mine_nickname= (TextView) view.findViewById(R.id.tv_mine_nickname);
         ll_mine_info = (LinearLayout) view.findViewById(R.id.ll_mine_info);
         ll_mine_gift = (LinearLayout) view.findViewById(R.id.ll_mine_gift);
+        ll_mine_activity = (LinearLayout) view.findViewById(R.id.ll_mine_activity);
 
 
     }
@@ -102,6 +104,12 @@ public class MineFragment extends BaseLazyMainFragment{
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new StartBrotherEvent(MineGiftFragment.newInstance()));
+            }
+        });
+        ll_mine_activity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(MineActivityFragment.newInstance()));
             }
         });
     }

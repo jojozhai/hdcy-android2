@@ -101,15 +101,14 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         mSettings = new Settings(this);
         mSettings.setPublishStreamId(mBean.getStreamId());
 
-
         mVideoView = (MyLiveView) findViewById(R.id.custom_liveview);
         mVideoView.setPlayType(UVideoView.PlayType.LIVE);
-        mVideoView.setPlayMode(UVideoView.PlayMode.REPEAT);
-        mVideoView.setRatio(UVideoView.VIDEO_RATIO_WRAP_CONTENT);
-        mVideoView.setDecoder(UVideoView.DECODER_VOD_SW);
+        mVideoView.setPlayMode(UVideoView.PlayMode.NORMAL);
+        mVideoView.setRatio(UVideoView.VIDEO_RATIO_FILL_PARENT);
+        mVideoView.setDecoder(UVideoView.DECODER_VOD_HW);
         mVideoView.registerCallback(this);
         //mVideoView.setVideoPath(videopath);
-        //mVideoView.setVideoPath(String.format(rtmpPlayStreamUrl, mSettings.getPusblishStreamId()));
+        mVideoView.setVideoPath(String.format(rtmpPlayStreamUrl, mSettings.getPusblishStreamId()));
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(1000);
@@ -168,7 +167,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
         mFragments.add(FirstTabVideoBreifFragment.newInstance(mBean.getDesc()));
-        mFragments.add(FirstTabVideoChatFragment.newInstance("631958", "article"));
+        mFragments.add(FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article"));
         mViewPager.setAdapter(new ViewPageFragmentAdapter(getSupportFragmentManager()));
         mTab.setupWithViewPager(mViewPager);
         tv_live_title = (TextView) this.findViewById(R.id.tv_live_name);
@@ -268,7 +267,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             if(position ==0 ){
                 return FirstTabVideoBreifFragment.newInstance(mBean.getDesc());
             }else {
-                return FirstTabVideoChatFragment.newInstance("631958", "article");
+                return FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article");
             }
         }
 
