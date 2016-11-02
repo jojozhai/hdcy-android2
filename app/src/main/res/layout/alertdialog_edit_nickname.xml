@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="#303030"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:text="编辑昵称"/>
+    <EditText
+        android:id="@+id/edt_nickname"
+        style="@style/EditText_Base"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/main_margin_left"
+        android:layout_marginRight="@dimen/main_margin_right"
+        android:layout_marginTop="@dimen/main_margin_top"
+        android:background="@drawable/shape_stroke_line_bg_white"
+        android:gravity="left|top"
+        android:lineSpacingExtra="@dimen/main_font_body_line_space"
+        android:lines="1"
+        android:maxLength="10"
+        android:paddingBottom="@dimen/main_padding_bottom"
+        android:paddingLeft="@dimen/main_padding_left"
+        android:paddingRight="@dimen/main_padding_right"
+        android:paddingTop="@dimen/main_padding_top"
+        android:textColor="@color/main_font"
+        android:textColorHint="@color/main_font_gray_2"
+        android:textSize="@dimen/main_font_body" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+        <Button
+            android:id="@+id/bt_nickname_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:background="@color/white"
+            android:textSize="16sp"
+            />
+        <Button
+            android:id="@+id/bt_nickname_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="11dp"
+            android:text="确定"
+            android:background="@color/white"
+            android:textSize="16sp"
+            />
+        </LinearLayout>>
+
+
+</LinearLayout>

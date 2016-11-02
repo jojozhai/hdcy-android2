@@ -62,6 +62,13 @@ public class VideoCommentListAdapter  extends BaseAdapter{
 
     private int actualcount;
 
+    private OnAvatarClickListener onAvatarClickListener;
+
+    public void setOnAvatarClickListener(OnAvatarClickListener onAvatarClickListener) {
+        this.onAvatarClickListener = onAvatarClickListener;
+    }
+
+
     public VideoCommentListAdapter(Context context, List<CommentsContent> data, List<Boolean> status){
         super();
         this.context = context;
@@ -201,7 +208,17 @@ public class VideoCommentListAdapter  extends BaseAdapter{
                 }
             }
         });
-
+        holder.ll_layout_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int tag = (int) holder.getTag();
+                if (tag == position){
+                    if (onAvatarClickListener != null ){
+                        onAvatarClickListener.onAvatar(position);
+                    }
+                }
+            }
+        });
 
     }
 
@@ -212,6 +229,7 @@ public class VideoCommentListAdapter  extends BaseAdapter{
         private ListView lv_replys;
         private LinearLayout ly_sub_replys;
         private LinearLayout tv_more;
+        private LinearLayout ll_layout_root;
 
         private Object tag;
 
@@ -227,6 +245,7 @@ public class VideoCommentListAdapter  extends BaseAdapter{
 
             ButterKnife.bind(this, itemView);
 
+            ll_layout_root = (LinearLayout) itemView.findViewById(R.id.layout_root) ;
             iv_avatar = (ImageView) itemView.findViewById(R.id.iv_avatar);
             iv_praise = (ImageView) itemView.findViewById(R.id.iv_praise);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
@@ -239,4 +258,9 @@ public class VideoCommentListAdapter  extends BaseAdapter{
 
         }
     }
+
+    public interface OnAvatarClickListener {
+        void onAvatar(int position);
+    }
+
 }

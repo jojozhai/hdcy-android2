@@ -65,7 +65,7 @@ public class MerchantWebView extends WebView {
         this.setVerticalScrollBarEnabled(false);
         this.setHorizontalScrollBarEnabled(false);// 水平不显示
         this.setVerticalScrollBarEnabled(false); // 垂直不显示
-        setPageCacheCapacity(setting);
+        //setPageCacheCapacity(setting);
         setWebViewClient(this);
         setWebChromeClient(new WebChromeClient() {
             @Override
@@ -92,7 +92,7 @@ public class MerchantWebView extends WebView {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                computeHeight();
+                //computeHeight();
                 return true;
             }
 

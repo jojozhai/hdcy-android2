@@ -43,6 +43,21 @@ public class VideoBasicInfo implements Serializable {
 
     private String desc;
 
+    private String sponsorName;
+
+    private String sponsorImage;
+
+    private int sponsorId;
+
+    private boolean liveForApp;
+
+    private boolean liveForWeixin;
+
+    private boolean replay;
+
+    private String replayId;
+
+
     public void setId(int id){
         this.id = id;
     }
@@ -144,5 +159,72 @@ public class VideoBasicInfo implements Serializable {
     }
     public String getDesc(){
         return this.desc;
+    }
+    public boolean isTop() {
+        return top;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public String getSponsorName() {
+        return sponsorName;
+    }
+
+    public void setSponsorName(String sponsorName) {
+        this.sponsorName = sponsorName;
+    }
+
+    public String getSponsorImage() {
+        return sponsorImage;
+    }
+
+    public void setSponsorImage(String sponsorImage) {
+        this.sponsorImage = sponsorImage;
+    }
+
+    public int getSponsorId() {
+        return sponsorId;
+    }
+
+    public void setSponsorId(int sponsorId) {
+        this.sponsorId = sponsorId;
+    }
+
+    public boolean isLiveForApp() {
+        return liveForApp;
+    }
+
+    public void setLiveForApp(boolean liveForApp) {
+        this.liveForApp = liveForApp;
+    }
+
+    public boolean isLiveForWeixin() {
+        return liveForWeixin;
+    }
+
+    public void setLiveForWeixin(boolean liveForWeixin) {
+        this.liveForWeixin = liveForWeixin;
+    }
+
+    public boolean isReplay() {
+        return replay;
+    }
+
+    public void setReplay(boolean replay) {
+        this.replay = replay;
+    }
+
+    public String getReplayId() {
+        return replayId;
+    }
+
+    public void setReplayId(String replayId) {
+        this.replayId = replayId;
     }
 }

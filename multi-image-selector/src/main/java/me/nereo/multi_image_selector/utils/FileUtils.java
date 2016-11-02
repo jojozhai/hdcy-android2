@@ -20,7 +20,7 @@ public class FileUtils {
     private static final String JPEG_FILE_SUFFIX = ".jpg";
 
     public static File createTmpFile(Context context) throws IOException{
-        File dir;
+        File dir = null;
         if(TextUtils.equals(Environment.getExternalStorageState(), Environment.MEDIA_MOUNTED)) {
             dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
             if (!dir.exists()) {

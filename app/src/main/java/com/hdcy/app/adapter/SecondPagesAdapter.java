@@ -9,6 +9,7 @@ import com.hdcy.app.adapterdellagate.SecondPagesItem2Delegate;
 import com.hdcy.app.adapterdellagate.SecondPagesItem3Delegate;
 import com.hdcy.app.adapterdellagate.SecondPagesItem4Delegate;
 import com.hdcy.app.adapterdellagate.SecondPagesItem5Delegate;
+import com.hdcy.app.adapterdellagate.SecondPagesItem6Delegate;
 import com.hdcy.app.model.Content;
 import com.zhy.adapter.abslistview.MultiItemTypeAdapter;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -30,6 +31,7 @@ public class SecondPagesAdapter extends MultiItemTypeAdapter<Content> {
         addItemViewDelegate(new SecondPagesItem3Delegate());
         addItemViewDelegate(new SecondPagesItem4Delegate());
         addItemViewDelegate(new SecondPagesItem5Delegate());
+        addItemViewDelegate(new SecondPagesItem6Delegate());
     }
 
 }

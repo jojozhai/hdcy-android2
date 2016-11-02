@@ -61,6 +61,9 @@ public class NetResponseInfo {
     public List<VideoBasicInfo> videoBasicInfoList;
 
 
+    public VideoBasicInfo videoBasicInfo;
+
+
     public List<GiftContent> giftContent;
 
     public PraiseStatus getBooleanList() {
@@ -253,6 +256,14 @@ public class NetResponseInfo {
 
     public void setVideoBasicInfoList(List<VideoBasicInfo> videoBasicInfoList) {
         this.videoBasicInfoList = videoBasicInfoList;
+    }
+
+    public VideoBasicInfo getVideoBasicInfo() {
+        return videoBasicInfo;
+    }
+
+    public void setVideoBasicInfo(VideoBasicInfo videoBasicInfo) {
+        this.videoBasicInfo = videoBasicInfo;
     }
 
 

@@ -110,7 +110,6 @@ public class ThirdFragment extends BaseLazyMainFragment {
         mAdapter.setOnItemClickListener(new ThirdPageFragmentAdapter.OnItemClickListener() {
             @Override
             public void onItem(int position) {
-
                 String ActivityId = activityContentList.get(position).getId() + "";
                 EventBus.getDefault().post(new StartBrotherEvent(OfflineActivityFragment.newInstance(ActivityId)));
             }

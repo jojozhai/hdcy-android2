@@ -139,6 +139,10 @@ public interface BaseData {
      */
     String KEY_BUNDLE = "Bundle";
 
+    static final String KEY_RESULT_COMMENT = "articlecomment";
+
+
+
 
 
 

@@ -20,7 +20,7 @@ public class Bean4VedioDetail implements Serializable {
     public  int viewCount;
     public  boolean live;
     public  boolean start;
-    public  int startTime;
+    public  long startTime;
     public  String length;
     public  int commentCount;
 

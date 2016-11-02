@@ -15,7 +15,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <com.hdcy.app.view.MyLiveView
+    <com.ucloud.player.widget.v2.UVideoView
         android:id="@+id/custom_liveview"
         android:layout_width="wrap_content"
         android:layout_height="200dp"/>
@@ -47,7 +47,6 @@
             android:src="@drawable/jc_enlarge"/>
         <ImageView
             android:id="@+id/icon_live_recover"
-            android:background="@color/black"
             android:layout_height="50dp"
             android:layout_width="50dp"
             android:layout_gravity="right|bottom"

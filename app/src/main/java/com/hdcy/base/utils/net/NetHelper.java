@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -443,10 +444,11 @@ public class NetHelper {
     public Callback.Cancelable GetVedioTopBanner( final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/video");
 //        request.addParam("page",0);
-//        request.addParam("enable","true");
-//        request.addParam("size","10");
+        request.addParam("enable","true");
+        //request.addParam("size","3");
         request.addParam("sort","createdTime,desc");
         request.addParam("top","true");
+        request.addParam("liveForApp","true");
         return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
@@ -484,6 +486,7 @@ public class NetHelper {
         request.addParam("size","10");
         request.addParam("sort","createdTime,desc");
         request.addParam("top","false");
+        request.addParam("liveForApp","true");
         return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
@@ -517,14 +520,12 @@ public class NetHelper {
     public Callback.Cancelable getOneVedioDetail(int vedioId,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/video/"+vedioId);
 
-        return request.getObj(new NetRequestCallBack() {
+        return request.postobject(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONObject dataObj = responseInfo.getDataObj();
-                LogF.json(dataObj.toString());//LOG
-
                 if (dataObj != null){
-                    responseInfo.mBean4VedioDetail=JSON.parseObject(dataObj.toString(), Bean4VedioDetail.class);
+                    responseInfo.setVideoBasicInfo(JSON.parseObject(dataObj.toString(),VideoBasicInfo.class));
                 }
                 callBack.onSuccess(requestInfo, responseInfo);
             }
@@ -942,6 +943,67 @@ public class NetHelper {
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("commentpraise","onfailure");
+
+            }
+        });
+    }
+
+    public Callback.Cancelable EditMineInfomation(String typename,String content,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/user/property");
+        request.addHeader("Authorization","Basic MToxMjM0NTY=");
+        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("name",typename);
+            obj.put("value", content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        request.addParamjson(obj.toString());
+
+        return request.putmineinfo(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                callBack.onSuccess(requestInfo, responseInfo);
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+
+    /**
+     * 上传头像
+     */
+    public Callback.Cancelable UploadAvatar(File file, final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/comment/");
+        request.addHeader("Authorization","Basic MToxMjM0NTY=");
+        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
+        request.addParam("file", file);
+
+        return request.postinfo(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONObject dataObj = responseInfo.getDataObj();
+                callBack.onSuccess(requestInfo, responseInfo);
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
 
             }
         });

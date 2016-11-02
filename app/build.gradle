@@ -1,6 +1,6 @@
 
 apply plugin: 'com.android.application'
-
+apply plugin: 'android-apt'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -18,6 +18,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs{
+        debug{
+/*            storeFile file("..//hdcy.jks")
+            storePassword 'andylau123'
+            keyAlias 'hdcy'
+            keyPassword 'andylau123'*/
+        }
+    }
 }
 
 dependencies {
@@ -26,10 +34,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':fragmentation')
-    compile project(':multi-image-selector')
-    compile project(':library')
+    compile project(':banners')
     compile project(':ulive-android-sdk')
     compile project(':RefreshLayout')
+    compile project(':multi-image-selector')
     compile 'fm.jiecao:jiecaovideoplayer:4.6.3'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     //轮播图
@@ -62,4 +70,8 @@ dependencies {
     compile files('libs/umeng_social_netv6.0.0.jar')
     compile files('libs/umeng_social_viewv6.0.0.jar')
     compile files('libs/jsoup-1.7.2.jar')
+    //时间选择器
+    compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+    compile 'pub.devrel:easypermissions:0.1.9'
+    compile files('libs/Rong_IMKit_v2_6_4.jar')
 }

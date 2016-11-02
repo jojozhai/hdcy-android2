@@ -4,10 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RefreshLayout/RefreshLayout.iml" filepath="$PROJECT_DIR$/RefreshLayout/RefreshLayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/banners/banners.iml" filepath="$PROJECT_DIR$/banners/banners.iml" />
       <module fileurl="file://$PROJECT_DIR$/base-adapter-library/base-adapter-library.iml" filepath="$PROJECT_DIR$/base-adapter-library/base-adapter-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/fragmentation/fragmentation.iml" filepath="$PROJECT_DIR$/fragmentation/fragmentation.iml" />
       <module fileurl="file://$PROJECT_DIR$/hdcy-android2.iml" filepath="$PROJECT_DIR$/hdcy-android2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
       <module fileurl="file://$PROJECT_DIR$/multi-image-selector/multi-image-selector.iml" filepath="$PROJECT_DIR$/multi-image-selector/multi-image-selector.iml" />
       <module fileurl="file://$PROJECT_DIR$/ulive-android-sdk/ulive-android-sdk.iml" filepath="$PROJECT_DIR$/ulive-android-sdk/ulive-android-sdk.iml" />
     </modules>

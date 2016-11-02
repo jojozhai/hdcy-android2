@@ -8,6 +8,8 @@ import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -48,10 +50,10 @@ import me.yokeyword.fragmentation.SupportActivity;
 public class LiveDetailActivity extends SupportActivity implements UVideoView.Callback {
     private static final String TAG = "LiveDetailActivity";
 
+
     private Context context;
 
-    //private UVideoView mVideoView;
-    private MyLiveView mVideoView;
+    private UVideoView mVideoView;
 
     String rtmpPlayStreamUrl = "http://rtmp3.usmtd.ucloud.com.cn/live/%s.flv";
     String videopath = "http://mediademo.ufile.ucloud.com.cn/ucloud_promo_140s.mp4";
@@ -77,6 +79,27 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
     private TabLayout mTab;
     private ViewPager mViewPager;
     private VideoBasicInfo mBean;
+
+    private static final int MSG_INIT_PLAY = 0;
+
+    private class UiHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case  MSG_INIT_PLAY:
+                    initView();
+                    break;
+            }
+        }
+    }
+
+    private Handler handler = new Handler(){
+        public void handleMessage(android.os.Message msg){
+
+        }
+    };
+    private Handler uiHandler  = new UiHandler();
+
     public static void getInstance(Context context, VideoBasicInfo bean){
         Intent intent = new Intent();
         Settings mSetting = new Settings(context);
@@ -97,11 +120,11 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
 
         mBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         Toast.makeText(this, ""+mBean.getStreamId(), Toast.LENGTH_SHORT).show();
-        initView();
+        //
         mSettings = new Settings(this);
         mSettings.setPublishStreamId(mBean.getStreamId());
 
-        mVideoView = (MyLiveView) findViewById(R.id.custom_liveview);
+        mVideoView = (UVideoView) findViewById(R.id.custom_liveview);
         mVideoView.setPlayType(UVideoView.PlayType.LIVE);
         mVideoView.setPlayMode(UVideoView.PlayMode.NORMAL);
         mVideoView.setRatio(UVideoView.VIDEO_RATIO_FILL_PARENT);
@@ -109,6 +132,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         mVideoView.registerCallback(this);
         //mVideoView.setVideoPath(videopath);
         mVideoView.setVideoPath(String.format(rtmpPlayStreamUrl, mSettings.getPusblishStreamId()));
+       // initView();
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(1000);
@@ -135,6 +159,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             mVideoView.setVolume(0,0);
             mVideoView.stopPlayback();
             mVideoView.release(true);
+
         }
     }
 
@@ -150,6 +175,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             mVideoView.setVolume(0,0);
             mVideoView.stopPlayback();
             mVideoView.release(true);
+            uiHandler.sendEmptyMessage(MSG_INIT_PLAY);
         }
     }
 
@@ -164,25 +190,34 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
     private void initView(){
         mTab = (TabLayout) this.findViewById(R.id.live_tab);
         mViewPager = (ViewPager) this.findViewById(R.id.live_viewPager);
-        mTab.addTab(mTab.newTab());
-        mTab.addTab(mTab.newTab());
-        mFragments.add(FirstTabVideoBreifFragment.newInstance(mBean.getDesc()));
-        mFragments.add(FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article"));
-        mViewPager.setAdapter(new ViewPageFragmentAdapter(getSupportFragmentManager()));
-        mTab.setupWithViewPager(mViewPager);
         tv_live_title = (TextView) this.findViewById(R.id.tv_live_name);
         tv_live_title.setText(mBean.getName());
         iv_icon = (ImageView) this.findViewById(R.id.icon_live);
         iv_icon_recover = (ImageView) this.findViewById(R.id.icon_live_recover);
         iv_origin_back = (ImageView) this.findViewById(R.id.iv_live_originback);
         iv_origin_recoverback =(ImageView) this.findViewById(R.id.iv_live_landscapeback);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mTab.addTab(mTab.newTab());
+                mTab.addTab(mTab.newTab());
+                mFragments.add(FirstTabVideoBreifFragment.newInstance(mBean.getDesc()));
+                mFragments.add(FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article"));
+                mViewPager.setAdapter(new ViewPageFragmentAdapter(getSupportFragmentManager()));
+                mTab.setupWithViewPager(mViewPager);
+            }
+        },500);
+        setListener();
+
+    }
+
+    private void setListener(){
         iv_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
                     FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) mVideoView.getLayoutParams();
                     lp.height = ScreenWidth;
                     mVideoView.setLayoutParams(lp);
@@ -224,6 +259,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
                 iv_origin_recoverback.setVisibility(View.GONE);
             }
         });
+
     }
 
     public void toggleRatio(View view) {

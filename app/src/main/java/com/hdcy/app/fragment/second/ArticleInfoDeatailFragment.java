@@ -113,8 +113,14 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         }
         loadurl = Url + targetId;
         initView(view);
-        initWebview(view);
-        initData();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                initWebview(view);
+            }
+        },2000);
+
         return view;
     }
 
@@ -163,7 +169,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         mAdapter = new ArticleCommentListAdapter(getContext(),commentsList,praisestatus);
         lv_article_comment.setAdapter(mAdapter);
         lv_article_comment.setFocusable(false);
-
+        initData();
     }
 
     private void initWebview(View view) {
@@ -176,8 +182,6 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         webSettings.setDomStorageEnabled(true);
         myWebView.canGoBack();
         myWebView.loadUrl(loadurl);
-        myWebView.getContentHeight();
-        myWebView.fetchHeight(600);
 
     }
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textColor="#494949"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:text="头像修改"/>
+    <TextView
+        android:id="@+id/tv_avatar_camera"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:textColor="#303030"
+        android:textSize="18sp"
+        android:text="拍照上传"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/main_line"/>
+    <TextView
+        android:id="@+id/tv_avatar_photos"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:textColor="#303030"
+        android:textSize="18sp"
+        android:text="本地相册"/>
+    <TextView
+        android:layout_height="8dp"
+        android:layout_width="match_parent"
+        android:background="@color/black" />
+    <TextView
+        android:id="@+id/tv_avatar_cancel"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:textColor="#303030"
+        android:textSize="18sp"
+        android:text="取消"/>
+</LinearLayout>

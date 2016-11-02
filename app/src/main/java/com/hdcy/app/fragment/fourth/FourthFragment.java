@@ -108,7 +108,9 @@ public class FourthFragment extends BaseLazyMainFragment{
     }
 
     private void initData(){
-        GetLeaderBanner();
+        if(imgurls.isEmpty()) {
+            GetLeaderBanner();
+        }
     }
 
     private void setData(){
@@ -156,7 +158,6 @@ public class FourthFragment extends BaseLazyMainFragment{
         NetHelper.getInstance().GetLeaderBanner(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                leaderBannerInfo.clear();
                 leaderBannerInfo = responseInfo.getLeaderInfo();
                 for (int i = 0; i < leaderBannerInfo.size(); i++) {
                     imgurls.add(i, leaderBannerInfo.get(i).getTopImage());
