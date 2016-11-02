@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.model.AvatarResult;
+import com.hdcy.app.model.PraiseResult;
 import com.hdcy.app.model.UserBaseInfo;
 import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.BaseUtils;
@@ -47,8 +50,11 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
@@ -101,6 +107,9 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
     TextView tv_avatar_camera;
     TextView tv_avatar_photo;
     TextView tv_avatar_cancel;
+    ArrayList<String> images = new ArrayList<>();
+    private File avatarfile;
+    AvatarResult avatarResult;
 
     private String editType;
     private String content;
@@ -140,8 +149,30 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
         Date d = new Date(time);
         return sf.format(d);
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            Log.e("resultok:","haha");
+            List<String> selectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            File file = new File(selectPath.get(0));
+            long size = file.length();
+            avatarfile =file;
+            Log.e("photo url:",file.getAbsolutePath()+"size"+size);
+            UploadAvatar();
+        }
+    }
 
-
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
+            //List<String> selectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+/*            File file = new File(selectPath.get(0));
+            long size = file.length();
+            Log.e("photo url:",file.getAbsolutePath()+"size"+size);*/
+        }
+    }
 
     private void initView(View view){
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -205,6 +236,13 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             @Override
             public void onClick(View v) {
                 ShowUploadAvatarDialog();
+            }
+        });
+
+        tv_mine_personalinfo_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(ChooseCityFragment.newInstance()));
             }
         });
     }
@@ -324,15 +362,28 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             public void onClick(View v) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
                         && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED
+                        && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED
+                        &&ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
                     requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
                             getString(R.string.mis_permission_rationale),
                             REQUEST_STORAGE_READ_ACCESS_PERMISSION);
+                    requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            getString(R.string.mis_permission_rationale_write_storage),
+                            REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
+                    requestPermission(Manifest.permission.CAMERA,
+                            getString(R.string.mis_permission_rationale_write_storage),
+                            REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
+
                 }else {
                     MultiImageSelector.create(getContext())
                             .single()
                             .showCamera(true)
-                            .start(getActivity(), 1);
+                            .origin(images)
+                            .count(1)
+                            .start(getTopFragment(), REQUEST_IMAGE);
                 }
             }
         });
@@ -399,6 +450,29 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getActivity(), "修改成功!", Toast.LENGTH_SHORT).show();
                 generalalertDialog.dismiss();
+
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+
+    private void UploadAvatar(){
+        NetHelper.getInstance().UploadAvatar(avatarfile, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                avatarResult = responseInfo.getAvatarResult();
+                editType = "headimgurl";
+                content = avatarResult.getContent();
+                PublishPersonalInfo();
 
             }
 

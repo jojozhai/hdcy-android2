@@ -10,6 +10,7 @@ import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.hdcy.app.model.ActivityContent;
 import com.hdcy.app.model.ActivityDetails;
 import com.hdcy.app.model.ArticleInfo;
+import com.hdcy.app.model.AvatarResult;
 import com.hdcy.app.model.Bean4VedioBanner;
 import com.hdcy.app.model.Bean4VedioDetail;
 import com.hdcy.app.model.CommentsContent;
@@ -984,7 +985,7 @@ public class NetHelper {
      * 上传头像
      */
     public Callback.Cancelable UploadAvatar(File file, final NetRequestCallBack callBack){
-        NetRequest request = new NetRequest("/comment/");
+        NetRequest request = new NetRequest("/image/upload");
         request.addHeader("Authorization","Basic MToxMjM0NTY=");
         request.addHeader("Content-Type", "application/json;charset=UTF-8");
 
@@ -994,6 +995,10 @@ public class NetHelper {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONObject dataObj = responseInfo.getDataObj();
+                if (dataObj != null){
+                    responseInfo.setAvatarResult(JSON.parseObject(dataObj.toString(), AvatarResult.class));
+                }
+                Log.e("上传完成",dataObj.toString());
                 callBack.onSuccess(requestInfo, responseInfo);
             }
 

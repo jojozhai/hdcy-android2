@@ -74,4 +74,8 @@ dependencies {
     compile 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
     compile 'pub.devrel:easypermissions:0.1.9'
     compile files('libs/Rong_IMKit_v2_6_4.jar')
+    //城市选择
+    compile 'me.yokeyword:indexablerecyclerview:1.0.5'
+    compile 'com.android.support:recyclerview-v7:23'
+
 }

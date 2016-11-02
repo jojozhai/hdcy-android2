@@ -142,7 +142,9 @@ public class MultiImageSelectorActivity extends AppCompatActivity
     @Override
     public void onSingleImageSelected(String path) {
         Intent data = new Intent();
+        Bundle bundle = new Bundle();
         resultList.add(path);
+        bundle.putSerializable(EXTRA_RESULT,resultList);
         data.putStringArrayListExtra(EXTRA_RESULT, resultList);
         setResult(RESULT_OK, data);
         finish();

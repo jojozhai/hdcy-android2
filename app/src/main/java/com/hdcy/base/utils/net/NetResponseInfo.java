@@ -4,6 +4,7 @@ package com.hdcy.base.utils.net;
 import com.hdcy.app.model.ActivityContent;
 import com.hdcy.app.model.ActivityDetails;
 import com.hdcy.app.model.ArticleInfo;
+import com.hdcy.app.model.AvatarResult;
 import com.hdcy.app.model.Bean4VedioBanner;
 import com.hdcy.app.model.Bean4VedioDetail;
 import com.hdcy.app.model.Comments;
@@ -51,6 +52,9 @@ public class NetResponseInfo {
     public RootListInfo rootListInfo;
     public UserBaseInfo userBaseInfo;
     public List<LeaderInfo> leaderInfo;
+
+
+    public AvatarResult avatarResult;
 
     /**  vedio banner Data */
     public JSONArray content;
@@ -264,6 +268,15 @@ public class NetResponseInfo {
 
     public void setVideoBasicInfo(VideoBasicInfo videoBasicInfo) {
         this.videoBasicInfo = videoBasicInfo;
+    }
+
+
+    public AvatarResult getAvatarResult() {
+        return avatarResult;
+    }
+
+    public void setAvatarResult(AvatarResult avatarResult) {
+        this.avatarResult = avatarResult;
     }
 
 
