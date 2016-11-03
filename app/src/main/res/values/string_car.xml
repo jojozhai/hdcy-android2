@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="car_array">
+        <item>阿尔法罗密欧</item>
+        <item>宝骏</item>
+        <item>宝马</item>
+        <item>奥迪</item>
+        <item>奔驰</item>
+        <item>大众</item>
+        <item>保时捷</item>
+        <item>北京汽车</item>
+        <item>本田</item>
+        <item>丰田</item>
+        <item>标志</item>
+        <item>别克</item>
+        <item>比亚迪</item>
+        <item>昌河</item>
+        <item>法拉利</item>
+        <item>红旗</item>
+        <item>雷克萨斯</item>
+        <item>马自达</item>
+        <item>特斯拉</item>
+    </string-array>>
+</resources>

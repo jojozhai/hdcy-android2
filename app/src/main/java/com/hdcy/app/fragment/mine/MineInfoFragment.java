@@ -66,6 +66,11 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 public class MineInfoFragment extends BaseBackFragment implements  OnDateSetListener{
 
+    static final String KEY_RESULT_CHOOSE_CITY = "choose_city";
+    static final String KEY_RESULT_CHOOSE_CAR = "choose_car";
+    private static final int REQUEST_SELECT_CITY = 1001;
+    private static final int REQUEST_SELECT_CAR = 1002;
+    private static final int REQUEST_SELECT_INTEREST = 1003;
     private static final int REQUEST_IMAGE = 2;
     protected static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
     protected static final int REQUEST_STORAGE_WRITE_ACCESS_PERMISSION = 102;
@@ -166,11 +171,16 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_IMAGE && resultCode == RESULT_OK){
-            //List<String> selectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-/*            File file = new File(selectPath.get(0));
-            long size = file.length();
-            Log.e("photo url:",file.getAbsolutePath()+"size"+size);*/
+        if(requestCode == REQUEST_SELECT_CITY && resultCode == RESULT_OK){
+            editType = "address";
+            content =  data.getString(KEY_RESULT_CHOOSE_CITY);
+            Log.e("citychoose",content+"");
+            PublishPersonalInfo();
+        }else if(requestCode == REQUEST_SELECT_CAR && resultCode == RESULT_OK){
+            editType = "car";
+            content = data.getString(KEY_RESULT_CHOOSE_CAR);
+            Log.e("carchoose",content+"");
+            PublishPersonalInfo();
         }
     }
 
@@ -242,7 +252,22 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
         tv_mine_personalinfo_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new StartBrotherEvent(ChooseCityFragment.newInstance()));
+                startForResult(ChooseCityFragment.newInstance(),REQUEST_SELECT_CITY);
+                //EventBus.getDefault().post(new StartBrotherEvent(ChooseCityFragment.newInstance()));
+            }
+        });
+
+        tv_mine_personalinfo_cartype.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startForResult(ChooseCarTypeFragment.newInstance(),REQUEST_SELECT_CAR);
+            }
+        });
+
+        tv_mine_personalinfo_interests.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startForResult(ChooseInterestsFragment.newInstance(),REQUEST_SELECT_INTEREST);
             }
         });
     }
@@ -449,8 +474,9 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getActivity(), "修改成功!", Toast.LENGTH_SHORT).show();
-                generalalertDialog.dismiss();
-
+                if(generalalertDialog !=null) {
+                    generalalertDialog.dismiss();
+                }
             }
 
             @Override

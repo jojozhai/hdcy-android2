@@ -8,22 +8,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hdcy.app.R;
+import com.hdcy.app.model.CarEntity;
 import com.hdcy.app.model.CityEntity;
-
-import java.util.List;
 
 import me.yokeyword.indexablerv.IndexableAdapter;
 
 /**
- * Created by WeiYanGeorge on 2016-11-02.
+ * Created by WeiYanGeorge on 2016-11-03.
  */
 
-public class CityAdapter extends IndexableAdapter<CityEntity> {
-
+public class CarAdapter extends IndexableAdapter<CarEntity>{
     private LayoutInflater mInflater;
 
 
-    public CityAdapter(Context context) {
+    public CarAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
 
@@ -47,7 +45,7 @@ public class CityAdapter extends IndexableAdapter<CityEntity> {
     }
 
     @Override
-    public void onBindContentViewHolder(RecyclerView.ViewHolder holder, CityEntity entity) {
+    public void onBindContentViewHolder(RecyclerView.ViewHolder holder, CarEntity entity) {
         ContentVH vh = (ContentVH) holder;
         vh.tv.setText(entity.getName());
     }

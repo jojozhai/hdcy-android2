@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="interest_array">
+        <item>竞速</item>
+        <item>极限</item>
+        <item>卡丁车</item>
+        <item>GTR</item>
+        <item>F1</item>
+        <item>漂移</item>
+        <item>改装</item>
+        <item>遥控模型</item>
+        <item>发烧友</item>
+        <item>飙车党</item>
+        <item>引擎控</item>
+        <item>资深车手</item>
+        <item>改装大神</item>
+        <item>数据党</item>
+        <item>其他</item>
+    </string-array>
+</resources>
