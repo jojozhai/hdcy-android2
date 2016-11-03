@@ -79,8 +79,11 @@ public class InterestAdapter extends BaseAdapter {
                 int tag = (int) holder.getTag();
                 if(onShowCustomClickListener != null){
                     onShowCustomClickListener.onShowCustom(position);
-                }else if (item.is_selected()){
-                    holder.tv_interest_name.setBackground(context.getResources().getDrawable(R.drawable.buttonshape));
+                    if(item.is_selected()){
+                        holder.tv_interest_name.setBackground(context.getResources().getDrawable(R.drawable.buttonshape));
+                    }else {
+                        holder.tv_interest_name.setBackground(context.getResources().getDrawable(R.drawable.interestshape));
+                    }
                 }
             }
         });

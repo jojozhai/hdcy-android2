@@ -68,6 +68,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
 
     static final String KEY_RESULT_CHOOSE_CITY = "choose_city";
     static final String KEY_RESULT_CHOOSE_CAR = "choose_car";
+    static final String KEY_RESULT_CHOOSE_INTEREST = "choose_interest";
     private static final int REQUEST_SELECT_CITY = 1001;
     private static final int REQUEST_SELECT_CAR = 1002;
     private static final int REQUEST_SELECT_INTEREST = 1003;
@@ -180,6 +181,11 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             editType = "car";
             content = data.getString(KEY_RESULT_CHOOSE_CAR);
             Log.e("carchoose",content+"");
+            PublishPersonalInfo();
+        }else if(requestCode == REQUEST_SELECT_INTEREST && resultCode ==RESULT_OK){
+            editType = "tags";
+            content = data.getString(KEY_RESULT_CHOOSE_INTEREST);
+            Log.e("interests",content+"");
             PublishPersonalInfo();
         }
     }
