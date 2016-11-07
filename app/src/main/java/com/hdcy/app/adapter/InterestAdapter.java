@@ -80,7 +80,7 @@ public class InterestAdapter extends BaseAdapter {
                 if(onShowCustomClickListener != null){
                     onShowCustomClickListener.onShowCustom(position);
                     if(item.is_selected()){
-                        holder.tv_interest_name.setBackground(context.getResources().getDrawable(R.drawable.buttonshape));
+                        holder.tv_interest_name.setBackground(context.getResources().getDrawable(R.drawable.interest_pressed));
                     }else {
                         holder.tv_interest_name.setBackground(context.getResources().getDrawable(R.drawable.interestshape));
                     }

@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorTopbar">#00FEFC</color>
-
+    <color name="colorSelect">#4A7A99</color>
+    <color name="colorBtDefault">#1B3749</color>
+    <color name="colorPhone">#33749E</color>
     <color name="bg_app">#F1F1F1</color>
 
     <color name="tab_unselect">#c9c9c9</color>

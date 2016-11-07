@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -124,6 +125,12 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
     private boolean isEdit;
     SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
+    private Handler handler = new Handler(){
+        public void handleMessage(android.os.Message msg){
+
+        }
+    };
+
 
 
     public static MineInfoFragment newInstance(UserBaseInfo userBaseInfo){
@@ -177,16 +184,36 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             content =  data.getString(KEY_RESULT_CHOOSE_CITY);
             Log.e("citychoose",content+"");
             PublishPersonalInfo();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    GetPersonalInfo();
+                }
+            },1000);
+
         }else if(requestCode == REQUEST_SELECT_CAR && resultCode == RESULT_OK){
             editType = "car";
             content = data.getString(KEY_RESULT_CHOOSE_CAR);
             Log.e("carchoose",content+"");
             PublishPersonalInfo();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    GetPersonalInfo();
+                }
+            },1000);
+
         }else if(requestCode == REQUEST_SELECT_INTEREST && resultCode ==RESULT_OK){
             editType = "tags";
             content = data.getString(KEY_RESULT_CHOOSE_INTEREST);
             Log.e("interests",content+"");
             PublishPersonalInfo();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    GetPersonalInfo();
+                }
+            },1000);
         }
     }
 
@@ -274,6 +301,19 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             @Override
             public void onClick(View v) {
                 startForResult(ChooseInterestsFragment.newInstance(),REQUEST_SELECT_INTEREST);
+            }
+        });
+
+        tv_mine_personalinfo_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(EditPhoneFragment.newInstance()));
+            }
+        });
+        tv_mine_personalinfo_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(EditPasswordFragment.newInstance()));
             }
         });
     }
@@ -422,7 +462,31 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
         tv_avatar_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN // Permission was added in API Level 16
+                        && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED
+                        && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED
+                        &&ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE,
+                            getString(R.string.mis_permission_rationale),
+                            REQUEST_STORAGE_READ_ACCESS_PERMISSION);
+                    requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            getString(R.string.mis_permission_rationale_write_storage),
+                            REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
+                    requestPermission(Manifest.permission.CAMERA,
+                            getString(R.string.mis_permission_rationale_write_storage),
+                            REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
 
+                }else {
+                    MultiImageSelector.create(getContext())
+                            .single()
+                            .showCamera(true)
+                            .origin(images)
+                            .count(1)
+                            .start(getTopFragment(), REQUEST_IMAGE);
+                }
             }
         });
 
@@ -483,6 +547,26 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
                 if(generalalertDialog !=null) {
                     generalalertDialog.dismiss();
                 }
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+
+    private void GetPersonalInfo(){
+        NetHelper.getInstance().GetCurrentUserInfo(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                userBaseInfo = responseInfo.getUserBaseInfo();
+                setData();
             }
 
             @Override

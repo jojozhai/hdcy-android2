@@ -108,9 +108,7 @@ public class FourthFragment extends BaseLazyMainFragment{
     }
 
     private void initData(){
-        if(imgurls.isEmpty()) {
-            GetLeaderBanner();
-        }
+        GetLeaderBanner();
     }
 
     private void setData(){
@@ -155,29 +153,38 @@ public class FourthFragment extends BaseLazyMainFragment{
     }
 
     private void GetLeaderBanner(){
-        NetHelper.getInstance().GetLeaderBanner(new NetRequestCallBack() {
-            @Override
-            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                leaderBannerInfo = responseInfo.getLeaderInfo();
-                for (int i = 0; i < leaderBannerInfo.size(); i++) {
-                    imgurls.add(i, leaderBannerInfo.get(i).getTopImage());
-                    tips.add(i, leaderBannerInfo.get(i).getName());
+        if(leaderBannerInfo.isEmpty()) {
+            NetHelper.getInstance().GetLeaderBanner(new NetRequestCallBack() {
+                @Override
+                public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                    leaderBannerInfo = responseInfo.getLeaderInfo();
+                    for (int i = 0; i < leaderBannerInfo.size(); i++) {
+                        imgurls.add(i, leaderBannerInfo.get(i).getTopImage());
+                        tips.add(i, leaderBannerInfo.get(i).getName());
+                    }
+                    setData1();
+
                 }
-                setData1();
 
+                @Override
+                public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                }
+
+                @Override
+                public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                }
+            });
+        }else {
+            imgurls.clear();
+            tips.clear();
+            for (int i = 0; i < leaderBannerInfo.size(); i++) {
+                imgurls.add(i, leaderBannerInfo.get(i).getTopImage());
+                tips.add(i, leaderBannerInfo.get(i).getName());
             }
-
-            @Override
-            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-            }
-
-            @Override
-            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-            }
-        });
-
+            setData1();
+        }
     }
 
 

@@ -40,4 +40,12 @@
         <item name="android:background">@null</item>
     </style>
 
+    <!-- 开关按钮 -->
+    <style name="ToggleButton_Base">
+        <item name="offBorderColor">@color/main_line</item>
+        <item name="offColor">@color/white</item>
+        <item name="onColor">@color/blue</item>
+        <item name="sborderWidth">@dimen/line_width</item>
+    </style>
+
 </resources>

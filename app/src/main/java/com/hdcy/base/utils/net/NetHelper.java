@@ -1014,6 +1014,102 @@ public class NetHelper {
         });
     }
 
+    public Callback.Cancelable GetPhoneSmsCode(String phone,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/sms/code");
+        request.addHeader("Authorization","Basic MToxMjM0NTY=");
+        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+        request.addParam("phone",phone);
+        return request.postobject(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                //JSONObject dataObj1 = responseInfo.getDataObj();
+                callBack.onSuccess(requestInfo, responseInfo);
+                Log.e("SmsCode","sucess");
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("SmsCode","error");
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("SmsCode","onfailure");
+
+            }
+        });
+    }
+
+    public Callback.Cancelable SubmitPhoneSmsCode(String phone, String smscode,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/sms/code/check");
+/*        request.addHeader("Authorization","Basic MToxMjM0NTY=");
+        request.addHeader("Content-Type", "application/json;charset=UTF-8");*/
+        request.addParam("phone",phone);
+        request.addParam("code",smscode);
+        return request.getarray(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONArray dataObj = responseInfo.getDataArr();
+                JSONObject dataObj1 = responseInfo.getDataObj();
+                callBack.onSuccess(requestInfo, responseInfo);
+                Log.e("SmsCode","sucess");
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("SmsCode","error");
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("SmsCode","onfailure");
+
+            }
+        });
+    }
+
+    /**
+     * 修改密码
+     */
+    public Callback.Cancelable EditPersonalPassword(String oldPassword,String newPassword,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/user/password");
+        request.addHeader("Authorization","Basic MToxMjM0NTY=");
+        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+        request.addParam("oldPassword", oldPassword);
+        request.addParam("newPassword", newPassword);
+/*        JSONObject obj = new JSONObject();
+        try {
+            obj.put("name",typename);
+            obj.put("value", content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        request.addParamjson(obj.toString());*/
+        Log.e("requesturl", request.toString()+"");
+        return request.putmineinfo(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                Log.e("password","success");
+                callBack.onSuccess(requestInfo, responseInfo);
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("password","error");
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("password","failure");
+            }
+        });
+    }
+
+
+
 
 
 

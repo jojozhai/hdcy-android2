@@ -128,7 +128,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         mVideoView.setPlayType(UVideoView.PlayType.LIVE);
         mVideoView.setPlayMode(UVideoView.PlayMode.NORMAL);
         mVideoView.setRatio(UVideoView.VIDEO_RATIO_FILL_PARENT);
-        mVideoView.setDecoder(UVideoView.DECODER_VOD_HW);
+        mVideoView.setDecoder(UVideoView.DECODER_VOD_SW);
         mVideoView.registerCallback(this);
         //mVideoView.setVideoPath(videopath);
         mVideoView.setVideoPath(String.format(rtmpPlayStreamUrl, mSettings.getPusblishStreamId()));

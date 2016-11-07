@@ -6,7 +6,6 @@
         android:id="@+id/bt_interest_name"
         android:layout_height="30dp"
         android:layout_width="90dp"
-        android:shadowColor="@color/blue"
         android:text="竞速"
         android:textColor="@color/white"
         android:textSize="13sp"

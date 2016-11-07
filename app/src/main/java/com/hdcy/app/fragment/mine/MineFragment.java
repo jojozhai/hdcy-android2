@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
 import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.fragment.register.RegisterFirstFragment;
 import com.hdcy.app.model.UserBaseInfo;
 import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.net.NetHelper;
@@ -36,6 +37,8 @@ public class MineFragment extends BaseLazyMainFragment{
     private LinearLayout ll_mine_info;
     private LinearLayout ll_mine_gift;
     private LinearLayout ll_mine_activity;
+    private LinearLayout ll_mine_about_us;
+    private LinearLayout ll_mine_exit;
     private ImageView iv_mine_avatar;
     private TextView  tv_mine_level;
     private TextView  tv_mine_credits;
@@ -74,8 +77,8 @@ public class MineFragment extends BaseLazyMainFragment{
         ll_mine_info = (LinearLayout) view.findViewById(R.id.ll_mine_info);
         ll_mine_gift = (LinearLayout) view.findViewById(R.id.ll_mine_gift);
         ll_mine_activity = (LinearLayout) view.findViewById(R.id.ll_mine_activity);
-
-
+        ll_mine_about_us = (LinearLayout) view.findViewById(R.id.ll_mine_aboutus);
+        ll_mine_exit = (LinearLayout) view.findViewById(R.id.ll_mine_exit);
     }
 
     private void setData(){
@@ -112,6 +115,19 @@ public class MineFragment extends BaseLazyMainFragment{
                 EventBus.getDefault().post(new StartBrotherEvent(MineActivityFragment.newInstance()));
             }
         });
+        ll_mine_about_us.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(MineAboutUsFragment.newInstance()));
+            }
+        });
+        ll_mine_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(RegisterFirstFragment.newInstance()));
+            }
+        });
+
     }
 
     public void GetUserCurrentInfo(){

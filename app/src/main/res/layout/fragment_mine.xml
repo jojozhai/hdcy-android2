@@ -149,6 +149,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="49dp"
+            android:visibility="gone"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
@@ -162,7 +163,9 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/white"/>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_mine_aboutus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -180,7 +183,9 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/white"/>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/ll_mine_exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
