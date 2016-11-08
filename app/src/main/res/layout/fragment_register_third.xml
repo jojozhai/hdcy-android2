@@ -52,6 +52,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/edt_rg_smscode"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginLeft="12dp"

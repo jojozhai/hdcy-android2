@@ -1,5 +1,6 @@
 package com.hdcy.app.fragment.mine;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hdcy.app.R;
+import com.hdcy.app.activity.LoginActivity;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
 import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.register.RegisterFirstFragment;
@@ -124,7 +126,10 @@ public class MineFragment extends BaseLazyMainFragment{
         ll_mine_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new StartBrotherEvent(RegisterFirstFragment.newInstance()));
+                Intent intent = new Intent();
+                intent.setClass(getContext(), LoginActivity.class);
+                getContext().startActivity(intent);
+                //EventBus.getDefault().post(new StartBrotherEvent(RegisterFirstFragment.newInstance()));
             }
         });
 

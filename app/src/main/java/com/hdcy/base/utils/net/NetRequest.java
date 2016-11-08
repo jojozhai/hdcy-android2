@@ -44,9 +44,9 @@ public class NetRequest implements BaseData {
         netRequestInfo.setUrl(this.url+"?");
         //addHeader("Authorization","Basic MToxMjM0NTY=");
         addHeader("Content-Type", "application/json;charset=UTF-8");
-        if(!BaseUtils.isEmptyString(BaseInfo.pp_token)){
-            addHeader("Authorization",BaseInfo.pp_token);
-        }
+        Log.e("pptoken",BaseInfo.getPp_token());
+        addHeader("Authorization",BaseInfo.pp_token);
+
     }
 
 
@@ -246,6 +246,80 @@ public class NetRequest implements BaseData {
                 Log.e("onFailure",netRequestInfo.getUrl());
                 LogUtil.e("onFailure：" + ex.getMessage());
 //                Log.e("onFailure",ex.getLocalizedMessage());
+                netResponseInfo.setMessage(ex.getMessage());
+                if (callBack != null) {
+                    callBack.onFailure(netRequestInfo, netResponseInfo);
+                }
+                ex.printStackTrace();
+            }
+
+            @Override
+            public void onFinished() {
+                LogUtil.e("onFinished");
+                if (callBack != null) {
+                    callBack.onFinished();
+                }
+            }
+        });
+    }
+
+    /**
+     * get object
+     */
+
+    public Callback.Cancelable getobject(final NetRequestCallBack callBack) {
+        String str = netRequestInfo.getUrl();
+        netRequestInfo.setUrl(str.substring(0, str.length() - 1));
+        Log.e("testinfo",str);
+        return x.http().get(params, new Callback.ProgressCallback<String>() {
+
+            @Override
+            public void onStarted() {
+                LogUtil.e("onStart");
+                if (callBack != null) {
+                    callBack.onStart();
+                }
+            }
+
+            @Override
+            public void onWaiting() {
+                LogUtil.e("onWaiting");
+                callBack.onWaiting();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                LogUtil.e("onCancelled：" + cex.getMessage());
+                cex.printStackTrace();
+                callBack.onCancelled();
+            }
+
+            @Override
+            public void onLoading(long total, long current, boolean isDownloading) {
+                LogUtil.e("onLoading：" + current + " - " + total + " == " + (int) ((current * 1.0f / total) * 100) + "%");
+                if (callBack != null) {
+                    callBack.onLoading(total, current, current * 1.0f / total, isDownloading);
+                }
+            }
+
+            @Override
+            public void onSuccess(String result) {
+                netResponseInfo.setResult(result);
+                    Log.e("Successmsg",result);
+                    Log.e("onSuccess1：" + netRequestInfo.getUrl(),"");
+                    Log.e("onSuccess1：" + netResponseInfo.getResult(),"");
+                    if (callBack != null) {
+                        callBack.onSuccess(netRequestInfo, netResponseInfo);
+                    }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                LogUtil.e("onFailure：" + netRequestInfo.getUrl());
+                LogUtil.e("onFailure：" + ex.getMessage());
+                Log.e("onFailure",netRequestInfo.getUrl());
+                Log.e("onFailure",ex.getLocalizedMessage());
                 netResponseInfo.setMessage(ex.getMessage());
                 if (callBack != null) {
                     callBack.onFailure(netRequestInfo, netResponseInfo);

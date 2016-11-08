@@ -33,11 +33,14 @@ public class OutLinkWebFragment extends BaseBackFragment{
     private String Url = URL_BASE +"/articleDetails.html?id=";
     private String loadurl;
     private Toolbar mToolbar;
+    private String  mtitle;
 
-    public static OutLinkWebFragment newInstance(String url){
+
+    public static OutLinkWebFragment newInstance(String url, String title){
         OutLinkWebFragment fragment = new OutLinkWebFragment();
         Bundle bundle = new Bundle();
         bundle.putString("url", url);
+        bundle.putString("title", title);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -49,6 +52,7 @@ public class OutLinkWebFragment extends BaseBackFragment{
         Bundle bundle = getArguments();
         if(bundle != null){
             loadurl = bundle.getString("url");
+            mtitle = bundle.getString("title");
         }
         initView(view);
         initWebView(view);
@@ -58,7 +62,7 @@ public class OutLinkWebFragment extends BaseBackFragment{
     private void initView(View view){
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         title = (TextView) view.findViewById(R.id.toolbar_title);
-        title.setText("咨询详情");
+        title.setText(mtitle);
         initToolbarNav(mToolbar);
     }
 

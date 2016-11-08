@@ -43,4 +43,7 @@
     <color name="color_efeff4">#ffefeff4</color>
     <color name="color_efeff1">#ffefeff1</color>
 
+    <!--性别选择字体-->
+    <color name="color_sex_pressed">#9B9B9B</color>
+
 </resources>

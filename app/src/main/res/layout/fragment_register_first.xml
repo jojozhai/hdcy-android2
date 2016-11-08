@@ -47,6 +47,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/edt_rg_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="请输入用户名"
@@ -74,21 +75,42 @@
                 android:textSize="15sp"
                 android:textColor="#494949"
                 android:textColorHint="#494949" />
-
-                <com.hdcy.app.view.ToggleButton
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:text="男"
+                <LinearLayout
+                    android:id="@+id/ll_rg_sex_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="120dp"
-                    style="@style/ToggleButton_Base"
-                    android:id="@+id/toggleButton" />
+                    android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_rg_sex1"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="100dp"
+                    android:text="女"
+                    android:textColor="#9B9B9B"
+                    android:background="@drawable/sex_default_button"
+                    android:layout_gravity="center"
+                    />
+
+                <Button
+                    android:layout_marginLeft="-10dp"
+                    android:id="@+id/bt_rg_sex2"
+                    android:layout_width="50dp"
+                    android:layout_height="32dp"
+                    android:text="男"
+                    android:textColor="@color/white"
+                    android:background="@drawable/sex_pressed_button"/>
+                    </LinearLayout>
+
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/main_line" />
+
             <LinearLayout
+                android:id="@+id/ll_rg_city"
                 android:layout_height="50dp"
                 android:layout_width="match_parent"
                 android:orientation="horizontal">

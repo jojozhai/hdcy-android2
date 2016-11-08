@@ -47,6 +47,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/edt_phone"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="请输入手机"
@@ -63,6 +64,7 @@
                 android:background="@color/main_line" />
 
             <EditText
+                android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="请输入密码"

@@ -180,7 +180,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_SELECT_CITY && resultCode == RESULT_OK){
-            editType = "address";
+            editType = "city";
             content =  data.getString(KEY_RESULT_CHOOSE_CITY);
             Log.e("citychoose",content+"");
             PublishPersonalInfo();
@@ -345,7 +345,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
         }
         tv_mine_personalinfo_password.setText("********");
         tv_mine_personalinfo_name.setText(userBaseInfo.getRealname()+"");
-        String address = userBaseInfo.getAddress();
+        String address = userBaseInfo.getCity();
         if(BaseUtils.isEmptyString(address)){
             tv_mine_personalinfo_address.setText("");
         }else {

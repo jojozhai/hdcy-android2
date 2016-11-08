@@ -781,7 +781,11 @@ public class NetHelper {
 
     public Callback.Cancelable GetLeaderInfoCategory(String category,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/leader/");
-        request.addParam("organ","true");
+
+        request.addParam("organ",category);
+        request.addParam("sort","createdTime,desc");
+        request.addParam("enable","true");
+
         return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
@@ -1029,10 +1033,9 @@ public class NetHelper {
         request.addHeader("Content-Type", "application/json;charset=UTF-8");*/
         request.addParam("phone",phone);
         request.addParam("code",smscode);
-        return request.getarray(new NetRequestCallBack() {
+        return request.getobject(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                JSONArray dataObj = responseInfo.getDataArr();
                 JSONObject dataObj1 = responseInfo.getDataObj();
                 callBack.onSuccess(requestInfo, responseInfo);
                 Log.e("SmsCode","sucess");
@@ -1112,6 +1115,43 @@ public class NetHelper {
             }
         });
     }
+
+    public Callback.Cancelable RegisterAccount(String phone,String password,String sex, String city,String nickname,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/user");
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("username",phone);
+            obj.put("nickname", nickname);
+            obj.put("password", password);
+            obj.put("sex", sex);
+            obj.put("city",city);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("requesturl", request.toString()+"");
+        return request.postinfo(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONObject dataObj = responseInfo.getDataObj();
+                if (dataObj != null){
+                    responseInfo.setLoginResult(JSON.parseObject(dataObj.toString(), LoginResult.class));
+                }
+                Log.e("login","success");
+                callBack.onSuccess(requestInfo, responseInfo);
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("login","error");
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("login","faillure");
+            }
+        });
+    }
+
 
 
 

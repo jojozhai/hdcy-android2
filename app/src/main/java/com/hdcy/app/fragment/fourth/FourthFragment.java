@@ -17,6 +17,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hdcy.app.R;
@@ -60,6 +61,7 @@ public class FourthFragment extends BaseLazyMainFragment{
     private AlertDialog alertDialogOrg;
 
     private TextView tv_leader_orga_apply;
+    private TextView tv_leader_person_apply;
 
     public static FourthFragment newInstance() {
         Bundle args = new Bundle();
@@ -125,6 +127,14 @@ public class FourthFragment extends BaseLazyMainFragment{
             @Override
             public void onClick(View v) {
                 ShowOrganizationDialog();
+            }
+        });
+        tv_leader_person_apply = (TextView) view.findViewById(R.id.tv_leader_person_apply);
+        tv_leader_person_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogAsk.dismiss();
+                Toast.makeText(getContext(),"您的积分暂无法申请个人大咖",Toast.LENGTH_SHORT).show();
             }
         });
         builder.setView(view);

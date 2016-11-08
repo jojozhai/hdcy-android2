@@ -89,6 +89,7 @@ public class LoginFragment extends BaseBackFragment {
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 loginResult = responseInfo.getLoginResult();
                 BaseInfo.setPp_token(loginResult.getContent());
+
             }
 
             @Override
