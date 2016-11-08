@@ -17,6 +17,7 @@ import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Content;
 import com.hdcy.app.model.GiftContent;
 import com.hdcy.app.model.LeaderInfo;
+import com.hdcy.app.model.LoginResult;
 import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.PraiseResult;
 import com.hdcy.app.model.PraiseStatus;
@@ -171,8 +172,6 @@ public class NetHelper {
      */
     public Callback.Cancelable PublishComments(String targetid,String content,String target,String replyid,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/comment/");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
         JSONObject obj = new JSONObject();
         try {
                 obj.put("replyToId",replyid);
@@ -212,8 +211,7 @@ public class NetHelper {
      */
     public Callback.Cancelable  DoPraise( String targetId, final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/praise/");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
         JSONObject obj = new JSONObject();
         try {
             obj.put("target", "comment");
@@ -251,8 +249,7 @@ public class NetHelper {
 
     public Callback.Cancelable UnDoPraise( String targetId, final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/praise/");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
 
         JSONObject obj = new JSONObject();
         try {
@@ -610,8 +607,7 @@ public class NetHelper {
 
     public Callback.Cancelable GetCurrentPaticipationStatus(String activityid,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/participator/member");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
 
         request.addParam("participationId",activityid);
 
@@ -648,8 +644,6 @@ public class NetHelper {
 
     public Callback.Cancelable RegisterOfflineActivity(String activityId,String message,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/activityParticipator/");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
         JSONObject obj = new JSONObject();
         try {
             obj.put("activityId",activityId);
@@ -690,9 +684,6 @@ public class NetHelper {
 
     public Callback.Cancelable GetCurrentUserInfo( final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/user/current");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
-
         return request.postobject(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
@@ -726,8 +717,6 @@ public class NetHelper {
 
     public Callback.Cancelable GetMineActivityList(String activityType,int pagecount,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/participator/");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
 
         request.addParam("page",pagecount);
         request.addParam("enable","true");
@@ -880,8 +869,6 @@ public class NetHelper {
 
     public Callback.Cancelable GetMineGiftList(int pagecount,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/gift/");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
 
         request.addParam("page",pagecount);
         request.addParam("size","15");
@@ -913,8 +900,6 @@ public class NetHelper {
 
     public Callback.Cancelable GetCommentPraiseStatus(String targetid,String targettype,int pagecount,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/comment/praise/");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
 
         request.addParam("targetId",targetid);
         request.addParam("target",targettype);
@@ -951,8 +936,7 @@ public class NetHelper {
 
     public Callback.Cancelable EditMineInfomation(String typename,String content,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/user/property");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
         JSONObject obj = new JSONObject();
         try {
             obj.put("name",typename);
@@ -986,8 +970,7 @@ public class NetHelper {
      */
     public Callback.Cancelable UploadAvatar(File file, final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/image/upload");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
 
         request.addParam("file", file);
 
@@ -1016,8 +999,7 @@ public class NetHelper {
 
     public Callback.Cancelable GetPhoneSmsCode(String phone,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/sms/code");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
         request.addParam("phone",phone);
         return request.postobject(new NetRequestCallBack() {
             @Override
@@ -1075,18 +1057,9 @@ public class NetHelper {
      */
     public Callback.Cancelable EditPersonalPassword(String oldPassword,String newPassword,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/user/password");
-        request.addHeader("Authorization","Basic MToxMjM0NTY=");
-        request.addHeader("Content-Type", "application/json;charset=UTF-8");
+
         request.addParam("oldPassword", oldPassword);
         request.addParam("newPassword", newPassword);
-/*        JSONObject obj = new JSONObject();
-        try {
-            obj.put("name",typename);
-            obj.put("value", content);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        request.addParamjson(obj.toString());*/
         Log.e("requesturl", request.toString()+"");
         return request.putmineinfo(new NetRequestCallBack() {
             @Override
@@ -1104,6 +1077,38 @@ public class NetHelper {
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("password","failure");
+            }
+        });
+    }
+
+    /**
+     * 登录
+     */
+
+    public Callback.Cancelable LogInAccount(String phone,String password,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/user/login");
+        request.addParam("username", phone);
+        request.addParam("password", password);
+        Log.e("requesturl", request.toString()+"");
+        return request.postinfo(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONObject dataObj = responseInfo.getDataObj();
+                if (dataObj != null){
+                    responseInfo.setLoginResult(JSON.parseObject(dataObj.toString(), LoginResult.class));
+                }
+                Log.e("login","success");
+                callBack.onSuccess(requestInfo, responseInfo);
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("login","error");
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("login","faillure");
             }
         });
     }

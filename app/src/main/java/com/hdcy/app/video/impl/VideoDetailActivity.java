@@ -361,7 +361,7 @@ public class VideoDetailActivity extends SupportActivity {
     }
 
     public void GetPraiseStatus(){
-        NetHelper.getInstance().GetCommentPraiseStatus(mBean.getId()+"", "article", pagecount, new NetRequestCallBack() {
+        NetHelper.getInstance().GetCommentPraiseStatus(mBean.getId()+"", "video", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONArray jsonArray = responseInfo.getDataArr();

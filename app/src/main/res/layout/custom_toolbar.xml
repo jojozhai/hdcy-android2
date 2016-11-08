@@ -104,6 +104,7 @@
     </LinearLayout>
 </android.support.v7.widget.Toolbar>
     <ImageView
+        android:id="@+id/iv_nav_message"
         android:layout_height="30dp"
         android:layout_width="30dp"
         android:layout_gravity="right"

@@ -303,7 +303,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             if(position ==0 ){
                 return FirstTabVideoBreifFragment.newInstance(mBean.getDesc());
             }else {
-                return FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article");
+                return FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "video");
             }
         }
 

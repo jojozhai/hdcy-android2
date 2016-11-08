@@ -12,6 +12,7 @@ import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Content;
 import com.hdcy.app.model.GiftContent;
 import com.hdcy.app.model.LeaderInfo;
+import com.hdcy.app.model.LoginResult;
 import com.hdcy.app.model.NewsArticleInfo;
 import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.PraiseResult;
@@ -52,8 +53,6 @@ public class NetResponseInfo {
     public RootListInfo rootListInfo;
     public UserBaseInfo userBaseInfo;
     public List<LeaderInfo> leaderInfo;
-
-
     public AvatarResult avatarResult;
 
     /**  vedio banner Data */
@@ -69,6 +68,9 @@ public class NetResponseInfo {
 
 
     public List<GiftContent> giftContent;
+    public PraiseStatus booleanList;
+
+    public LoginResult loginResult;
 
     public PraiseStatus getBooleanList() {
         return booleanList;
@@ -77,9 +79,6 @@ public class NetResponseInfo {
     public void setBooleanList(PraiseStatus booleanList) {
         this.booleanList = booleanList;
     }
-
-    public PraiseStatus booleanList;
-
 
 
     public String getCode() {
@@ -277,6 +276,15 @@ public class NetResponseInfo {
 
     public void setAvatarResult(AvatarResult avatarResult) {
         this.avatarResult = avatarResult;
+    }
+
+
+    public LoginResult getLoginResult() {
+        return loginResult;
+    }
+
+    public void setLoginResult(LoginResult loginResult) {
+        this.loginResult = loginResult;
     }
 
 

@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.hdcy.app.model.RootListInfo;
 import com.hdcy.base.BaseData;
+import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.logger.LogF;
 
 import org.json.JSONArray;
@@ -40,6 +42,11 @@ public class NetRequest implements BaseData {
         netRequestInfo = new NetRequestInfo();
         netResponseInfo = new NetResponseInfo();
         netRequestInfo.setUrl(this.url+"?");
+        //addHeader("Authorization","Basic MToxMjM0NTY=");
+        addHeader("Content-Type", "application/json;charset=UTF-8");
+        if(!BaseUtils.isEmptyString(BaseInfo.pp_token)){
+            addHeader("Authorization",BaseInfo.pp_token);
+        }
     }
 
 

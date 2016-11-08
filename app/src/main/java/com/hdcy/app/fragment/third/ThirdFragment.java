@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.CommonsAdapter;
@@ -39,16 +40,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+
 /**
  * Created by WeiYanGeorge on 2016-10-07.
  */
 
-public class ThirdFragment extends BaseLazyMainFragment {
+public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static final String TAG = "ThirdFragment";
     private Toolbar mToolbar;
     private TextView title;
     private ListView mListView;
+    private BGARefreshLayout mRefreshLayout;
 
     private ThirdPageFragmentAdapter mAdapter;
 
@@ -64,6 +69,7 @@ public class ThirdFragment extends BaseLazyMainFragment {
 
 
     private int pagecount = 0;
+    private boolean isLast;
 
     private String activityType;
 
@@ -88,6 +94,27 @@ public class ThirdFragment extends BaseLazyMainFragment {
 
     }
 
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        activityContentList.clear();
+        pagecount = 0;
+        initData();
+        mRefreshLayout.endRefreshing();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        pagecount++;
+        if(isLast){
+            mRefreshLayout.endLoadingMore();
+            Toast.makeText(getActivity(), "没有更多的数据了" , Toast.LENGTH_SHORT).show();
+            return false;
+        }else {
+            GetActivityList();
+            return true;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,6 +128,9 @@ public class ThirdFragment extends BaseLazyMainFragment {
 
     private void initView(View view){
         mListView = (ListView) view.findViewById(R.id.lv_activity);
+        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
         mAdapter = new ThirdPageFragmentAdapter(getContext(), activityContentList);
         View headview = View.inflate(getContext(), R.layout.item_headerview_third,null);
         mViewPager = (ViewPager) headview.findViewById(R.id.id_viewpager);
@@ -124,17 +154,18 @@ public class ThirdFragment extends BaseLazyMainFragment {
     private void setData(){
         mAdapter.notifyDataSetChanged();
         mAdapter4Banner.notifyDataSetChanged();
+        mRefreshLayout.endLoadingMore();
     }
 
     private void GetActivityList(){
-        NetHelper.getInstance().GetPaticipationList("ACTIVITY", pagecount, new NetRequestCallBack() {
+        NetHelper.getInstance().GetPaticipationList(null, pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
 
                 List<ActivityContent> activityContentstemp = responseInfo.getActivityContentList();
                 activityContentList.addAll(activityContentstemp);
                 rootListInfo = responseInfo.getRootListInfo();
-               // isLast = rootListInfo.isLast();
+                isLast = rootListInfo.isLast();
                 Log.e("ActivityContentList",activityContentList.size()+"");
                 setData();
             }

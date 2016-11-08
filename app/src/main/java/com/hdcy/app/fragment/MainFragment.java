@@ -20,6 +20,7 @@ import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.first.FirstFragment;
 import com.hdcy.app.fragment.fourth.FourthFragment;
 import com.hdcy.app.fragment.fourth.child.FourthPagesFragment;
+import com.hdcy.app.fragment.login.LoginFragment;
 import com.hdcy.app.fragment.mine.MineFragment;
 import com.hdcy.app.fragment.second.SecondFragment;
 import com.hdcy.app.fragment.third.ThirdFragment;
@@ -62,6 +63,7 @@ public class MainFragment extends BaseFragment {
     private ImageView nav_pressed4;
 
     private ImageView iv_nav_mine;
+    private ImageView iv_nav_message;
 
     private ViewPager mainViewPager;
     private MainFragmentAdapter mainFragmentAdapter;
@@ -108,6 +110,13 @@ public class MainFragment extends BaseFragment {
         EventBus.getDefault().register(this);
         toolbar = (Toolbar) view.findViewById(R.id.tl_custom);
 
+        iv_nav_message = (ImageView) view.findViewById(R.id.iv_nav_message);
+        iv_nav_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new StartBrotherEvent(LoginFragment.newInstance()));
+            }
+        });
         iv_nav_mine = (ImageView) view.findViewById(R.id.iv_nav_mine_info) ;
         iv_nav_mine.setOnClickListener(onClickListener);
         toolBarTv1 = (TextView) view.findViewById(R.id.toolbar_btn1);

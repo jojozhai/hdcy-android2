@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.fragment.MainFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
