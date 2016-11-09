@@ -20,4 +20,13 @@
         <attr name="rollviewpager_hint_color" format="color" />
         <attr name="rollviewpager_hint_alpha" format="integer" />
     </declare-styleable>
+
+    <attr name="a_in" format="float" />
+    <attr name="a_out" format="float" />
+    <attr name="x_in" format="float" />
+    <attr name="x_out" format="float" />
+    <attr name="y_in" format="float" />
+    <attr name="y_out" format="float" />
+    <attr name="s_int" format="float" />
+    <attr name="s_out" format="float" />
 </resources>

@@ -45,5 +45,7 @@
 
     <!--性别选择字体-->
     <color name="color_sex_pressed">#9B9B9B</color>
+    <!--splashActivity-->
+    <color name="base_shallow_black">#818181</color>
 
 </resources>

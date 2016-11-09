@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="viewpager_inner" type="id"/>
+    <item name="parallax_view_tag" type="id"/>
+    <item name="parallax_pager" type="id"/>
 </resources>

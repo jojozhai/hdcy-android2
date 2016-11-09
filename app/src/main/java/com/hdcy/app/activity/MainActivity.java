@@ -1,5 +1,6 @@
 package com.hdcy.app.activity;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,13 +9,18 @@ import android.widget.Toast;
 import com.hdcy.app.R;
 import com.hdcy.app.fragment.BootFragment;
 import com.hdcy.app.fragment.MainFragment;
+import com.hdcy.base.BaseData;
+import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.umeng.socialize.PlatformConfig;
+
+import java.io.File;
 
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
-public class MainActivity extends SupportActivity {
+public class MainActivity extends SupportActivity implements BaseData{
 
     private static final String TAG = "MainActivity";
 
@@ -47,5 +53,25 @@ public class MainActivity extends SupportActivity {
 
     public  void showToast(String content){
         Toast.makeText(this,content,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        readData();
+    }
+
+    private void readData(){
+        String dir = "DICM/Camera";
+        BaseInfo.savePath = new File(Environment.getExternalStorageDirectory(), dir);
+        if (BaseInfo.savePath == null){
+            BaseInfo.savePath = this.getExternalCacheDir();
+        }
+        if(!BaseInfo.savePath.exists() && BaseInfo.savePath.isDirectory()){
+            BaseInfo.savePath.mkdirs();
+        }
+        if(BaseUtils.isEmptyString(BaseInfo.pp_token)){
+            BaseInfo.getPp_token();
+        }
     }
 }

@@ -11,8 +11,11 @@ import com.hdcy.base.utils.DateUtil;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.hdcy.base.utils.DateUtil.str2Date;
 
 /**
  * Created by WeiYanGeorge on 2016-08-09.
@@ -42,6 +45,10 @@ public class BaseInfo implements BaseData {
      * 网络错误提示
      */
     public static String net_error_tips;
+    /**
+     * 默认保存路径
+     */
+    public static File savePath;
 
     /**
      * 我的个人信息
@@ -50,7 +57,7 @@ public class BaseInfo implements BaseData {
 
     SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static Date defaultdate = DateUtil.str2Date("1980-01-01");
+    public static Date defaultdate = str2Date("1980-01-01 00:00:00");
 
     /**
      *获取我的个人信息

@@ -1,18 +1,12 @@
 package com.hdcy.base.utils.net;
 
 import android.util.Log;
-import android.widget.ListView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.JSONSerializable;
-import com.alibaba.fastjson.serializer.JSONSerializableSerializer;
-import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.hdcy.app.model.ActivityContent;
 import com.hdcy.app.model.ActivityDetails;
 import com.hdcy.app.model.ArticleInfo;
 import com.hdcy.app.model.AvatarResult;
-import com.hdcy.app.model.Bean4VedioBanner;
-import com.hdcy.app.model.Bean4VedioDetail;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Content;
 import com.hdcy.app.model.GiftContent;
@@ -20,13 +14,11 @@ import com.hdcy.app.model.LeaderInfo;
 import com.hdcy.app.model.LoginResult;
 import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.PraiseResult;
-import com.hdcy.app.model.PraiseStatus;
 import com.hdcy.app.model.Replys;
 import com.hdcy.app.model.Result;
 import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.model.UserBaseInfo;
 import com.hdcy.app.model.VideoBasicInfo;
-import com.hdcy.base.utils.logger.LogF;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -1090,8 +1082,14 @@ public class NetHelper {
 
     public Callback.Cancelable LogInAccount(String phone,String password,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/user/login");
-        request.addParam("username", phone);
-        request.addParam("password", password);
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("username",phone);
+            obj.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        request.addParamjson(obj.toString());
         Log.e("requesturl", request.toString()+"");
         return request.postinfo(new NetRequestCallBack() {
             @Override
@@ -1128,6 +1126,7 @@ public class NetHelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        request.addParamjson(obj.toString());
         Log.e("requesturl", request.toString()+"");
         return request.postinfo(new NetRequestCallBack() {
             @Override

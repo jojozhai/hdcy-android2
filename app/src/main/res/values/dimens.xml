@@ -55,4 +55,7 @@
     <dimen name="main_padding_right">@dimen/main_margin_right</dimen><!--APP右内间距)-->
     <dimen name="main_padding_top">@dimen/main_margin_top</dimen><!--APP上内间距)-->
     <dimen name="main_padding_bottom">@dimen/main_margin_bottom</dimen><!--APP下内间距)-->
+
+    <!-- splashActivity. -->
+    <dimen name="image_shift">10dp</dimen>
 </resources>

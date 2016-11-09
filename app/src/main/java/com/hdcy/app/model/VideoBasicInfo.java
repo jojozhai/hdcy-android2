@@ -1,6 +1,7 @@
 package com.hdcy.app.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by WeiYanGeorge on 2016-10-17.
@@ -33,9 +34,9 @@ public class VideoBasicInfo implements Serializable {
 
     private String liveState;
 
-    private long startTime;
+    private Date startTime;
 
-    private long endTime;
+    private Date endTime;
 
     private String length;
 
@@ -130,16 +131,16 @@ public class VideoBasicInfo implements Serializable {
     public String getLiveState(){
         return this.liveState;
     }
-    public void setStartTime(long startTime){
+    public void setStartTime(Date startTime){
         this.startTime = startTime;
     }
-    public long getStartTime(){
+    public Date getStartTime(){
         return this.startTime;
     }
-    public void setEndTime(long endTime){
+    public void setEndTime(Date endTime){
         this.endTime = endTime;
     }
-    public long getEndTime(){
+    public Date getEndTime(){
         return this.endTime;
     }
     public void setLength(String length){

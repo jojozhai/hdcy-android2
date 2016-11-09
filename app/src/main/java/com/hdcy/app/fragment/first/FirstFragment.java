@@ -1,12 +1,9 @@
 package com.hdcy.app.fragment.first;
 
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +19,10 @@ import com.hdcy.app.R;
 import com.hdcy.app.adapter.CommonsAdapter;
 import com.hdcy.app.adapter.ViewHolder;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
-import com.hdcy.app.model.Bean4VedioBanner;
-import com.hdcy.app.model.NewsCategory;
 import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.model.VideoBasicInfo;
 import com.hdcy.app.video.impl.LiveDetailActivity;
 import com.hdcy.app.video.impl.VideoDetailActivity;
-import com.hdcy.app.view.ScaleInTransformer;
 import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -124,7 +118,7 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
             @Override
             public void convert(ViewHolder holder, VideoBasicInfo item) {
                 holder.setText(R.id.tv_video_title, item.getName());
-                Date date = new Date(item.getStartTime());
+                Date date = item.getStartTime();
                 String dataFormate = date2Str(date,"yyyy-MM-dd / HH:mm");
                 String subtitle = "#"+item.getLiveState()+"#";
                 if(item.getLiveState()=="未开始"){
@@ -224,7 +218,7 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
                 TextView tv_video_title = (TextView) view.findViewById(R.id.tv_video_title);
                 TextView tv_video_subtitle = (TextView) view.findViewById(R.id.tv_video_desc);
                 tv_video_title.setText(item.getName()+"");
-                Date date = new Date(item.getStartTime());
+                Date date = item.getStartTime();
                 String dataFormate = date2Str(date,"yyyy-MM-dd / HH:mm");
                 String subtitle = "#"+item.getLiveState()+"#";
                 if(item.getLiveState()=="未开始"){
