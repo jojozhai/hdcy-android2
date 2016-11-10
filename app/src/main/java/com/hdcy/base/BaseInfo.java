@@ -169,11 +169,11 @@ public class BaseInfo implements BaseData {
         BaseInfo.pp_token = pp_token;
         return DBHelper.putStringData(DBHelper.KEY_PP_TOKEN, pp_token);
     }
-    /**
-     * 清楚用户令牌
-     */
 
-    public static void cleearPp_token(){
+    /**
+     * 清除用户令牌
+     */
+    public static void clearPp_token(){
         pp_token = null;
         setPp_token(null);
     }
@@ -195,6 +195,13 @@ public class BaseInfo implements BaseData {
             return false;
             //Intent intent = new Intent(context,Log)
         }
+    }
+    /**
+     * 退出登录
+     */
+    public static void doExitLogin(){
+        //清除用户令牌
+        clearPp_token();
     }
 
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.activity.LoginActivity;
@@ -146,9 +147,12 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
         ll_mine_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getContext(), SplashActivity.class);
-                getContext().startActivity(intent);
+                BaseInfo.doExitLogin();
+
+                if(BaseInfo.pp_token ==null){
+                    Log.e("退出登录","成功");
+                }
+
                 //EventBus.getDefault().post(new StartBrotherEvent(RegisterFirstFragment.newInstance()));
             }
         });
