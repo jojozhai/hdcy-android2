@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff">
+
+    <ImageView
+        android:id="@+id/iv_0"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="65dp"
+        android:src="@drawable/font_one_bg"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="1"
+        app:x_out="1" />
+
+    <ImageView
+        android:id="@+id/iv_1"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/font_one_title"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="1"
+        app:x_out="1" />
+
+
+    <ImageView
+        android:id="@+id/iv_2"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="112dp"
+        android:src="@drawable/font_one_desc"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="1"
+        app:x_out="1" />
+
+
+    <ImageView
+        android:id="@+id/splash_one_msg"
+        android:layout_width="70dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="265dp"
+        android:background="@drawable/splash_one_small"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="-0.8"
+        app:x_out="0" />
+
+
+    <ImageView
+        android:id="@+id/splash_two_one_small"
+        android:layout_width="80dp"
+        android:layout_height="86dp"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="110dp"
+        android:layout_marginBottom="260dp"
+        android:background="@drawable/splash_two_one_bg"
+        app:x_in="-0.1"
+        app:x_out="-0.09"
+        app:y_in="-0.1"
+        app:y_out="-0.175" />
+
+    <ImageView
+        android:id="@+id/iv_4"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="320dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/splash_one_bg"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="1"
+        app:x_out="3" />
+
+</RelativeLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/iv_0"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="65dp"
+        android:src="@drawable/font_three_bg"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="1"
+        app:x_out="1" />
+
+    <ImageView
+        android:id="@+id/iv_1"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="35dp"
+        android:src="@drawable/font_three_title"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="1"
+        app:x_out="1" />
+
+
+    <ImageView
+        android:id="@+id/iv_2"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="112dp"
+        android:src="@drawable/font_three_desc"
+        app:a_in="2"
+        app:a_out="2"
+        app:x_in="1"
+        app:x_out="1" />
+
+    <ImageView
+        android:id="@+id/iv_three_car"
+        android:layout_width="318dp"
+        android:layout_height="221dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="111dp"
+        android:layout_marginLeft="66dp"
+        android:layout_marginRight="7dp"
+        android:background="@drawable/splash_two_car"
+        app:x_in="1"
+        app:x_out="1"
+        app:y_out="-1.1" />
+
+    <ImageView
+        android:id="@+id/iv_three_persions"
+        android:layout_width="206dp"
+        android:layout_height="312dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="65dp"
+        android:layout_marginLeft="79dp"
+        android:background="@drawable/splash_content_persion"
+        app:a_in="0.8"
+        app:a_out="0.8"
+        app:x_in="1.5"
+        app:x_out="-1.2" />
+</RelativeLayout>

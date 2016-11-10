@@ -40,7 +40,7 @@ public class LoginActivity extends SupportActivity {
     }
 
     public  void showToast(String content){
-        Toast.makeText(this,content,Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,content,Toast.LENGTH_SHORT).show();Toast.makeText(this,content,Toast.LENGTH_SHORT).show();
     }
 
 

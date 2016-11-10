@@ -38,3 +38,34 @@ captures/
 
 # Keystore files
 *.jks
+
+# IDEA
+
+
+.idea
+.idea/encodings.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/libraries
+
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/captures
+
+/app/app-release.apk
+/library/build
+/fragmentation/build
+/app/build
+/multi-image-selector/build
+/RefreshLayout/build
+/build
+.idea/libraries/
