@@ -1,8 +1,5 @@
 <component name="libraryTable">
   <library name="expandableTextView-0.1.4">
-    <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/annotations.zip!/" />
-    </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/jars/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/res" />
