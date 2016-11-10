@@ -1,7 +1,7 @@
 package com.hdcy.app.activity;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.hdcy.app.R;
@@ -13,19 +13,20 @@ import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
 /**
- * Created by WeiYanGeorge on 2016-11-08.
+ * Created by WeiYanGeorge on 2016-11-10.
  */
 
-public class LoginActivity extends SupportActivity {
-    private static final String TAG = "LoginActivity";
+public class RegisterActivity extends SupportActivity{
+    private static final String TAG = "RegisterActivity";
 
     @Override
-    public void onCreate(Bundle savedInstanceState ) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         if(savedInstanceState == null){
-            loadRootFragment(R.id.fl_container_login_activity, LoginFragment.newInstance());
+            loadRootFragment(R.id.fl_container_register_activity, RegisterFirstFragment.newInstance());
         }
+
     }
 
     @Override
@@ -43,6 +44,4 @@ public class LoginActivity extends SupportActivity {
     public  void showToast(String content){
         Toast.makeText(this,content,Toast.LENGTH_SHORT).show();Toast.makeText(this,content,Toast.LENGTH_SHORT).show();
     }
-
-
 }

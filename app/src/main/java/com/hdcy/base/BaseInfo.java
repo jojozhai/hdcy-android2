@@ -23,6 +23,10 @@ import static com.hdcy.base.utils.DateUtil.str2Date;
 
 public class BaseInfo implements BaseData {
     /**
+     * 是否第一次启动
+     */
+    public static boolean isFirstStart;
+    /**
      * 版本名
      */
     public static String version_name;

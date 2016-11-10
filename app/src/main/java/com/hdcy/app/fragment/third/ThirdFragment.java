@@ -98,7 +98,7 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         activityContentList.clear();
         pagecount = 0;
-        initData();
+        GetActivityList();
         mRefreshLayout.endRefreshing();
     }
 
@@ -147,7 +147,7 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
     }
 
     private void initData(){
-        GetActivityList();
+        GetNewActivityList();
         GetTopActivityListBanner();
     }
 
@@ -157,11 +157,31 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
         mRefreshLayout.endLoadingMore();
     }
 
+    private void GetNewActivityList(){
+        NetHelper.getInstance().GetActivityNew(null, pagecount, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                List<ActivityContent> temp = responseInfo.getActivityContentList();
+                activityContentList.addAll(temp);
+                GetActivityList();
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+
     private void GetActivityList(){
         NetHelper.getInstance().GetPaticipationList(null, pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
                 List<ActivityContent> activityContentstemp = responseInfo.getActivityContentList();
                 activityContentList.addAll(activityContentstemp);
                 rootListInfo = responseInfo.getRootListInfo();

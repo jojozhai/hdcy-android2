@@ -19,7 +19,7 @@ public class ParallaxPagerAdapter extends PagerAdapter {
     private final Context context;
     private final LinkedList<View> recycleBin = new LinkedList<View>();
 
-    public ParallaxPagerAdapter (Context context){
+    public ParallaxPagerAdapter(Context context) {
         this.context = context;
     }
 
@@ -27,33 +27,30 @@ public class ParallaxPagerAdapter extends PagerAdapter {
         this.count = count;
     }
 
-    @Override
-    public int getCount() {
+    @Override public int getCount() {
         return count;
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    @Override public Object instantiateItem(ViewGroup container, int position) {
         View view;
-        if (!recycleBin.isEmpty()){
+        if (!recycleBin.isEmpty()) {
             view = recycleBin.pop();
-        }else {
+        } else {
             view = new View(context);
-            view.setLayoutParams(new ViewGroup.LayoutParams(MATCH_PARENT,MATCH_PARENT));
+            view.setLayoutParams(new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
         }
         container.addView(view);
         return view;
     }
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    @Override public void destroyItem(ViewGroup container, int position, Object object) {
         View view = (View) object;
         container.removeView(view);
         recycleBin.push(view);
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
+    @Override public boolean isViewFromObject(View view, Object object) {
         return view.equals(object);
     }
 }
+

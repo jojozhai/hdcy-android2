@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.hdcy.app.R;
 import com.hdcy.app.activity.LoginActivity;
+import com.hdcy.app.activity.SplashActivity;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
 import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.register.RegisterFirstFragment;
@@ -27,13 +28,17 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+
 
 /**
  * Created by WeiYanGeorge on 2016-10-27.
  */
 
-public class MineFragment extends BaseLazyMainFragment{
+public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
 
+    private BGARefreshLayout mRefreshLayout;
     private UserBaseInfo userBaseInfo;
 
     private LinearLayout ll_mine_info;
@@ -70,6 +75,18 @@ public class MineFragment extends BaseLazyMainFragment{
 
     }
 
+    @Override
+    public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
+        userBaseInfo =null;
+        GetUserCurrentInfo();
+        mRefreshLayout.endRefreshing();
+    }
+
+    @Override
+    public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
+        return false;
+    }
+
     private void initView(View view){
         iv_mine_avatar = (ImageView) view.findViewById(R.id.iv_mine_avatar);
         tv_mine_level = (TextView) view.findViewById(R.id.tv_mine_level);
@@ -81,6 +98,9 @@ public class MineFragment extends BaseLazyMainFragment{
         ll_mine_activity = (LinearLayout) view.findViewById(R.id.ll_mine_activity);
         ll_mine_about_us = (LinearLayout) view.findViewById(R.id.ll_mine_aboutus);
         ll_mine_exit = (LinearLayout) view.findViewById(R.id.ll_mine_exit);
+        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
     }
 
     private void setData(){
@@ -127,7 +147,7 @@ public class MineFragment extends BaseLazyMainFragment{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(getContext(), LoginActivity.class);
+                intent.setClass(getContext(), SplashActivity.class);
                 getContext().startActivity(intent);
                 //EventBus.getDefault().post(new StartBrotherEvent(RegisterFirstFragment.newInstance()));
             }

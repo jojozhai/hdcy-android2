@@ -68,7 +68,6 @@ public class ParallaxFactory implements LayoutInflater.Factory {
         return null;
     }
 
-
     protected View createViewOrFailQuietly(String name, String prefix, Context context,
                                            AttributeSet attrs) {
         try {
@@ -101,6 +100,4 @@ public class ParallaxFactory implements LayoutInflater.Factory {
             a.recycle();
         }
     }
-
-
 }

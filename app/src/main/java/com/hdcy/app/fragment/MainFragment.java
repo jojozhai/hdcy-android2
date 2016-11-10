@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseFragment;
 import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.fragment.Message.MessageFragment;
 import com.hdcy.app.fragment.first.FirstFragment;
 import com.hdcy.app.fragment.fourth.FourthFragment;
 import com.hdcy.app.fragment.fourth.child.FourthPagesFragment;
@@ -45,9 +46,9 @@ public class MainFragment extends BaseFragment {
     public static final int THIRD = 2;
     public static final int FOURTH = 3;
     public static final int FIVE = 4;
-    //public static final int SIX = 5;
+    public static final int SIX = 5;
 
-    private SupportFragment[] mFragments = new SupportFragment[5];
+    private SupportFragment[] mFragments = new SupportFragment[6];
 
 
 
@@ -90,17 +91,16 @@ public class MainFragment extends BaseFragment {
             mFragments[SECOND] = SecondFragment.newInstance();
             mFragments[THIRD] = ThirdFragment.newInstance();
             mFragments[FOURTH]= FourthFragment.newInstance();
-            mFragments[FIVE] = MineFragment.newInstance();
-/*            loadMultipleRootFragment(R.id.mainPager,FIRST,mFragments[FIRST],
-                    mFragments[SECOND],
-                    mFragments[THIRD],
-                    mFragments[FOURTH]);*/
+            mFragments[FIVE] = MessageFragment.newInstance();
+            mFragments[SIX] = MineFragment.newInstance();
+
         }else {
             mFragments[FIRST] = findChildFragment(FirstFragment.class);
             mFragments[SECOND] = findChildFragment(SecondFragment.class);
             mFragments[THIRD] = findChildFragment(ThirdFragment.class);
             mFragments[FOURTH] = findChildFragment(FourthFragment.class);
-            mFragments[FIVE] = findChildFragment(MineFragment.class);
+            mFragments[FIVE] = findChildFragment(MessageFragment.class);
+            mFragments[SIX] = findChildFragment(MineFragment.class);
         }
         initView(view);
         return view;
@@ -111,12 +111,7 @@ public class MainFragment extends BaseFragment {
         toolbar = (Toolbar) view.findViewById(R.id.tl_custom);
 
         iv_nav_message = (ImageView) view.findViewById(R.id.iv_nav_message);
-        iv_nav_message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new StartBrotherEvent(LoginFragment.newInstance()));
-            }
-        });
+        iv_nav_message.setOnClickListener(onClickListener);
         iv_nav_mine = (ImageView) view.findViewById(R.id.iv_nav_mine_info) ;
         iv_nav_mine.setOnClickListener(onClickListener);
         toolBarTv1 = (TextView) view.findViewById(R.id.toolbar_btn1);
@@ -165,6 +160,11 @@ public class MainFragment extends BaseFragment {
                     mainViewPager.setCurrentItem(3);
                     break;
                 case R.id.iv_nav_mine_info:
+                    updateToolBarUi(5);
+                    mainViewPager.setCurrentItem(5);
+                    break;
+                case R.id.iv_nav_message:
+                    updateToolBarUi(4);
                     mainViewPager.setCurrentItem(4);
                 default:
                     break;
@@ -210,6 +210,8 @@ public class MainFragment extends BaseFragment {
                 nav_pressed2.setVisibility(View.GONE);
                 nav_pressed3.setVisibility(View.GONE);
                 nav_pressed4.setVisibility(View.GONE);
+                iv_nav_message.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_information));
+                iv_nav_mine.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_mine_info));
                 break;
             case 1:
                 toolBarTv1.setTextColor(getResources().getColor(R.color.white));
@@ -220,6 +222,8 @@ public class MainFragment extends BaseFragment {
                 nav_pressed2.setVisibility(View.VISIBLE);
                 nav_pressed3.setVisibility(View.GONE);
                 nav_pressed4.setVisibility(View.GONE);
+                iv_nav_message.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_information));
+                iv_nav_mine.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_mine_info));
                 break;
             case 2:
                 toolBarTv1.setTextColor(getResources().getColor(R.color.white));
@@ -230,6 +234,8 @@ public class MainFragment extends BaseFragment {
                 nav_pressed2.setVisibility(View.GONE);
                 nav_pressed3.setVisibility(View.VISIBLE);
                 nav_pressed4.setVisibility(View.GONE);
+                iv_nav_message.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_information));
+                iv_nav_mine.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_mine_info));
                 break;
             case 3:
                 toolBarTv1.setTextColor(getResources().getColor(R.color.white));
@@ -240,6 +246,36 @@ public class MainFragment extends BaseFragment {
                 nav_pressed2.setVisibility(View.GONE);
                 nav_pressed3.setVisibility(View.GONE);
                 nav_pressed4.setVisibility(View.VISIBLE);
+                iv_nav_message.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_information));
+                iv_nav_mine.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_mine_info));
+                break;
+            case 4:
+                toolBarTv1.setTextColor(getResources().getColor(R.color.white));
+                toolBarTv2.setTextColor(getResources().getColor(R.color.white));
+                toolBarTv3.setTextColor(getResources().getColor(R.color.white));
+                toolBarTv4.setTextColor(getResources().getColor(R.color.white));
+                nav_pressed1.setVisibility(View.GONE);
+                nav_pressed2.setVisibility(View.GONE);
+                nav_pressed3.setVisibility(View.GONE);
+                nav_pressed4.setVisibility(View.GONE);
+                iv_nav_message.setImageDrawable(getResources().getDrawable(R.drawable.nav_message_pressed));
+                iv_nav_mine.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_mine_info));
+                break;
+            case 5:
+                toolBarTv1.setTextColor(getResources().getColor(R.color.white));
+                toolBarTv2.setTextColor(getResources().getColor(R.color.white));
+                toolBarTv3.setTextColor(getResources().getColor(R.color.white));
+                toolBarTv4.setTextColor(getResources().getColor(R.color.white));
+                nav_pressed1.setVisibility(View.GONE);
+                nav_pressed2.setVisibility(View.GONE);
+                nav_pressed3.setVisibility(View.GONE);
+                nav_pressed4.setVisibility(View.GONE);
+                iv_nav_message.setImageDrawable(getResources().getDrawable(R.drawable.nav_button_information));
+                iv_nav_mine.setImageDrawable(getResources().getDrawable(R.drawable.nav_mine_pressed));
+                break;
+            default:
+                break;
+
         }
     }
 
@@ -266,6 +302,8 @@ public class MainFragment extends BaseFragment {
                     return mFragments[3];
                 case 4:
                     return mFragments[4];
+                case 5:
+                    return mFragments[5];
                 default:
                     return null;
 
@@ -274,7 +312,7 @@ public class MainFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return 5;
+            return 6;
         }
     }
 }

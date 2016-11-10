@@ -16,7 +16,7 @@ import java.util.List;
 public class DBHelper {
 
     public final static String KEY_PP_TOKEN ="pp_token";
-
+    public final static String KEY_IS_FIRST_START = "is_first_start";// 是否第一次启动
     public final static String KEY_USER_ID = "user_id";
     public final static String KEY_USER_NAME = "user_name";
     public final static String KEY_USER_PASSWORD = "user_password";

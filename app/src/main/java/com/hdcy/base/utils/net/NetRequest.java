@@ -42,11 +42,16 @@ public class NetRequest implements BaseData {
         netRequestInfo = new NetRequestInfo();
         netResponseInfo = new NetResponseInfo();
         netRequestInfo.setUrl(this.url+"?");
-       // addHeader("Authorization","Basic MToxMjM0NTY=");
+        //addHeader("Authorization","Basic MToxMjM0NTY=");
         addHeader("Content-Type", "application/json;charset=UTF-8");
-       // Log.e("pptoken",BaseInfo.getPp_token());
+        //addHeader("Authorization","Basic MTU2MDA3NTY1NjY6MTIzNDU2Nzg=");
+        if(!BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+            Log.e("pptoken",BaseInfo.getPp_token());
+        }
         if(!BaseUtils.isEmptyString(BaseInfo.pp_token)) {
             addHeader("Authorization", BaseInfo.pp_token);
+        }else {
+            addHeader("Authorization", "application/json;charset=UTF-8");
         }
 
     }

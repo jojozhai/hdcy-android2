@@ -352,13 +352,50 @@ public class NetHelper {
      * @return
      */
 
+
+    public Callback.Cancelable GetActivityNew(String activityType,int pagecount,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/activity/");
+        request.addParam("enable","true");
+        request.addParam("signFinish","false");
+        request.addParam("size","100");
+        request.addParam("sort","signEndTime,asc");
+        request.addParam("top","false");
+        return request.postarray(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONArray dataObj = responseInfo.getDataArr();
+                JSONObject dataObj1 = responseInfo.getDataObj();
+                if (dataObj != null){
+                    responseInfo.setActivityContentList(JSON.parseArray(dataObj.toString(), ActivityContent.class));
+                    responseInfo.setRootListInfo(JSON.parseObject(dataObj1.toString(), RootListInfo.class));
+                }
+                callBack.onSuccess(requestInfo, responseInfo);
+                Log.e("activity","sucess");
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+        });
+    }
+
+
     public Callback.Cancelable GetPaticipationList(String activityType,int pagecount,final NetRequestCallBack callBack){
-        NetRequest request = new NetRequest("/participation/");
+        NetRequest request = new NetRequest("/activity/");
         request.addParam("page",pagecount);
         request.addParam("enable","true");
-        request.addParam("actType",activityType);
-        request.addParam("size","10");
-        request.addParam("sort","createdTime,desc");
+        request.addParam("size","15");
+        request.addParam("signFinish","true");
+        request.addParam("sort","startTime");
+        request.addParam("top","false");
         return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
@@ -394,11 +431,9 @@ public class NetHelper {
      */
 
     public Callback.Cancelable GetActivityTopBanner( final NetRequestCallBack callBack){
-        NetRequest request = new NetRequest("/participation/");
-        request.addParam("page",0);
-        request.addParam("enable","true");
-        request.addParam("size","10");
-        request.addParam("sort","createdTime,desc");
+        NetRequest request = new NetRequest("/activity/");
+        request.addParam("size","100");
+        request.addParam("sort","topIndex,asc");
         request.addParam("top","true");
         return request.postarray(new NetRequestCallBack() {
             @Override

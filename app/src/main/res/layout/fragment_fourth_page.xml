@@ -50,8 +50,9 @@
             android:background="@mipmap/bg_main_tab"
             app:tabIndicatorColor="@android:color/white"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabTextAppearance="@style/tab_appearance"
-            app:tabTextColor="#8FAFCA" />
+            app:tabTextColor="#8FAFCA"
+            app:tabBackground="@drawable/maintabselector"
+            app:tabTextAppearance="@style/tab_appearance" />
 
         <com.hdcy.app.view.CustomViewPager
             android:id="@+id/viewPager"

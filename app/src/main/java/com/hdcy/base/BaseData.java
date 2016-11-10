@@ -141,6 +141,11 @@ public interface BaseData {
 
     static final String KEY_RESULT_COMMENT = "articlecomment";
 
+    int REQUEST_SPLASH = 1;
+
+    int REQUST_ENTER = 2;
+
+
 
 
 
