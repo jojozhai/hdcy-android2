@@ -1,5 +1,7 @@
 package com.hdcy.app.fragment.mine;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -15,9 +17,13 @@ import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.activity.LoginActivity;
+import com.hdcy.app.activity.ReEnterActivity;
+import com.hdcy.app.activity.ReLoginActivity;
 import com.hdcy.app.activity.SplashActivity;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
 import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.fragment.Message.MessageFragment;
+import com.hdcy.app.fragment.login.LoginFragment;
 import com.hdcy.app.fragment.register.RegisterFirstFragment;
 import com.hdcy.app.model.UserBaseInfo;
 import com.hdcy.base.BaseInfo;
@@ -38,6 +44,8 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  */
 
 public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+
+    private static final int REQUEST_LOGIN_INFO = 2001;
 
     private BGARefreshLayout mRefreshLayout;
     private UserBaseInfo userBaseInfo;
@@ -69,6 +77,36 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
         GetUserCurrentInfo();
         setListener();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        GetUserCurrentInfo();
+    }
+
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK ){
+            Log.e("chongxinqidong","haha");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == REQUEST_LOGIN_INFO){
+            Log.e("chongxinqidong","haha");
+            GetUserCurrentInfo();
+        }
+
     }
 
     @Override
@@ -147,13 +185,20 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
         ll_mine_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*startForResult(LoginFragment.newInstance(),REQUEST_LOGIN_INFO);*/
+
                 BaseInfo.doExitLogin();
+                userBaseInfo = null;
+                Intent intent = new Intent();
+                intent.setClass(getContext(), ReLoginActivity.class);
+                startActivityForResult(intent,REQUEST_LOGIN_INFO);
+               // startActivityForResult(intent,REQUEST_LOGIN_INFO);
+
 
                 if(BaseInfo.pp_token ==null){
                     Log.e("退出登录","成功");
                 }
-
-                //EventBus.getDefault().post(new StartBrotherEvent(RegisterFirstFragment.newInstance()));
+                //startForResultWithSharedElement();
             }
         });
 

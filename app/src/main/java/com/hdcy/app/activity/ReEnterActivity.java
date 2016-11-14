@@ -1,6 +1,5 @@
 package com.hdcy.app.activity;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hdcy.app.R;
-import com.hdcy.app.fragment.login.LoginFragment;
 import com.hdcy.app.model.TextBean;
 import com.hdcy.base.utils.BgImageViewHelper;
 
@@ -27,10 +25,11 @@ import java.util.List;
 import me.yokeyword.fragmentation.SupportActivity;
 
 /**
- * Created by WeiYanGeorge on 2016-11-10.
+ * Created by WeiYanGeorge on 2016-11-11.
  */
 
-public class RegisterAndLoginActivity extends SupportActivity implements SensorEventListener{
+public class ReEnterActivity extends SupportActivity implements SensorEventListener{
+
     private BgImageViewHelper parallelViewHelper;
     private FrameLayout FyView;
     private ImageView point;
@@ -55,7 +54,7 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
     Button bt_login;
 
     /**
-     * 跳过
+     * 跳过按钮
      */
     TextView tv_enter_jump;
 
@@ -88,6 +87,7 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
         //初始化注册 登录按钮
         bt_login = (Button) findViewById(R.id.bt_login);
         bt_register = (Button) findViewById(R.id.bt_register);
+        tv_enter_jump = (TextView) findViewById(R.id.tv_enter_jump);
 
         //初始化重力感应
         initAccelerometerListener();
@@ -98,10 +98,16 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
         //设置默认背景效果
         initGyroScopeSensor(arrayId, textBeanList);
 
+        setListener();
+
+
+    }
+
+    private void setListener(){
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(this,RegisterActivity.class)
+                // Intent intent = new Intent(this,RegisterActivity.class)
                 startLogin();
             }
         });
@@ -112,16 +118,7 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
             }
         });
 
-        tv_enter_jump.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-    }
-
-    private void setListener(){
-
+        tv_enter_jump.setVisibility(View.GONE);
     }
 
     private void startRegister(){
@@ -273,5 +270,4 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
     public void onStop() {
         super.onStop();
     }
-
 }

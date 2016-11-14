@@ -71,7 +71,7 @@ public class MainActivity extends SupportActivity {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus && isFirstStart){
             isFirstStart = false;
-            Intent intent = new Intent(this,SplashActivity.class);
+            Intent intent = new Intent(this,BootActivity.class);
             startActivity(intent);
         }
     }
@@ -100,7 +100,8 @@ public class MainActivity extends SupportActivity {
 
     private void readData(){
         String dir = "DICM/Camera";
-        //BaseInfo.isFirstStart = DBHelper.getBooleanData(DBHelper.KEY_IS_FIRST_START,true);
+        BaseInfo.isFirstStart = DBHelper.getBooleanData(DBHelper.KEY_IS_FIRST_START,true);
+        Log.e("isFirstStart",BaseInfo.isFirstStart+"");
         BaseInfo.savePath = new File(Environment.getExternalStorageDirectory(), dir);
         if (BaseInfo.savePath == null){
             BaseInfo.savePath = this.getExternalCacheDir();

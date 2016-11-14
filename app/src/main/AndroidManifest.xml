@@ -121,7 +121,17 @@
             android:name=".activity.SplashActivity"
             android:label="@string/app_name"/>
         <activity
+            android:name=".activity.BootActivity"
+            android:label="@string/app_name"
+            />
+        <activity
             android:name=".activity.RegisterAndLoginActivity"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".activity.ReEnterActivity"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".activity.ReLoginActivity"
             android:label="@string/app_name"/>
         <activity
             android:name=".video.impl.LiveDetailActivity"

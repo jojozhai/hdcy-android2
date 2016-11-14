@@ -14,6 +14,7 @@
         <include layout="@layout/toolbar" />
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_avatar"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_gravity="center"
@@ -58,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:id="@+id/ll_mineinfo_nickname"
             android:background="@drawable/mine_info_second_bg"
             android:orientation="horizontal">
 
@@ -96,6 +98,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_realname"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -138,6 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:id="@+id/ll_mineinfo_sex"
             android:background="@drawable/mine_info_second_bg"
             android:orientation="horizontal">
 
@@ -174,6 +178,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_phone"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -214,6 +219,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_password"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -253,6 +259,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_birthday"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -292,6 +299,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_city"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -332,6 +340,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_cartype"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
@@ -379,6 +388,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_mineinfo_interest"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"

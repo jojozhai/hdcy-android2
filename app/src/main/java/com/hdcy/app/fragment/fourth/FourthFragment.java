@@ -26,8 +26,10 @@ import com.hdcy.app.fragment.first.FirstFragment;
 import com.hdcy.app.fragment.fourth.child.FourthPagesFragment;
 import com.hdcy.app.fragment.second.SecondFragment;
 import com.hdcy.app.fragment.second.childpages.SecondPagesFragment;
+import com.hdcy.app.model.LeaderContactInfo;
 import com.hdcy.app.model.LeaderInfo;
 import com.hdcy.app.model.NewsCategory;
+import com.hdcy.app.model.TextBean;
 import com.hdcy.app.view.CustomViewPager;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -53,6 +55,8 @@ public class FourthFragment extends BaseLazyMainFragment{
     private BGABanner leaderBanner;
     private String[] pagetitles = new String[]{"全部","个人","机构"};
     private List<LeaderInfo> leaderBannerInfo = new ArrayList<>();
+    private LeaderContactInfo leaderContactEmail = new LeaderContactInfo();
+    private LeaderContactInfo leaderContactPhone = new LeaderContactInfo();
 
     private List<String> imgurls = new ArrayList<>();
     private List<String> tips = new ArrayList<>();
@@ -62,6 +66,8 @@ public class FourthFragment extends BaseLazyMainFragment{
 
     private TextView tv_leader_orga_apply;
     private TextView tv_leader_person_apply;
+    private TextView tv_leader_orga_email;
+    private TextView tv_leader_orga_phone;
 
     public static FourthFragment newInstance() {
         Bundle args = new Bundle();
@@ -110,6 +116,8 @@ public class FourthFragment extends BaseLazyMainFragment{
     }
 
     private void initData(){
+        GetLeaderContactInfo("leaderContactMail");
+        GetLeaderContactInfo("leaderContactPhone");
         GetLeaderBanner();
     }
 
@@ -151,6 +159,10 @@ public class FourthFragment extends BaseLazyMainFragment{
         View view = inflater.inflate(R.layout.alertdialog_leader_organization,null);
         builder.setView(view);
         builder.create();
+        tv_leader_orga_email = (TextView) view.findViewById(R.id.tv_leader_orga_email);
+        tv_leader_orga_phone = (TextView) view.findViewById(R.id.tv_leader_orga_phone);
+        tv_leader_orga_phone.setText(leaderContactPhone.getValue()+"");
+        tv_leader_orga_email.setText(leaderContactEmail.getValue()+"");
         alertDialogOrg = builder.create();
         Window wm = alertDialogOrg.getWindow();
         wm.setGravity(Gravity.CENTER);
@@ -195,6 +207,30 @@ public class FourthFragment extends BaseLazyMainFragment{
             }
             setData1();
         }
+    }
+
+    private void GetLeaderContactInfo(final String contacType){
+        NetHelper.getInstance().GetOrganLeaderInfo(contacType, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                if(contacType == "leaderContactMail"){
+                    leaderContactEmail = responseInfo.getLeaderContactInfo();
+                }else {
+                    leaderContactPhone = responseInfo.getLeaderContactInfo();
+                }
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+
     }
 
 

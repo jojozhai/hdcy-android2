@@ -306,7 +306,6 @@ public class MainFragment extends BaseFragment {
                     return mFragments[5];
                 default:
                     return null;
-
             }
         }
 

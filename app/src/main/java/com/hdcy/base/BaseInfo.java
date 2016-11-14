@@ -150,6 +150,14 @@ public class BaseInfo implements BaseData {
     }
 
     /**
+     * 获得是否第一次启动
+     */
+    public static boolean getIs_First_start(){
+        BaseInfo.isFirstStart = DBHelper.getBooleanData(DBHelper.KEY_IS_FIRST_START,true);
+        return isFirstStart;
+    }
+
+    /**
      * 用户令牌
      */
     public static String pp_token;

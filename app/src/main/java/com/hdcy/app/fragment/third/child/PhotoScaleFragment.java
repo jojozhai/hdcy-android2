@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,8 @@ public class PhotoScaleFragment extends BaseBackFragment {
         initView(view);
         imgurls = getArguments().getStringArray("param");
         position = getArguments().getInt("param1",0);
+        Log.e("photoscale",position+"");
+        Log.e("scale",imgurls+"");
         initData();
         setListener();
         return view;

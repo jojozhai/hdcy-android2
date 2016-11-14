@@ -10,6 +10,7 @@ import com.hdcy.app.model.AvatarResult;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Content;
 import com.hdcy.app.model.GiftContent;
+import com.hdcy.app.model.LeaderContactInfo;
 import com.hdcy.app.model.LeaderInfo;
 import com.hdcy.app.model.LoginResult;
 import com.hdcy.app.model.NewsCategory;
@@ -777,6 +778,33 @@ public class NetHelper {
         });
     }
 
+    public Callback.Cancelable GetOrganLeaderInfo(String contacttyepe,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/param/"+contacttyepe);
+        return request.postarray(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONObject dataObj = responseInfo.getDataObj();
+
+                if (dataObj != null){
+                    responseInfo.setLeaderContactInfo(JSON.parseObject(dataObj.toString(), LeaderContactInfo.class));
+                }
+                callBack.onSuccess(requestInfo, responseInfo);
+                Log.e("leadercontact","sucess");
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("activity","onfailure");
+
+            }
+        });
+    }
     public Callback.Cancelable GetLeaderInfo(final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/leader/");
        // request.addParam("top","true");

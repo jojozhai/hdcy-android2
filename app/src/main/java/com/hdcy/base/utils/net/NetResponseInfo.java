@@ -9,6 +9,7 @@ import com.hdcy.app.model.Comments;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Content;
 import com.hdcy.app.model.GiftContent;
+import com.hdcy.app.model.LeaderContactInfo;
 import com.hdcy.app.model.LeaderInfo;
 import com.hdcy.app.model.LoginResult;
 import com.hdcy.app.model.NewsArticleInfo;
@@ -53,7 +54,9 @@ public class NetResponseInfo {
     public List<LeaderInfo> leaderInfo;
     public AvatarResult avatarResult;
 
-    /**  vedio banner Data */
+    /**
+     * vedio banner Data
+     */
     public JSONArray content;
 
     public List<VideoBasicInfo> videoBasicInfoList;
@@ -66,6 +69,8 @@ public class NetResponseInfo {
     public PraiseStatus booleanList;
 
     public LoginResult loginResult;
+
+    public LeaderContactInfo leaderContactInfo;
 
     public PraiseStatus getBooleanList() {
         return booleanList;
@@ -283,7 +288,13 @@ public class NetResponseInfo {
     }
 
 
+    public LeaderContactInfo getLeaderContactInfo() {
+        return leaderContactInfo;
+    }
 
+    public void setLeaderContactInfo(LeaderContactInfo leaderContactInfo) {
+        this.leaderContactInfo = leaderContactInfo;
+    }
 
 
 }

@@ -48,16 +48,16 @@ public class BootFragment extends BaseBackFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_boot,container,false);
-        iv_boot_bg = (ImageView) view.findViewById(R.id.img_boot);
+        //iv_boot_bg = (ImageView) view.findViewById(R.id.img_boot);
         screenWidth = SizeUtils.getScreenWidth();
         screenHeight = SizeUtils.getScreenHeight();
 /*        Glide.with(getContext()).load(R.mipmap.bg_boot)
                 .into(iv_boot_bg);*/
-        Picasso.with(getContext()).load(R.mipmap.bg_boot)
+/*        Picasso.with(getContext()).load(R.mipmap.bg_boot)
                 .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
                 .resize(screenWidth,screenHeight)
                 .config(Bitmap.Config.RGB_565)
-                .into(iv_boot_bg);
+                .into(iv_boot_bg);*/
 
         doFinish();
         return view;

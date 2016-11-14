@@ -21,6 +21,7 @@
         android:padding="20dp">
 
         <TextView
+            android:id="@+id/tv_enter_jump"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="right|center_vertical"

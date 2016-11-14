@@ -182,6 +182,7 @@ public class DBHelper {
 
     public static boolean getBooleanData(String key, boolean defValue) {
         BaseDataEntity baseDataEntity = getBaseDataEntity(key);
+        Boolean booleanData = baseDataEntity == null ? null: baseDataEntity.isBooleanData();
         return baseDataEntity == null ? defValue : baseDataEntity.isBooleanData();
     }
 

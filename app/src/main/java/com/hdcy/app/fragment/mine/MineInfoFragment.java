@@ -28,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,6 +81,20 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
     private TextView title;
 
     private UserBaseInfo userBaseInfo;
+
+
+    //编辑按钮
+    private LinearLayout ll_mineinfo_avatar;
+    private LinearLayout ll_mineinfo_nickname;
+    private LinearLayout ll_mineinfo_realname;
+    private LinearLayout ll_mineinfo_sex;
+    private LinearLayout ll_mineinfo_phone;
+    private LinearLayout ll_mineinfo_password;
+    private LinearLayout ll_mineinfo_birthday;
+    private LinearLayout ll_mineinfo_city;
+    private LinearLayout ll_mineinfo_cartype;
+    private LinearLayout ll_mineinfo_interest;
+
 
     private ImageView iv_mine_personalinfo_avatar;
     private TextView tv_mine_personalinfo_nickname;
@@ -232,11 +247,25 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
         tv_mine_personalinfo_address =(TextView) view.findViewById(R.id.tv_mine_personalinfo_address);
         tv_mine_personalinfo_cartype =(TextView) view.findViewById(R.id.tv_mine_personalinfo_cartype);
         tv_mine_personalinfo_interests =(TextView) view.findViewById(R.id.tv_mine_personalinfo_interests);
+
+        //编辑事件
+        ll_mineinfo_avatar = (LinearLayout) view.findViewById(R.id.ll_mineinfo_avatar);
+        ll_mineinfo_nickname = (LinearLayout) view.findViewById(R.id.ll_mineinfo_nickname);
+        ll_mineinfo_realname = (LinearLayout) view.findViewById(R.id.ll_mineinfo_realname);
+        ll_mineinfo_sex = (LinearLayout) view.findViewById(R.id.ll_mineinfo_sex);
+        ll_mineinfo_phone = (LinearLayout) view.findViewById(R.id.ll_mineinfo_phone);
+        ll_mineinfo_password = (LinearLayout) view.findViewById(R.id.ll_mineinfo_password);
+        ll_mineinfo_birthday = (LinearLayout) view.findViewById(R.id.ll_mineinfo_birthday);
+        ll_mineinfo_city = (LinearLayout) view.findViewById(R.id.ll_mineinfo_city);
+        ll_mineinfo_cartype = (LinearLayout) view.findViewById(R.id.ll_mineinfo_cartype);
+        ll_mineinfo_interest = (LinearLayout) view.findViewById(R.id.ll_mineinfo_interest);
+
+
         setData();
     }
 
     private void setListener(){
-        tv_mine_personalinfo_nickname.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_nickname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editType = "nickname";
@@ -244,7 +273,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             }
         });
 
-        tv_mine_personalinfo_birthday.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_birthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("datepick","onClick");
@@ -268,21 +297,21 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             }
         });
 
-        tv_mine_personalinfo_gender.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_sex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShowSexDialog();
             }
         });
 
-        iv_mine_personalinfo_avatar.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShowUploadAvatarDialog();
             }
         });
 
-        tv_mine_personalinfo_address.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startForResult(ChooseCityFragment.newInstance(),REQUEST_SELECT_CITY);
@@ -290,27 +319,27 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             }
         });
 
-        tv_mine_personalinfo_cartype.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_cartype.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startForResult(ChooseCarTypeFragment.newInstance(),REQUEST_SELECT_CAR);
             }
         });
 
-        tv_mine_personalinfo_interests.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_interest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startForResult(ChooseInterestsFragment.newInstance(),REQUEST_SELECT_INTEREST);
             }
         });
 
-        tv_mine_personalinfo_phone.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new StartBrotherEvent(EditPhoneFragment.newInstance()));
             }
         });
-        tv_mine_personalinfo_password.setOnClickListener(new View.OnClickListener() {
+        ll_mineinfo_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new StartBrotherEvent(EditPasswordFragment.newInstance()));

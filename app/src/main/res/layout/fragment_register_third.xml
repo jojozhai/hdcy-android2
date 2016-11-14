@@ -91,6 +91,39 @@
             android:text="完成"
             android:textColor="@color/white" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:text="1"
+                android:textColor="@color/white"
+                android:background="@drawable/rg_transit_unselect_button"
+                />
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:text="2"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/white"
+                android:background="@drawable/rg_transit_unselect_button"
+                />
+            <Button
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:text="3"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/white"
+                android:background="@drawable/rg_transit_button"
+                />
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
 </FrameLayout>

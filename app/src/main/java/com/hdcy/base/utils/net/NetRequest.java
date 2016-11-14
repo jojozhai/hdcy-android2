@@ -51,7 +51,7 @@ public class NetRequest implements BaseData {
         if(!BaseUtils.isEmptyString(BaseInfo.pp_token)) {
             addHeader("Authorization", BaseInfo.pp_token);
         }else {
-            addHeader("Authorization", "application/json;charset=UTF-8");
+            addHeader("Authorization", null);
         }
 
     }
@@ -433,7 +433,7 @@ public class NetRequest implements BaseData {
 
     /**
      * 请求数据
-     * get请求 content
+     * get请求
      * @param callBack 回调
      */
     public Callback.Cancelable postarray(final NetRequestCallBack callBack) {

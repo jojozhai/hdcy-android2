@@ -24,6 +24,7 @@ import com.hdcy.app.adapter.ImageListViewAdapter;
 import com.hdcy.app.adapter.OfflineActivityCommentListAdapter;
 import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.event.StartBrotherEvent;
+import com.hdcy.app.fragment.Message.MessageFragment;
 import com.hdcy.app.fragment.second.PublishCommentFragment;
 import com.hdcy.app.fragment.third.child.OfflineActivityDialogFragment;
 import com.hdcy.app.fragment.third.child.PhotoScaleFragment;
@@ -277,6 +278,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
                     imgUrls[t] = str;
                 }
                 EventBus.getDefault().post(new StartBrotherEvent(PhotoScaleFragment.newInstance(imgUrls, i)));
+                //EventBus.getDefault().post(new StartBrotherEvent(MessageFragment.newInstance()));
 
             }
         });
