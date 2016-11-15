@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/bg_main"
     >
 
     <TextView
@@ -15,13 +16,19 @@
         android:visibility="gone"
         android:layout_height="wrap_content"/>
 
-
+<!--
     <WebView
         android:id="@+id/wv_vedio_desc"
         android:layout_width="match_parent"
         android:background="@mipmap/bg_main"
         android:layout_height="match_parent">
-
-    </WebView>
+    </WebView>-->
+    <TextView
+        android:id="@+id/tv_biref_desc"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:textSize="15sp"/>
 
 </LinearLayout>

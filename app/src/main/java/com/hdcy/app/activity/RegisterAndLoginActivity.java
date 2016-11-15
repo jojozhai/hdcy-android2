@@ -55,7 +55,7 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
     Button bt_login;
 
     /**
-     * 跳过
+     * 跳过按钮
      */
     TextView tv_enter_jump;
 
@@ -88,6 +88,7 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
         //初始化注册 登录按钮
         bt_login = (Button) findViewById(R.id.bt_login);
         bt_register = (Button) findViewById(R.id.bt_register);
+        tv_enter_jump = (TextView) findViewById(R.id.tv_enter_jump);
 
         //初始化重力感应
         initAccelerometerListener();
@@ -98,10 +99,16 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
         //设置默认背景效果
         initGyroScopeSensor(arrayId, textBeanList);
 
+        setListener();
+
+
+    }
+
+    private void setListener(){
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent = new Intent(this,RegisterActivity.class)
+                // Intent intent = new Intent(this,RegisterActivity.class)
                 startLogin();
             }
         });
@@ -118,10 +125,6 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
                 finish();
             }
         });
-    }
-
-    private void setListener(){
-
     }
 
     private void startRegister(){

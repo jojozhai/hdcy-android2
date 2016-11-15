@@ -24,8 +24,6 @@ import com.alibaba.fastjson.JSON;
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.VideoCommentListAdapter;
 import com.hdcy.app.basefragment.BaseFragment;
-import com.hdcy.app.event.StartBrotherEvent;
-import com.hdcy.app.fragment.second.PublishCommentFragment;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Replys;
 import com.hdcy.app.model.RootListInfo;
@@ -35,8 +33,9 @@ import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +44,23 @@ import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
- * Created by WeiYanGeorge on 2016-10-26.
+ * Created by WeiYanGeorge on 2016-11-15.
  */
 
-public class FirstTabVideoChatFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
-
-    private static final int REQ_PUBLISH_FRAGMENT = 1;
+public class FirstVideoCommentFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
     private ListView mListView;
     private BGARefreshLayout mRefreshLayout;
     private RootListInfo rootListInfo = new RootListInfo();
 
+    private TextView tv_video_desc;
+    private TextView tv_video_comment_count;
 
     private int pagecount = 0;
 
     private String tagId;
     private String target;
+    private String htmlcontent;
+    private String video_comment_count;
 
     private ImageView iv_live_edit_button;
 
@@ -89,13 +90,13 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
 
     private List<BaseFragment> mFragments = new ArrayList<>();
 
-
-
-    public static FirstTabVideoChatFragment newInstance(String tagId , String target) {
-        FirstTabVideoChatFragment fragment = new FirstTabVideoChatFragment();
+    public static FirstVideoCommentFragment newInstance(String tagId, String target, String count,String desc){
+        FirstVideoCommentFragment fragment = new FirstVideoCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("param", tagId);
         bundle.putString("param1", target);
+        bundle.putString("param2",count);
+        bundle.putString("param3", desc);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -103,16 +104,19 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_first_tab_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_first_video_comment,container,false);
         Bundle bundle = getArguments();
         if (bundle != null){
             tagId = bundle.getString("param");
             target = bundle.getString("param1");
+            video_comment_count = bundle.getString("param2");
+            htmlcontent = bundle.getString("param3");
         }
         initView(view);
         initData();
         setListener();
         return view;
+
     }
 
     @Override
@@ -136,8 +140,6 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
         mRefreshLayout.endRefreshing();*/
         mRefreshLayout.endRefreshing();
     }
-
-
     private void initView(View view){
         mListView = (ListView) view.findViewById(R.id.lv_tab_chat);
         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
@@ -145,8 +147,21 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
         iv_live_edit_button = (ImageView) view.findViewById(R.id.iv_edt_button);
         mAdapter  = new VideoCommentListAdapter(getContext(),commentsList);
+        View headView = View.inflate(getContext(),R.layout.item_header_video_comment,null);
+        tv_video_desc = (TextView) headView.findViewById(R.id.tv_video_desc);
+        tv_video_comment_count = (TextView) headView.findViewById(R.id.tv_video_comment_count) ;
+        if(!BaseUtils.isEmptyString(htmlcontent)) {
+            Document document = Jsoup.parse(htmlcontent);
+            String content = document.select("html").text();
+            tv_video_desc.setText(content);
+        }
+        tv_video_comment_count.setText(video_comment_count+"");
+        mListView.addHeaderView(headView);
         mListView.setAdapter(mAdapter);
+    }
 
+    private void initData(){
+        GetCommentSList();
     }
 
     private void setListener(){
@@ -158,24 +173,16 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
         });
     }
 
-    private void initData(){
-        GetCommentSList();
-    }
-
-    private void setData(){
-
-        mRefreshLayout.endLoadingMore();
-    }
-
     public void GetCommentSList(){
         NetHelper.getInstance().GetCommentsList(tagId, "video", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                    List<CommentsContent> temp = responseInfo.getCommentsContentList();
-                    commentsList.addAll(temp);
-                    rootListInfo = responseInfo.getRootListInfo();
-                    isLast = rootListInfo.isLast();
-                    GetPraiseStatus();
+                List<CommentsContent> temp = responseInfo.getCommentsContentList();
+                commentsList.addAll(temp);
+                Log.e("commentsStatus",commentsList.size()+"");
+                rootListInfo = responseInfo.getRootListInfo();
+                isLast = rootListInfo.isLast();
+                GetPraiseStatus();
             }
 
             @Override
@@ -190,15 +197,23 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
         });
     }
 
+    private void setData(){
+        mAdapter.notifyDataSetChanged();
+        mRefreshLayout.endLoadingMore();
+    }
+
     public void GetPraiseStatus(){
         NetHelper.getInstance().GetCommentPraiseStatus(tagId, "video", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                praisestatus.clear();
                 JSONArray jsonArray = responseInfo.getDataArr();
                 praisestatus = JSON.parseArray(jsonArray.toString(),Boolean.class);
+                Log.e("praiseStatus",praisestatus.size()+"");
                 for (int i = 0; i < praisestatus.size(); i++){
                     commentsList.get(i+pagecount*10).setLike(praisestatus.get(i));
                 }
+                Log.e("realstatus",commentsList.get(commentsList.size()-1).isLike()+","+commentsList.size()+"");
                 setData();
             }
 
@@ -314,8 +329,6 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
         int fontcount = 250 - editText.length();
         tv_limit.setText(fontcount + "");
     }
-
-
 
 
 }

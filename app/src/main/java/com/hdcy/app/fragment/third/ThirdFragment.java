@@ -91,7 +91,6 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
 
     @Override
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
-
     }
 
     @Override

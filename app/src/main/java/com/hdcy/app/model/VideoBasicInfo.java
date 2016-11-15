@@ -32,6 +32,8 @@ public class VideoBasicInfo implements Serializable {
 
     private boolean live;
 
+    private String liveLink;
+
     private String liveState;
 
     private Date startTime;
@@ -48,7 +50,7 @@ public class VideoBasicInfo implements Serializable {
 
     private String sponsorImage;
 
-    private int sponsorId;
+    private String sponsorId;
 
     private boolean liveForApp;
 
@@ -189,11 +191,11 @@ public class VideoBasicInfo implements Serializable {
         this.sponsorImage = sponsorImage;
     }
 
-    public int getSponsorId() {
+    public String getSponsorId() {
         return sponsorId;
     }
 
-    public void setSponsorId(int sponsorId) {
+    public void setSponsorId(String sponsorId) {
         this.sponsorId = sponsorId;
     }
 
@@ -227,5 +229,14 @@ public class VideoBasicInfo implements Serializable {
 
     public void setReplayId(String replayId) {
         this.replayId = replayId;
+    }
+
+
+    public String getLiveLink() {
+        return liveLink;
+    }
+
+    public void setLiveLink(String liveLink) {
+        this.liveLink = liveLink;
     }
 }

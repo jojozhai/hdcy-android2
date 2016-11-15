@@ -220,7 +220,9 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
 
         }else if(requestCode == REQUEST_SELECT_INTEREST && resultCode ==RESULT_OK){
             editType = "tags";
-            content = data.getString(KEY_RESULT_CHOOSE_INTEREST);
+            String result = data.getString(KEY_RESULT_CHOOSE_INTEREST);
+            result.substring(0,result.length()-1);
+            content = result;
             Log.e("interests",content+"");
             PublishPersonalInfo();
             handler.postDelayed(new Runnable() {

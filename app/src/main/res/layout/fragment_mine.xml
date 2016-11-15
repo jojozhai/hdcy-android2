@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="你为什么不说话"
+                    android:text="未登录"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 

@@ -132,7 +132,8 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         mVideoView.registerCallback(this);
         //mVideoView.setVideoPath(videopath);
         mVideoView.setVideoPath(String.format(rtmpPlayStreamUrl, mSettings.getPusblishStreamId()));
-       // initView();
+        initView();
+        setListener();
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(1000);
@@ -159,7 +160,6 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             mVideoView.setVolume(0,0);
             mVideoView.stopPlayback();
             mVideoView.release(true);
-
         }
     }
 
@@ -175,7 +175,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             mVideoView.setVolume(0,0);
             mVideoView.stopPlayback();
             mVideoView.release(true);
-            uiHandler.sendEmptyMessage(MSG_INIT_PLAY);
+            //uiHandler.sendEmptyMessage(MSG_INIT_PLAY);
         }
     }
 
@@ -188,28 +188,43 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
 
 
     private void initView(){
-        mTab = (TabLayout) this.findViewById(R.id.live_tab);
-        mViewPager = (ViewPager) this.findViewById(R.id.live_viewPager);
         tv_live_title = (TextView) this.findViewById(R.id.tv_live_name);
         tv_live_title.setText(mBean.getName());
         iv_icon = (ImageView) this.findViewById(R.id.icon_live);
         iv_icon_recover = (ImageView) this.findViewById(R.id.icon_live_recover);
         iv_origin_back = (ImageView) this.findViewById(R.id.iv_live_originback);
         iv_origin_recoverback =(ImageView) this.findViewById(R.id.iv_live_landscapeback);
+        mTab = (TabLayout) this.findViewById(R.id.live_tab);
+        mViewPager = (ViewPager) this.findViewById(R.id.live_viewPager);
+        mTab.addTab(mTab.newTab());
+        mTab.addTab(mTab.newTab());
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mTab.addTab(mTab.newTab());
-                mTab.addTab(mTab.newTab());
+                mFragments.add(FirstTabVideoBreifFragment.newInstance(mBean.getDesc()));
+                mFragments.add(FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article"));
+                mViewPager.setAdapter(new ViewPageFragmentAdapter(getSupportFragmentManager()));
+                mTab.setupWithViewPager(mViewPager);
+            }
+        },1000);
+
+    }
+
+/*    private void initBottomView(){
+        mTab = (TabLayout) this.findViewById(R.id.live_tab);
+        mViewPager = (ViewPager) this.findViewById(R.id.live_viewPager);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
                 mFragments.add(FirstTabVideoBreifFragment.newInstance(mBean.getDesc()));
                 mFragments.add(FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article"));
                 mViewPager.setAdapter(new ViewPageFragmentAdapter(getSupportFragmentManager()));
                 mTab.setupWithViewPager(mViewPager);
             }
         },500);
-        setListener();
-
-    }
+    }*/
 
     private void setListener(){
         iv_icon.setOnClickListener(new View.OnClickListener() {

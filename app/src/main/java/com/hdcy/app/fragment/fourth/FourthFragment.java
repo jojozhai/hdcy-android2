@@ -203,7 +203,7 @@ public class FourthFragment extends BaseLazyMainFragment{
             tips.clear();
             for (int i = 0; i < leaderBannerInfo.size(); i++) {
                 imgurls.add(i, leaderBannerInfo.get(i).getTopImage());
-                tips.add(i, leaderBannerInfo.get(i).getName());
+                tips.add(i, "");
             }
             setData1();
         }

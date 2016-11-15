@@ -26,11 +26,11 @@
         android:id="@+id/tv_video_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:textSize="18sp"
         android:text="直播"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:textColor="#FFFFFF"/>
 
     <TextView
@@ -38,7 +38,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:foregroundGravity="center"
         android:layout_centerHorizontal="true"
+        android:maxEms="10"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:layout_marginTop="95dp"
         android:layout_below="@+id/tv_activity_title"
         android:textSize="14sp"

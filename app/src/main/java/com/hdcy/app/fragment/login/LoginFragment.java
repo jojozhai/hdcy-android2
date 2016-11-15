@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
@@ -90,7 +91,8 @@ public class LoginFragment extends BaseBackFragment {
         tv_login_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new StartBrotherEvent(ResetPasswordFirstFragment.newInstance()));
+                start(ResetPasswordFirstFragment.newInstance());
+                //EventBus.getDefault().post(new StartBrotherEvent(ResetPasswordFirstFragment.newInstance()));
             }
         });
     }
@@ -113,7 +115,7 @@ public class LoginFragment extends BaseBackFragment {
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"用户名或密码错误",Toast.LENGTH_SHORT).show();
             }
         });
     }

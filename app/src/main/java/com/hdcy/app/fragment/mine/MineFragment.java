@@ -27,6 +27,7 @@ import com.hdcy.app.fragment.login.LoginFragment;
 import com.hdcy.app.fragment.register.RegisterFirstFragment;
 import com.hdcy.app.model.UserBaseInfo;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -34,6 +35,7 @@ import com.hdcy.base.utils.net.NetResponseInfo;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jsoup.Connection;
 
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -82,7 +84,11 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
     @Override
     public void onResume() {
         super.onResume();
-
+/*        if(BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+            Intent intent = new Intent();
+            intent.setClass(getContext(), ReLoginActivity.class);
+            startActivityForResult(intent,REQUEST_LOGIN_INFO);
+        }*/
     }
 
     @Override
@@ -161,7 +167,11 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
         ll_mine_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(BaseInfo.isLogin()){
                 EventBus.getDefault().post(new StartBrotherEvent(MineInfoFragment.newInstance(userBaseInfo)));
+                }else {
+                    StartReEnterLogin();
+                }
             }
         });
         ll_mine_gift.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +183,11 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
         ll_mine_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new StartBrotherEvent(MineActivityFragment.newInstance()));
+                if (BaseInfo.isLogin()) {
+                    EventBus.getDefault().post(new StartBrotherEvent(MineActivityFragment.newInstance()));
+                }else {
+                    StartReEnterLogin();
+                }
             }
         });
         ll_mine_about_us.setOnClickListener(new View.OnClickListener() {
@@ -190,11 +204,9 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
                 BaseInfo.doExitLogin();
                 userBaseInfo = null;
                 Intent intent = new Intent();
-                intent.setClass(getContext(), ReLoginActivity.class);
+                intent.setClass(getContext(), ReEnterActivity.class);
                 startActivityForResult(intent,REQUEST_LOGIN_INFO);
                // startActivityForResult(intent,REQUEST_LOGIN_INFO);
-
-
                 if(BaseInfo.pp_token ==null){
                     Log.e("退出登录","成功");
                 }
@@ -202,6 +214,12 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
             }
         });
 
+    }
+
+    private void StartReEnterLogin(){
+        Intent intent = new Intent();
+        intent.setClass(getContext(), ReEnterActivity.class);
+        startActivityForResult(intent,REQUEST_LOGIN_INFO);
     }
 
     public void GetUserCurrentInfo(){

@@ -33,7 +33,10 @@ import com.alibaba.fastjson.JSON;
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.VideoCommentListAdapter;
 import com.hdcy.app.basefragment.BaseFragment;
+import com.hdcy.app.fragment.first.FirstTabVideoChatFragment;
+import com.hdcy.app.fragment.first.FirstVideoCommentFragment;
 import com.hdcy.app.model.CommentsContent;
+import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.model.VideoBasicInfo;
 import com.hdcy.app.view.MyPlayView;
 import com.hdcy.app.view.NoScrollListView;
@@ -51,6 +54,8 @@ import org.jsoup.nodes.Document;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import fm.jiecao.jcvideoplayer_lib.JCMediaPlayerListener;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
@@ -67,7 +72,11 @@ public class VideoDetailActivity extends SupportActivity {
     private TabLayout mTab;
     private ViewPager mViewPager;
     private TextView tv_video_desc;
-    private NoScrollListView mListView;
+    private TextView tv_video_comment_count;
+    private ListView mListView;
+
+    private BGARefreshLayout mRefreshLayout;
+    private boolean isLast;
 
     private List<BaseFragment> mFragments = new ArrayList<>();
     private List<CommentsContent> commentsList = new ArrayList<>();
@@ -95,6 +104,7 @@ public class VideoDetailActivity extends SupportActivity {
     private String content;
     String replyid;
     int globalposition;
+    private RootListInfo rootListInfo = new RootListInfo();
 
 
     private Handler handler = new Handler(){
@@ -127,14 +137,6 @@ public class VideoDetailActivity extends SupportActivity {
         mBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         String intentAction = getIntent().getAction();
         init();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initBottomView();
-            }
-        },500);
-
-
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(1000);
@@ -160,7 +162,6 @@ public class VideoDetailActivity extends SupportActivity {
     protected void onResume() {
         super.onResume();
     }
-
 
     private void init() {
         initView();
@@ -264,22 +265,16 @@ public class VideoDetailActivity extends SupportActivity {
             }
         });
 
-
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initBottomView();
+            }
+        },1000);
     }
-
-    private void initData(){
-        GetData();
-        GetCommentSList();
-    }
-
     private void initBottomView(){
-        tv_video_desc = (TextView) findViewById(R.id.tv_video_desc);
-        if (mBean.getDesc() != null) {
-            Document document = Jsoup.parse(mBean.getDesc());
-            String htmlcontent = document.select("html").text();
-            tv_video_desc.setText(htmlcontent);
-        }
-        mListView = (NoScrollListView) findViewById(R.id.lv_video_dianbo);
+/*        tv_video_desc = (TextView) findViewById(R.id.tv_video_desc);
+        tv_video_comment_count = (TextView) findViewById(R.id.tv_video_comment_count);
         iv_edt_button = (ImageView) findViewById(R.id.iv_edt_button) ;
         iv_edt_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,9 +282,25 @@ public class VideoDetailActivity extends SupportActivity {
                 ShowInputDialog();
             }
         });
-        mAdapter = new VideoCommentListAdapter(this,commentsList, praisestatus);
+        if (mBean.getDesc() != null) {
+            Document document = Jsoup.parse(mBean.getDesc());
+            String htmlcontent = document.select("html").text();
+            tv_video_desc.setText(htmlcontent);
+        }
+        tv_video_comment_count.setText("("+mBean.getCommentCount()+")");*/
+        Log.e("videocount",mBean.getCommentCount()+"");
+        mFragments.add(FirstVideoCommentFragment.newInstance(mBean.getId()+"","article",mBean.getCommentCount()+"",mBean.getDesc()));
+        loadRootFragment(R.id.fl_container_live,mFragments.get(0));
+/*        mListView = (ListView) findViewById(R.id.lv_video_dianbo);
+
+        mAdapter = new VideoCommentListAdapter(this,commentsList);
         mListView.setAdapter(mAdapter);
-        initData();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+            }
+        },1000);*/
     }
 
 
@@ -311,40 +322,14 @@ public class VideoDetailActivity extends SupportActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    private void GetData() {
-        if (mBean == null) {
-            return;
-        }
-        NetHelper.getInstance().getOneVedioDetail(mBean.getId(), new NetRequestCallBack() {
-            @Override
-            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-                Log.d(TAG, "onSuccess() called with: " + "requestInfo = [" + requestInfo + "], responseInfo = [" + responseInfo + "]");
-
-                //showToast(responseInfo.mBean4VedioDetail.toString());
-
-            }
-
-            @Override
-            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-            }
-
-            @Override
-            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-            }
-        });
-    }
-
     public void GetCommentSList(){
-        NetHelper.getInstance().GetCommentsList(mBean.getId()+"", "article", pagecount, new NetRequestCallBack() {
+        NetHelper.getInstance().GetCommentsList(mBean.getId()+"", "video", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                if(commentsList.isEmpty()){
-                    List<CommentsContent> temp = responseInfo.getCommentsContentList();
-                    commentsList.addAll(temp);
-                }
+                List<CommentsContent> temp = responseInfo.getCommentsContentList();
+                commentsList.addAll(temp);
+                rootListInfo = responseInfo.getRootListInfo();
+                isLast = rootListInfo.isLast();
                 GetPraiseStatus();
             }
 
@@ -367,11 +352,9 @@ public class VideoDetailActivity extends SupportActivity {
                 JSONArray jsonArray = responseInfo.getDataArr();
                 praisestatus = JSON.parseArray(jsonArray.toString(),Boolean.class);
                 for (int i = 0; i < praisestatus.size(); i++){
-                    commentsList.get(i).setLike(praisestatus.get(i));
+                    commentsList.get(i+pagecount*10).setLike(praisestatus.get(i));
                 }
                 setData();
-
-
             }
 
             @Override
@@ -385,108 +368,6 @@ public class VideoDetailActivity extends SupportActivity {
             }
         });
     }
-
-    public void PublishComment() {
-        NetHelper.getInstance().PublishComments(mBean.getId()+"", content, "article", null, new NetRequestCallBack() {
-            @Override
-            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                alertDialog.dismiss();
-                commentsContent = responseInfo.getCommentsContent();
-                commentsContent.setLike(false);
-                commentsList.add(0, commentsContent);
-                setData();
-                showToast("发布成功");
-
-            }
-
-            @Override
-            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-            }
-
-            @Override
-            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                showToast("评论发布失败");
-
-
-            }
-        });
-    }
-
-    private void ShowInputDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_edit_dialog, null);
-
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isEdit = s.length() > 0;
-                resetViewData();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        };
-        tv_limit = (TextView) view.findViewById(R.id.tv_limit);
-        tv_comment_submit = (TextView) view.findViewById(R.id.tv_submit_comment);
-        tv_comment_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkData()) {
-                    PublishComment();
-                }
-            }
-        });
-        tv_comment_cancel = (TextView) view.findViewById(R.id.tv_cancel);
-        tv_comment_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        editText = (EditText) view.findViewById(R.id.edt_comment);
-        editText.addTextChangedListener(textWatcher);
-        editText.requestFocus();
-        builder.setView(view);
-        builder.create();
-        alertDialog = builder.create();
-        Window windowManager = alertDialog.getWindow();
-        windowManager.setGravity(Gravity.BOTTOM);
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            public void onShow(DialogInterface dialog) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
-        alertDialog.show();
-    }
-
-    private boolean checkData() {
-        content = editText.getText().toString();
-        if (BaseUtils.isEmptyString(content)||content.trim().isEmpty()) {
-            showToast("请输入你要发布的文字");
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 刷新控件数据
-     */
-    private void resetViewData() {
-        int fontcount = 250 - editText.length();
-        tv_limit.setText(fontcount + "");
-    }
-
 
 
     private void showToast(String s) {

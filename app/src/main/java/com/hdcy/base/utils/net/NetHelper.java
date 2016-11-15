@@ -315,7 +315,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/comments/");
         request.addParam("targetId",tagId);
         request.addParam("page",pagecount);
-        request.addParam("size",20);
+        request.addParam("size",10);
         request.addParam("sort","createdTime,desc");
         request.addParam("target",target);
         return request.postarray(new NetRequestCallBack() {
@@ -964,7 +964,7 @@ public class NetHelper {
         request.addParam("target",targettype);
         request.addParam("enable","true");
         request.addParam("page",pagecount);
-        request.addParam("size",20);
+        request.addParam("size",10);
         request.addParam("sort","createdTime,desc");
         return request.getpraisearray(new NetRequestCallBack() {
             @Override
@@ -1192,6 +1192,40 @@ public class NetHelper {
         request.addParamjson(obj.toString());
         Log.e("requesturl", request.toString()+"");
         return request.postinfo(new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                JSONObject dataObj = responseInfo.getDataObj();
+                if (dataObj != null){
+                    responseInfo.setLoginResult(JSON.parseObject(dataObj.toString(), LoginResult.class));
+                }
+                Log.e("login","success");
+                callBack.onSuccess(requestInfo, responseInfo);
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("login","error");
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("login","faillure");
+            }
+        });
+    }
+
+    public Callback.Cancelable ResetPassword(String phone,String password,final NetRequestCallBack callBack){
+        NetRequest request = new NetRequest("/user/password/reset");
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("phone",phone);
+            obj.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        request.addParamjson(obj.toString());
+        Log.e("requesturl", request.toString()+"");
+        return request.putinfo(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONObject dataObj = responseInfo.getDataObj();

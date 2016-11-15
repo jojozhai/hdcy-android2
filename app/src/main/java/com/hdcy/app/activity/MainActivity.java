@@ -23,12 +23,15 @@ import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
+import static javax.net.ssl.SSLEngineResult.Status.OK;
+
 public class MainActivity extends SupportActivity {
 
     private static final String TAG = "MainActivity";
 
     private boolean isFirstStart;// 是否第一次启动首页
 
+    private static final int REQUEST_BOOT_ACTIVITY = 301;
 
     private Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg){
@@ -39,7 +42,6 @@ public class MainActivity extends SupportActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("isFirstStart",isFirstStart+"");
         isFirstStart = true;
         PlatformConfig.setWeixin("wx6619f92e0cc550da","431c26c014b6ea3c4aab0b1d8016b2b9");
         if(savedInstanceState == null){
@@ -47,23 +49,22 @@ public class MainActivity extends SupportActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-/*        if (requestCode == REQUEST_SPLASH){
-            switch (resultCode){
-*//*                case RESULT_OK:
-                    if ()*//*
-            }
-        }else if(requestCode == REQUST_ENTER){
-            switch (resultCode){
-                case RESULT_CANCELED:
-                    super.finish();
-                    break;
-                case RESULT_OK:
-                    break;
-            }
-        }*/
+        if(resultCode == 119 && requestCode == REQUEST_BOOT_ACTIVITY){
+            BaseInfo.isFirstStart = DBHelper.putBooleanData(DBHelper.KEY_IS_FIRST_START,false);
+            Log.e("开始splashActivity","true");
+            doJumpSpalshActivity();
+
+        }else if(resultCode == 120 && requestCode == REQUEST_BOOT_ACTIVITY){
+            Log.e("登录注册界面","true");
+            doRegisterOrLoginActivity();
+        }else {
+            Log.e("已登录","true");
+        }
+
     }
 
     @Override
@@ -72,7 +73,7 @@ public class MainActivity extends SupportActivity {
         if (hasFocus && isFirstStart){
             isFirstStart = false;
             Intent intent = new Intent(this,BootActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,REQUEST_BOOT_ACTIVITY);
         }
     }
 
@@ -96,7 +97,9 @@ public class MainActivity extends SupportActivity {
     protected void onResume() {
         super.onResume();
         readData();
+        Log.e("isFirstStartResume",isFirstStart+"");
     }
+
 
     private void readData(){
         String dir = "DICM/Camera";
@@ -112,5 +115,17 @@ public class MainActivity extends SupportActivity {
         if(BaseUtils.isEmptyString(BaseInfo.pp_token)){
             BaseInfo.getPp_token();
         }
+    }
+
+    private void doJumpSpalshActivity(){
+        Intent intent = new Intent();
+        intent.setClass(this, SplashActivity.class);
+        startActivity(intent);
+    }
+
+    private void doRegisterOrLoginActivity(){
+        Intent intent = new Intent();
+        intent.setClass(this,RegisterAndLoginActivity.class);
+        startActivity(intent);
     }
 }

@@ -109,7 +109,6 @@ public class MainFragment extends BaseFragment {
     private void initView(View view){
         EventBus.getDefault().register(this);
         toolbar = (Toolbar) view.findViewById(R.id.tl_custom);
-
         iv_nav_message = (ImageView) view.findViewById(R.id.iv_nav_message);
         iv_nav_message.setOnClickListener(onClickListener);
         iv_nav_mine = (ImageView) view.findViewById(R.id.iv_nav_mine_info) ;

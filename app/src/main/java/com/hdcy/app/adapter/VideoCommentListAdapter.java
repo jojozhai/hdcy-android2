@@ -17,6 +17,7 @@ import com.hdcy.app.R;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Replys;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.RelativeTimeUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -39,7 +40,6 @@ public class VideoCommentListAdapter  extends BaseAdapter{
 
     private List<CommentsContent> data = new ArrayList<>();
     List<Replys> replysList = new ArrayList<>();
-    private List<Boolean> status = new ArrayList<>();
     private Replys replys;
     ReplysVideoAdapter replysAdapter;
 
@@ -69,12 +69,11 @@ public class VideoCommentListAdapter  extends BaseAdapter{
     }
 
 
-    public VideoCommentListAdapter(Context context, List<CommentsContent> data, List<Boolean> status){
+    public VideoCommentListAdapter(Context context, List<CommentsContent> data){
         super();
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.data = data;
-        this.status = status;
     }
 
     @Override
@@ -138,10 +137,12 @@ public class VideoCommentListAdapter  extends BaseAdapter{
         holder.lv_replys.setTag(replysList);
         holder.lv_replys.setAdapter(replysAdapter);
         holder.tv_name.setText(item.getCreaterName()+"");
-        Picasso.with(context).load((item.getCreaterHeadimgurl()))
-                .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
-                .resize(50,50)
-                .into(holder.iv_avatar);
+        if(!BaseUtils.isEmptyString(item.getCreaterHeadimgurl())) {
+            Picasso.with(context).load((item.getCreaterHeadimgurl()))
+                    .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
+                    .resize(50, 50)
+                    .into(holder.iv_avatar);
+        }
         Date time = item.getCreatedTime();
         String nowdate = RelativeTimeUtils.format(time);
 

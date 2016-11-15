@@ -7,12 +7,12 @@
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/lv_tab_chat"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        />
+        <ListView
+            android:id="@+id/lv_tab_chat"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            />
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
 
     <ImageView

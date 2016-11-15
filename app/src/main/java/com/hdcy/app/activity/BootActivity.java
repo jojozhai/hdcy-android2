@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
@@ -26,9 +27,10 @@ public class BootActivity extends SupportActivity {
 
     private static final String TAG = "BootActivity";
     LinearLayout boot_ll_layout ;
-    boolean isFirstStart = BaseInfo.getIs_First_start();
+    private boolean isFirstStart = BaseInfo.getIs_First_start();
+    private boolean tokenstatus;
 
-    private final static int WAIT_TIME = 2000;// 启动页加载完成等待时间
+    private final static int WAIT_TIME = 3000;// 启动页加载完成等待时间
 
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -67,14 +69,26 @@ public class BootActivity extends SupportActivity {
                 imgView.startAnimation(alpha);
             }
         }
-
-        if(isFirstStart && BaseUtils.isEmptyString(BaseInfo.getPp_token())){
-            BaseInfo.isFirstStart = false;
-            BaseInfo.isFirstStart = DBHelper.putBooleanData(DBHelper.KEY_IS_FIRST_START,false);
-            doSplashActivity();
-        }else if (!isFirstStart && BaseUtils.isEmptyString(BaseInfo.getPp_token())){
-            doRegisterActivity();
-        }else if (!isFirstStart && !BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+        if(!BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+            Log.e("tokenstatus","已登录");
+            tokenstatus =true;
+        }else {
+            Log.e("tokenstatus", "未登录" );
+            tokenstatus = false;
+        }
+        //启动SplashActvity
+        if (BaseInfo.isFirstStart && !tokenstatus){
+            setResult(119);
+            doFinish();
+        }else if(!BaseInfo.isFirstStart && !tokenstatus){
+            //启动注册页面
+            setResult(120);
+            doFinish();
+        }else if(!BaseInfo.isFirstStart && tokenstatus){
+            //已登录
+            setResult(121);
+            doFinish();
+        }else{
             doFinish();
         }
 
@@ -105,7 +119,6 @@ public class BootActivity extends SupportActivity {
 
             @Override
             public void run() {
-                setResult(RESULT_OK);
                 finish();
             }
         }, WAIT_TIME);
@@ -116,7 +129,7 @@ public class BootActivity extends SupportActivity {
 
             @Override
             public void run() {
-                doJumpSpalshActivity();
+                setResult(RESULT_OK);
                 finish();
             }
         }, WAIT_TIME);
@@ -127,7 +140,7 @@ public class BootActivity extends SupportActivity {
 
             @Override
             public void run() {
-                doRegisterOrLoginActivity();
+                setResult(119);
                 finish();
             }
         }, WAIT_TIME);

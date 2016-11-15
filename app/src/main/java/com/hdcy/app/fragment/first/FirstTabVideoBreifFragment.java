@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseFragment;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 /**
  * Created by WeiYanGeorge on 2016-10-24.
  */
@@ -23,6 +26,7 @@ public class FirstTabVideoBreifFragment extends BaseFragment {
     private String mStr = null;
 
     private TextView mTvTitle;
+    private TextView tv_biref_desc;
 
     private WebView mWebView;
 
@@ -51,7 +55,9 @@ public class FirstTabVideoBreifFragment extends BaseFragment {
     private void initView(View view) {
         mTvTitle = (TextView) view.findViewById(R.id.tv_title);
         mTvTitle.setText("视频简介");
-        mWebView= (WebView) view.findViewById(R.id.wv_vedio_desc);
+        tv_biref_desc = (TextView) view.findViewById(R.id.tv_biref_desc);
+        setData();
+/*        mWebView= (WebView) view.findViewById(R.id.wv_vedio_desc);
         //mWebView.loadUrl("http://baidu.com");
         mWebView.loadDataWithBaseURL(null, mStr, "text/html", "utf-8", null);
         mWebView.getSettings().setJavaScriptEnabled(true);
@@ -70,6 +76,12 @@ public class FirstTabVideoBreifFragment extends BaseFragment {
 
         //启用支持javascript
         WebSettings settings = mWebView.getSettings();
-        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptEnabled(true);*/
+    }
+
+    private void setData(){
+        Document document = Jsoup.parse(mStr);
+        String htmlcontent = document.select("html").text();
+        tv_biref_desc.setText(htmlcontent);
     }
 }

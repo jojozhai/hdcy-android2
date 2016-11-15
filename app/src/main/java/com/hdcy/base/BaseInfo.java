@@ -201,7 +201,6 @@ public class BaseInfo implements BaseData {
             return true;
         }else {
             return false;
-            //Intent intent = new Intent(context,Log)
         }
     }
     /**

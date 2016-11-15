@@ -70,7 +70,7 @@ public class PhoneSmsConfirmFragment extends BaseBackFragment{
                 if(checkData()) {
                     Toast.makeText(getContext(), phone_content +","+sms_content,Toast.LENGTH_SHORT).show();
                     SubmitSmsCode();
-                    _mActivity.onBackPressed();
+                    //_mActivity.onBackPressed();
                 }
             }
         });
@@ -79,6 +79,25 @@ public class PhoneSmsConfirmFragment extends BaseBackFragment{
         NetHelper.getInstance().SubmitPhoneSmsCode(phone_content, sms_content, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                SubmitNewPhone();
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+    }
+    private void SubmitNewPhone(){
+        NetHelper.getInstance().EditMineInfomation("mobile", phone_content, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Toast.makeText(getActivity(), "修改成功!", Toast.LENGTH_SHORT).show();
                 _mActivity.onBackPressed();
             }
 

@@ -13,11 +13,15 @@ import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
+import com.hdcy.app.fragment.Message.MessageFragment;
 import com.hdcy.app.fragment.mine.EditPhoneFragment;
+import com.hdcy.app.fragment.register.RegisterSecondFragment;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by WeiYanGeorge on 2016-11-14.
@@ -101,6 +105,8 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getContext(),"验证码发送成功",Toast.LENGTH_SHORT).show();
+                start(ResetPasswordSecondFragment.newInstance(phone_content));
+                _mActivity.onBackPressed();
             }
 
             @Override
@@ -120,6 +126,8 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getContext(),"手机验证成功",Toast.LENGTH_SHORT).show();
+                startWithPop(ResetPasswordSecondFragment.newInstance(phone_content));
+                //_mActivity.onBackPressed();
             }
 
             @Override

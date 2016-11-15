@@ -1,5 +1,6 @@
 package com.hdcy.app.fragment.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.hdcy.app.R;
+import com.hdcy.app.activity.LoginActivity;
 import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.model.LoginResult;
 import com.hdcy.base.BaseInfo;
@@ -114,16 +117,23 @@ public class RegisterThirdFragment extends BaseBackFragment {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 result = responseInfo.getLoginResult();
+                Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                _mActivity.onBackPressed();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                result = responseInfo.getLoginResult();
+                Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                result = responseInfo.getLoginResult();
+                Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
             }
         });
     }

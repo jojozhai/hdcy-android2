@@ -82,6 +82,7 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first_page,container,false);
         initView(view);
+        GetBannerDatas();
         initData();
         setListener();
         return view;
@@ -114,17 +115,22 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
-        mAdapter  = new CommonsAdapter<VideoBasicInfo>(getActivity(),videoBasicInfoList,R.layout.item_second_fragment) {
+        mAdapter  = new CommonsAdapter<VideoBasicInfo>(getActivity(),videoBasicInfoList,R.layout.item_video_list) {
             @Override
             public void convert(ViewHolder holder, VideoBasicInfo item) {
-                holder.setText(R.id.tv_video_title, item.getName());
+                holder.setText(R.id.tv_video_title_list, item.getName());
                 Date date = item.getStartTime();
                 String dataFormate = date2Str(date,"yyyy-MM-dd / HH:mm");
-                String subtitle = "#"+item.getLiveState()+"#";
+                String subtitle = "";
+                if(item.getLiveState().equals("回放")) {
+                     subtitle = "#" + "视频" + "#";
+                }else {
+                     subtitle = "#" + item.getLiveState() + "#";
+                }
                 if(item.getLiveState()=="未开始"){
                     subtitle = subtitle+ dataFormate;
                 }
-                holder.setText(R.id.tv_video_desc,subtitle);
+                holder.setText(R.id.tv_video_subtitle,subtitle);
                 ImageView iv_video_bg = holder.getView(R.id.iv_video_background);
                 Picasso.with(getActivity()).load(item.getImage())
                         .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
@@ -149,7 +155,7 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
 
     private void initData(){
         GetVideoBasicInfo();
-        GetBannerDatas();
+        //GetBannerDatas();
     }
 
     private void setData(){
@@ -216,7 +222,7 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
                 View view = View.inflate(getActivity(), R.layout.item_video_banner, null);
                 container.addView(view);
                 TextView tv_video_title = (TextView) view.findViewById(R.id.tv_video_title);
-                TextView tv_video_subtitle = (TextView) view.findViewById(R.id.tv_video_desc);
+                TextView tv_video_subtitle = (TextView) view.findViewById(R.id.tv_video_subtitle);
                 tv_video_title.setText(item.getName()+"");
                 Date date = item.getStartTime();
                 String dataFormate = date2Str(date,"yyyy-MM-dd / HH:mm");
