@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
+import com.hdcy.app.model.LoginResult;
+import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -27,6 +30,8 @@ public class EditPasswordFragment extends BaseBackFragment {
     String oldContent;
     String newContent;
     ImageView iv_back;
+    private LoginResult loginResult;
+
 
     public static EditPasswordFragment newInstance(){
         Bundle args = new Bundle();
@@ -79,17 +84,21 @@ public class EditPasswordFragment extends BaseBackFragment {
         NetHelper.getInstance().EditPersonalPassword(oldContent, newContent, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+/*                loginResult = responseInfo.getLoginResult();
+                BaseInfo.clearPp_token();
+                BaseInfo.setPp_token(loginResult.getContent());*/
+                Toast.makeText(getContext(),"密码修改成功",Toast.LENGTH_SHORT).show();
+                _mActivity.onBackPressed();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"密码修改失败,旧密码错误",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"密码修改失败,旧密码错误",Toast.LENGTH_SHORT).show();
             }
         });
     }

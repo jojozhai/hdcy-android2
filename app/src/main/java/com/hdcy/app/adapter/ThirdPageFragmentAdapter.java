@@ -117,7 +117,15 @@ public class ThirdPageFragmentAdapter extends BaseAdapter {
                     .into(holder.iv_activity_sponsor);
         }*/
 
-        if(item.getFinish()==true){
+/*        if(item.getFinish()==true||item.isSignFinish() ==true){
+            Log.e("activitystatus",item.getFinish()+"1");
+            holder.iv_activity_status.setTag(position);
+            holder.iv_activity_status.setVisibility(View.VISIBLE);
+        }else {
+            holder.iv_activity_status.setVisibility(View.GONE);
+        }*/
+
+        if(item.getState().equals("FINISH")){
             Log.e("activitystatus",item.getFinish()+"1");
             holder.iv_activity_status.setTag(position);
             holder.iv_activity_status.setVisibility(View.VISIBLE);

@@ -62,6 +62,16 @@ public class ActivityContent implements Serializable {
 
     private String sponsorImage;
 
+    private boolean signFinish;
+
+    private Date signStartTime;
+
+    private Date signEndTime;
+
+    private String state;
+
+
+
     public void setId(int id){
         this.id = id;
     }
@@ -217,6 +227,42 @@ public class ActivityContent implements Serializable {
     public void setSponsorName(String sponsorName) {
         this.sponsorName = sponsorName;
     }
+
+    public boolean isSignFinish() {
+        return signFinish;
+    }
+
+    public void setSignFinish(boolean signFinish) {
+        this.signFinish = signFinish;
+    }
+
+    public Date getSignStartTime() {
+        return signStartTime;
+    }
+
+    public void setSignStartTime(Date signStartTime) {
+        this.signStartTime = signStartTime;
+    }
+
+    public Date getSignEndTime() {
+        return signEndTime;
+    }
+
+    public void setSignEndTime(Date signEndTime) {
+        this.signEndTime = signEndTime;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+
+
+
 
 
 

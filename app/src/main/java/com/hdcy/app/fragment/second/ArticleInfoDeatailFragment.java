@@ -133,6 +133,9 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
             commentsList.add(0,commentsContent);
             Log.e("commentlistsizeafter",commentsList.size()+"");
             mAdapter.notifyDataSetChanged();
+            int i = articleInfo.getCommentCount()+1;
+            tv_comment_count.setText("("+i+")");
+
         }
     }
 

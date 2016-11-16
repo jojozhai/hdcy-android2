@@ -66,7 +66,7 @@ public class EditPhoneFragment extends BaseBackFragment{
                 if(checkData()){
                     GetSmsCode();
                     _mActivity.onBackPressed();
-                    EventBus.getDefault().post(new StartBrotherEvent(PhoneSmsConfirmFragment.newInstance(content)));
+
                 }
             }
         });
@@ -81,8 +81,7 @@ public class EditPhoneFragment extends BaseBackFragment{
         NetHelper.getInstance().GetPhoneSmsCode(content, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-
+                EventBus.getDefault().post(new StartBrotherEvent(PhoneSmsConfirmFragment.newInstance(content)));
             }
 
             @Override

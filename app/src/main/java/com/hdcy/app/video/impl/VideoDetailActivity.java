@@ -88,6 +88,7 @@ public class VideoDetailActivity extends SupportActivity {
     private VideoCommentListAdapter mAdapter;
 
     private VideoBasicInfo mBean;
+    private VideoBasicInfo DeatailBean;
 
     private MyPlayView jcVideoPlayerStandard;
 
@@ -134,10 +135,11 @@ public class VideoDetailActivity extends SupportActivity {
         super.onCreate(bundles);
         setContentView(R.layout.activity_video_detail);
         Context context;
+        DeatailBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         mBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         String intentAction = getIntent().getAction();
         init();
-
+        GetData();
         IntentFilter filter = new IntentFilter();
         filter.setPriority(1000);
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -320,6 +322,26 @@ public class VideoDetailActivity extends SupportActivity {
 
     private void setData(){
         mAdapter.notifyDataSetChanged();
+    }
+
+    private void GetData(){
+        NetHelper.getInstance().getOneVedioDetail(DeatailBean.getId(), new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                mBean = responseInfo.getVideoBasicInfo();
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
+
     }
 
     public void GetCommentSList(){

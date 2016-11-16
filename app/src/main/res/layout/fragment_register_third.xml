@@ -58,11 +58,12 @@
                     android:layout_marginLeft="12dp"
                     android:alpha="0.7"
                     android:background="@color/white"
-                    android:hint="请输入手机"
+                    android:hint="请输入验证码"
                     android:textColor="#494949"
                     android:textColorHint="#494949"
                     android:textSize="15sp" />
                 <Button
+                    android:id="@+id/bt_resend_sms"
                     android:layout_height="30dp"
                     android:layout_width="60dp"
                     android:layout_gravity="center"

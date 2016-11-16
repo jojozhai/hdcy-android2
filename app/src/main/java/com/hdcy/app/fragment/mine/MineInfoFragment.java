@@ -38,6 +38,8 @@ import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.model.AvatarResult;
 import com.hdcy.app.model.PraiseResult;
 import com.hdcy.app.model.UserBaseInfo;
+import com.hdcy.app.permission.PermissionsActivity;
+import com.hdcy.app.permission.PermissionsChecker;
 import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.SizeUtils;
@@ -118,6 +120,9 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
     Button bt_general_submit;
     EditText editText_general;
 
+    //真实姓名
+    TextView tv_mine_name;
+
     //性别选择
     AlertDialog sexAlertDialog;
     TextView tv_sex_man;
@@ -140,10 +145,19 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
     private boolean isEdit;
     SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 
+    private PermissionsChecker mPermissionsChecker;
+
+    private static final int REQUEST_CODE = 0;
+
     private Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg){
 
         }
+    };
+
+    static final String[] PERMISSIONS = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
 
@@ -163,11 +177,13 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
         userBaseInfo = (UserBaseInfo) getArguments().getSerializable("param");
         Log.e("传递的个人资料",userBaseInfo.getId()+"");
         initView(view);
+        mPermissionsChecker = new PermissionsChecker(getActivity());
         avatarHeight = SizeUtils.dpToPx(50);
         avatarWidth = SizeUtils.dpToPx(50);
         setListener();
         return view;
     }
+
     @Override
     public void onDateSet(TimePickerDialog timePickerDialog, long millseconds) {
         String text = getDateToString(millseconds);
@@ -189,6 +205,18 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             Log.e("photo url:",file.getAbsolutePath()+"size"+size);
             UploadAvatar();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mPermissionsChecker.lacksPermissions(PERMISSIONS)){
+            startPermissionsActivity();
+        }
+    }
+
+    private void startPermissionsActivity() {
+        PermissionsActivity.startActivityForResult(getActivity(), REQUEST_CODE, PERMISSIONS);
     }
 
     @Override
@@ -271,7 +299,14 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             @Override
             public void onClick(View v) {
                 editType = "nickname";
-                ShowNickNameDialog();
+                ShowNickNameDialog("编辑昵称");
+            }
+        });
+        ll_mineinfo_realname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editType = "realname";
+                ShowNickNameDialog("编辑姓名");
             }
         });
 
@@ -392,7 +427,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
         tv_mine_personalinfo_interests.setText(userBaseInfo.getTags());
     }
 
-    private void ShowNickNameDialog(){
+    private void ShowNickNameDialog(String name){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.alertdialog_edit_nickname,null);
@@ -412,6 +447,8 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
 
             }
         };
+        tv_mine_name = (TextView) view.findViewById(R.id.tv_mine_name);
+        tv_mine_name.setText(name);
         bt_general_cancel = (Button) view.findViewById(R.id.bt_nickname_cancel);
         bt_general_cancel.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -84,11 +84,17 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
     @Override
     public void onResume() {
         super.onResume();
-/*        if(BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+        GetUserCurrentInfo();
+        /*        if(BaseUtils.isEmptyString(BaseInfo.getPp_token())){
             Intent intent = new Intent();
             intent.setClass(getContext(), ReLoginActivity.class);
             startActivityForResult(intent,REQUEST_LOGIN_INFO);
         }*/
+        if(BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+            //showHideFragment(MessageFragment.newInstance(),getTopFragment());
+           // replaceFragment(MessageFragment.newInstance(),true);
+            //startWithPop(MessageFragment.newInstance());
+        }
     }
 
     @Override

@@ -81,6 +81,13 @@ public class ActivityDetails implements Serializable {
 
     private Date signEndTime;
 
+    private String province;
+
+    private String city;
+
+    private WaiterInfo waiterInfo;
+
+
     public void setId(int id){
         this.id = id;
     }
@@ -289,5 +296,32 @@ public class ActivityDetails implements Serializable {
     public void setSponsorImage(String sponsorImage) {
         this.sponsorImage = sponsorImage;
     }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+
+    public WaiterInfo getWaiterInfo() {
+        return waiterInfo;
+    }
+
+    public void setWaiterInfo(WaiterInfo waiterInfo) {
+        this.waiterInfo = waiterInfo;
+    }
+
+
 }
 

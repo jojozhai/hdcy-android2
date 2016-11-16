@@ -30,9 +30,9 @@ public class FourthPagesItem2Delegate implements ItemViewDelegate<LeaderInfo> {
     @Override
     public boolean isForViewType(LeaderInfo item, int position) {
         if(position % 2 ==0){
-            return true;
-        }else {
             return false;
+        }else {
+            return true;
         }
         /*return false;*/
 /*        if(item.getTop()){

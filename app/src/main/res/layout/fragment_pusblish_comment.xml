@@ -19,7 +19,7 @@
         android:hint="写点什么吧......"
         android:lineSpacingExtra="@dimen/main_font_body_line_space"
         android:lines="5"
-        android:maxLength="70"
+        android:maxLength="250"
         android:paddingBottom="@dimen/main_padding_bottom"
         android:paddingLeft="@dimen/main_padding_left"
         android:paddingRight="@dimen/main_padding_right"
@@ -37,7 +37,7 @@
         android:layout_marginLeft="@dimen/main_margin_left"
         android:layout_marginRight="30dp"
         android:layout_marginTop="-30dp"
-        android:text="70"
+        android:text="250"
         android:textColor="@color/main_font_gray_2"
         android:textSize="@dimen/main_font_body" />
 </LinearLayout>

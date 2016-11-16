@@ -34,6 +34,10 @@ import com.hdcy.app.model.VideoBasicInfo;
 import com.hdcy.app.video.preference.Settings;
 import com.hdcy.app.view.MyLiveView;
 import com.hdcy.base.utils.SizeUtils;
+import com.hdcy.base.utils.net.NetHelper;
+import com.hdcy.base.utils.net.NetRequestCallBack;
+import com.hdcy.base.utils.net.NetRequestInfo;
+import com.hdcy.base.utils.net.NetResponseInfo;
 import com.ucloud.common.logger.L;
 import com.ucloud.player.widget.v2.UVideoView;
 
@@ -79,6 +83,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
     private TabLayout mTab;
     private ViewPager mViewPager;
     private VideoBasicInfo mBean;
+    private VideoBasicInfo DetailBean;
 
     private static final int MSG_INIT_PLAY = 0;
 
@@ -117,8 +122,9 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         ScreenWidth = SizeUtils.getScreenWidth();
         ScreenHeight = SizeUtils.getScreenHeight();
         OriginHeight = SizeUtils.dpToPx(200);
-
+        DetailBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         mBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
+        GetData();
         Toast.makeText(this, ""+mBean.getStreamId(), Toast.LENGTH_SHORT).show();
         //
         mSettings = new Settings(this);
@@ -198,11 +204,10 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         mViewPager = (ViewPager) this.findViewById(R.id.live_viewPager);
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
-
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragments.add(FirstTabVideoBreifFragment.newInstance(mBean.getDesc()));
+                mFragments.add(FirstTabVideoBreifFragment.newInstance(mBean.getDesc()+""));
                 mFragments.add(FirstTabVideoChatFragment.newInstance(mBean.getId()+"", "article"));
                 mViewPager.setAdapter(new ViewPageFragmentAdapter(getSupportFragmentManager()));
                 mTab.setupWithViewPager(mViewPager);
@@ -378,6 +383,25 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
                 L.e(TAG, "network block end....");
                 break;
         }
+    }
+
+    private void GetData(){
+        NetHelper.getInstance().getOneVedioDetail(DetailBean.getId(), new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                mBean = responseInfo.getVideoBasicInfo();
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+        });
     }
 
 

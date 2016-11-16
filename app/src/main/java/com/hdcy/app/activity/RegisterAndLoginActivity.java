@@ -104,6 +104,16 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode ==9001){
+            Log.e("yanwei","hehe");
+        }else if(requestCode==9002){
+            Log.e("yanwei","heiehi");
+        }
+    }
+
     private void setListener(){
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,13 +140,15 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
     private void startRegister(){
 
         Intent intent = new Intent(this,RegisterActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,9001);
         finish();
     }
 
     private void startLogin(){
         Intent intent = new Intent(this,LoginActivity.class);
-        startActivity(intent);
+        //startActivity(intent);
+        startActivityForResult(intent,9002);
+        finish();
     }
 
     /**

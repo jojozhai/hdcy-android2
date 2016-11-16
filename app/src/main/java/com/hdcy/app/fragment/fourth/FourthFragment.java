@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseLazyMainFragment;
+import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.first.FirstFragment;
 import com.hdcy.app.fragment.fourth.child.FourthPagesFragment;
 import com.hdcy.app.fragment.second.SecondFragment;
@@ -35,6 +36,8 @@ import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +91,7 @@ public class FourthFragment extends BaseLazyMainFragment{
         View view = inflater.inflate(R.layout.fragment_fourth_page,container,false);
         initView(view);
         initData();
+        setListener();
         return view;
     }
 
@@ -113,6 +117,16 @@ public class FourthFragment extends BaseLazyMainFragment{
             }
         });
         setData();
+    }
+
+    private void setListener(){
+        leaderBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
+            @Override
+            public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
+                EventBus.getDefault().post(new StartBrotherEvent(LeaderDetailInfoFragment.newInstance(leaderBannerInfo.get(position))));
+
+            }
+        });
     }
 
     private void initData(){
@@ -182,7 +196,7 @@ public class FourthFragment extends BaseLazyMainFragment{
                     leaderBannerInfo = responseInfo.getLeaderInfo();
                     for (int i = 0; i < leaderBannerInfo.size(); i++) {
                         imgurls.add(i, leaderBannerInfo.get(i).getTopImage());
-                        tips.add(i, leaderBannerInfo.get(i).getName());
+                        tips.add(i, "");
                     }
                     setData1();
 
@@ -261,14 +275,6 @@ public class FourthFragment extends BaseLazyMainFragment{
             return pagetitles[position];
         }
     }
-
-
-
-
-
-
-
-
 
 
 }

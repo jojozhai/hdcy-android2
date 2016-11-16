@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseFragment;
+import com.hdcy.base.utils.BaseUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -80,8 +81,12 @@ public class FirstTabVideoBreifFragment extends BaseFragment {
     }
 
     private void setData(){
-        Document document = Jsoup.parse(mStr);
-        String htmlcontent = document.select("html").text();
-        tv_biref_desc.setText(htmlcontent);
+        if (BaseUtils.isEmptyString(mStr)) {
+            tv_biref_desc.setText("");
+        }else {
+            Document document = Jsoup.parse(mStr);
+            String htmlcontent = document.select("html").text();
+            tv_biref_desc.setText(htmlcontent);
+        }
     }
 }

@@ -112,7 +112,7 @@ public class SecondPagesFragment extends BaseFragment implements BGARefreshLayou
                 Content temp = contentList.get(position);
                 if(temp.isLinkOut()){
                     Toast.makeText(getActivity(), "Click:" + temp.getOutLink() , Toast.LENGTH_SHORT).show();
-                    EventBus.getDefault().post(new StartBrotherEvent(OutLinkWebFragment.newInstance(temp.getOutLink()+"","咨询详情")));
+                    EventBus.getDefault().post(new StartBrotherEvent(OutLinkWebFragment.newInstance(temp.getOutLink()+"","")));
                 }else {
                     EventBus.getDefault().post(new StartBrotherEvent(ArticleInfoDeatailFragment.newInstance(contentList.get(position).getId()+"")));
                 }

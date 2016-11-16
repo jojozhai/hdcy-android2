@@ -115,7 +115,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
     private int pagecount = 0;
 
     private String activityid;
-    private ActivityDetails activityDetails;
+    private ActivityDetails activityDetails = new ActivityDetails();
     private Result result;
     private List<CommentsContent> commentsList = new ArrayList<>();
     private CommentsContent commentsContent =new CommentsContent();
@@ -147,6 +147,12 @@ public class OfflineActivityFragment extends BaseBackFragment{
         initData();
         setListener();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
     }
 
     @Override
@@ -310,9 +316,13 @@ public class OfflineActivityFragment extends BaseBackFragment{
         tv_activity_starttime.setText(dateformat1);
         tv_activity_register_end.setText(dateformat2);
         tv_people_limits.setText(activityDetails.getPeopleLimit()+"");
-        tv_activity_fee.setText(activityDetails.getPrice()+"");
-        tv_activity_address.setText(activityDetails.getAddress()+"");
+        if(activityDetails.getPrice() ==0.0){
+            tv_activity_fee.setText("免费");
+        }else {
+            tv_activity_fee.setText(activityDetails.getPrice()+"");
+        }
 
+        tv_activity_address.setText(activityDetails.getProvince()+activityDetails.getCity()+activityDetails.getAddress()+"");
 
         mAdapter.notifyDataSetChanged();
         if(commentsList.isEmpty()){
@@ -333,9 +343,8 @@ public class OfflineActivityFragment extends BaseBackFragment{
         tv_activity_waiter_phone = (TextView) view.findViewById(R.id.tv_activity_waiter_phone);
         iv_call_phone = (ImageView) view.findViewById(R.id.iv_call_phone);
         iv_cal_cancel = (ImageView) view.findViewById(R.id.iv_call_cancel);
-
-        tv_activity_waiter.setText(activityDetails.getWaiterName()+"");
-        tv_activity_waiter_phone.setText(activityDetails.getWaiterPhone());
+        tv_activity_waiter.setText(activityDetails.getWaiterInfo().getName()+"");
+        tv_activity_waiter_phone.setText(activityDetails.getWaiterInfo().getPhone()+"");
         builder.setView(view);
         builder.create();
         alertDialogphone = builder.create();
@@ -351,7 +360,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
         iv_call_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doCallPhone(activityDetails.getWaiterPhone());
+                doCallPhone(activityDetails.getWaiterInfo().getPhone()+"");
             }
         });
         alertDialogphone.show();

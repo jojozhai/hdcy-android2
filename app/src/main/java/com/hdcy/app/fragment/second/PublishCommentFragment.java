@@ -80,7 +80,7 @@ public class PublishCommentFragment extends BaseBackFragment {
     }
 
     private void resetViewData() {
-        int fontcount = 70 - edt_comment_content.length();
+        int fontcount = 250 - edt_comment_content.length();
         tv_limit.setText(fontcount + "");
     }
 

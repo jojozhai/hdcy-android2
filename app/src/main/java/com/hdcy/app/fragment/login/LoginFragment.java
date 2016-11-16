@@ -103,6 +103,7 @@ public class LoginFragment extends BaseBackFragment {
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 loginResult = responseInfo.getLoginResult();
                 BaseInfo.setPp_token(loginResult.getContent());
+                Toast.makeText(getContext(),"登录成功",Toast.LENGTH_SHORT).show();
                 _mActivity.onBackPressed();
                 Bundle bundle = new Bundle();
                 setFramgentResult(RESULT_OK,bundle);
@@ -110,7 +111,7 @@ public class LoginFragment extends BaseBackFragment {
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"用户名或密码错误",Toast.LENGTH_SHORT).show();
             }
 
             @Override

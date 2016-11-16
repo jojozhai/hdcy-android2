@@ -16,6 +16,7 @@ import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.fragment.Message.MessageFragment;
 import com.hdcy.app.fragment.mine.EditPhoneFragment;
 import com.hdcy.app.fragment.register.RegisterSecondFragment;
+import com.hdcy.base.utils.CustomCountDownTimer;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -36,6 +37,7 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
     ImageView iv_back;
     Button bt_reset_smscode;
     Button bt_reset_submit;
+    private CustomCountDownTimer countDownTimer;
 
     public static ResetPasswordFirstFragment newInstance(){
         Bundle args = new Bundle();
@@ -59,6 +61,7 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
         bt_reset_smscode = (Button) view.findViewById(R.id.bt_reset_smscode);
         bt_reset_submit = (Button) view.findViewById(R.id.bt_reset_submit);
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
+        countDownTimer = new CustomCountDownTimer(60*1000,1000,bt_reset_smscode);
     }
 
     public void setListener(){
@@ -72,6 +75,7 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
             @Override
             public void onClick(View v) {
                 if(checkPhone()) {
+                    countDownTimer.start();
                     GetSmsMessage();
                 }
             }

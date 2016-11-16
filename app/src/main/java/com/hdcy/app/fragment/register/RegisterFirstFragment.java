@@ -19,6 +19,7 @@ import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.MainFragment;
 import com.hdcy.app.fragment.mine.ChooseCityFragment;
+import com.hdcy.base.utils.BaseUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -113,7 +114,7 @@ public class RegisterFirstFragment extends BaseBackFragment {
         bt_rg_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkData()&&!city_string.isEmpty()&&!sex_string.isEmpty()) {
+                if(checkData()&&!BaseUtils.isEmptyString(city_string)&&!BaseUtils.isEmptyString(sex_string)) {
                     start(RegisterSecondFragment.newInstance(bundle));
                 }else {
                     Toast.makeText(getContext(),"请完善注册的内容",Toast.LENGTH_SHORT).show();

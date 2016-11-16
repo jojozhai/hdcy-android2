@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_gravity="left"
+        android:maxEms="12"
         android:layout_marginLeft="140dp"
         android:layout_marginTop="12dp"
         android:text="我和理想有个约会"

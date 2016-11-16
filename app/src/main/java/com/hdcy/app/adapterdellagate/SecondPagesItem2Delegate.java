@@ -45,7 +45,7 @@ public class SecondPagesItem2Delegate implements ItemViewDelegate<Content> {
         Date time = content.getCreatedTime();
         int Count = content.getReadCount()+content.getReadCountPlus();
         String nowdate = RelativeTimeUtils.format(time);
-        holder.setText(R.id.tv_created_time, nowdate);
+        //holder.setText(R.id.tv_created_time, nowdate);
         holder.setText(R.id.tv_article_title,content.getTitle());
         holder.setText(R.id.bt_tag_title,content.getTagInfos().get(0).getName());
         holder.setText(R.id.tv_info_watched,Count+"");

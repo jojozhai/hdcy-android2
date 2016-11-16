@@ -17,6 +17,7 @@ import com.hdcy.app.activity.LoginActivity;
 import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.model.LoginResult;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.CustomCountDownTimer;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -32,8 +33,11 @@ public class RegisterThirdFragment extends BaseBackFragment {
     String phone, password, sex, city, nickname;
     String smscode;
     Button bt_rg_submit;
+    Button bt_resend_sms;
     LoginResult result;
     EditText edt_smscode;
+
+    private CustomCountDownTimer countDownTimer;
 
     public static RegisterThirdFragment newInstance(Bundle bundle){
         Bundle args = new Bundle();
@@ -65,6 +69,8 @@ public class RegisterThirdFragment extends BaseBackFragment {
         iv_back = (ImageView) view.findViewById(R.id.iv_back);
         bt_rg_submit = (Button) view.findViewById(R.id.bt_phone_submit);
         edt_smscode = (EditText) view.findViewById(R.id.edt_rg_smscode);
+        bt_resend_sms = (Button) view.findViewById(R.id.bt_resend_sms);
+        countDownTimer = new CustomCountDownTimer(60*1000,1000,bt_resend_sms);
     }
 
     private void setListener() {
@@ -80,6 +86,14 @@ public class RegisterThirdFragment extends BaseBackFragment {
                 if(checkData()) {
                     CheckPhoneSms();
                 }
+            }
+        });
+        bt_resend_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                countDownTimer.onStart();
+                Log.e("点击一次","又一次");
+                GetSmsMessage();
             }
         });
     }
@@ -101,12 +115,12 @@ public class RegisterThirdFragment extends BaseBackFragment {
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getActivity(),"验证码校验失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getActivity(),"验证码校验失败",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,10 +132,10 @@ public class RegisterThirdFragment extends BaseBackFragment {
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 result = responseInfo.getLoginResult();
                 Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent();
+/*                Intent intent = new Intent();
                 intent.setClass(getActivity(), LoginActivity.class);
                 startActivity(intent);
-                _mActivity.onBackPressed();
+                _mActivity.onBackPressed();*/
             }
 
             @Override
@@ -134,6 +148,25 @@ public class RegisterThirdFragment extends BaseBackFragment {
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 result = responseInfo.getLoginResult();
                 Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void GetSmsMessage(){
+        NetHelper.getInstance().GetPhoneSmsCode(phone, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
             }
         });
     }

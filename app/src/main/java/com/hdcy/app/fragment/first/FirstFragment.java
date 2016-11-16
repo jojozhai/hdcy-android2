@@ -127,6 +127,9 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
                 }else {
                      subtitle = "#" + item.getLiveState() + "#";
                 }
+                if(!item.getLive()){
+                    subtitle = "#视频#";
+                }
                 if(item.getLiveState()=="未开始"){
                     subtitle = subtitle+ dataFormate;
                 }

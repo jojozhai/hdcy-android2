@@ -315,7 +315,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/comments/");
         request.addParam("targetId",tagId);
         request.addParam("page",pagecount);
-        request.addParam("size",10);
+        request.addParam("size",30);
         request.addParam("sort","createdTime,desc");
         request.addParam("target",target);
         return request.postarray(new NetRequestCallBack() {
@@ -395,7 +395,7 @@ public class NetHelper {
         request.addParam("enable","true");
         request.addParam("size","15");
         request.addParam("signFinish","true");
-        request.addParam("sort","startTime");
+        request.addParam("sort","createdTime,desc");
         request.addParam("top","false");
         return request.postarray(new NetRequestCallBack() {
             @Override
@@ -509,7 +509,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/video");
         request.addParam("page",pageIndex);
         request.addParam("enable","true");
-        request.addParam("size","10");
+        request.addParam("size","15");
         request.addParam("sort","createdTime,desc");
         request.addParam("top","false");
         request.addParam("liveForApp","true");
@@ -780,6 +780,7 @@ public class NetHelper {
 
     public Callback.Cancelable GetOrganLeaderInfo(String contacttyepe,final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/param/"+contacttyepe);
+        request.addParam("top","false");
         return request.postarray(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
@@ -807,6 +808,7 @@ public class NetHelper {
     }
     public Callback.Cancelable GetLeaderInfo(final NetRequestCallBack callBack){
         NetRequest request = new NetRequest("/leader/");
+        request.addParam("top","false");
        // request.addParam("top","true");
         return request.postarray(new NetRequestCallBack() {
             @Override
@@ -840,6 +842,7 @@ public class NetHelper {
         request.addParam("organ",category);
         request.addParam("sort","createdTime,desc");
         request.addParam("enable","true");
+        request.addParam("top","false");
 
         return request.postarray(new NetRequestCallBack() {
             @Override
@@ -1060,7 +1063,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/sms/code");
 
         request.addParam("phone",phone);
-        return request.postobject(new NetRequestCallBack() {
+        return request.getobject(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 //JSONObject dataObj1 = responseInfo.getDataObj();
@@ -1099,12 +1102,14 @@ public class NetHelper {
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("SmsCode","error");
+                callBack.onError(requestInfo, responseInfo);
 
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("SmsCode","onfailure");
+                callBack.onFailure(requestInfo, responseInfo);
 
             }
         });
@@ -1122,19 +1127,26 @@ public class NetHelper {
         return request.putmineinfo(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+/*                JSONObject dataObj = responseInfo.getDataObj();
+                if (dataObj != null){
+                    responseInfo.setLoginResult(JSON.parseObject(dataObj.toString(), LoginResult.class));
+                }*/
                 Log.e("password","success");
                 callBack.onSuccess(requestInfo, responseInfo);
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
                 Log.e("password","error");
+                callBack.onSuccess(requestInfo, responseInfo);
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
                 Log.e("password","failure");
+                callBack.onSuccess(requestInfo, responseInfo);
             }
         });
     }
@@ -1168,11 +1180,13 @@ public class NetHelper {
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("login","error");
+                callBack.onError(requestInfo,responseInfo);
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("login","faillure");
+                callBack.onFailure(requestInfo,responseInfo);
             }
         });
     }
@@ -1205,11 +1219,13 @@ public class NetHelper {
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("login","error");
+                callBack.onError(requestInfo, responseInfo);
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("login","faillure");
+                callBack.onFailure(requestInfo, responseInfo);
             }
         });
     }
@@ -1239,11 +1255,13 @@ public class NetHelper {
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("login","error");
+                callBack.onError(requestInfo, responseInfo);
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("login","faillure");
+                callBack.onFailure(requestInfo, responseInfo);
             }
         });
     }
