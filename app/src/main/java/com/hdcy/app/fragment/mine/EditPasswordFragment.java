@@ -14,6 +14,7 @@ import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.model.LoginResult;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -57,9 +58,19 @@ public class EditPasswordFragment extends BaseBackFragment {
     }
 
     private boolean checkData(){
+
         oldContent = edt_old_password.getText().toString();
         newContent = edt_new_password.getText().toString();
-        return true;
+        if(BaseUtils.isEmptyString(oldContent)||BaseUtils.isEmptyString(newContent)){
+            Toast.makeText(getContext(), "旧密码或新密码不能为空",Toast.LENGTH_SHORT).show();
+            return false ;
+        }else {
+            if(oldContent.length() <8 || newContent.length() <8){
+                Toast.makeText(getContext(),"密码长度不符合,请输入8 - 12位的字符",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            return true;
+        }
     }
 
     private void setListener(){

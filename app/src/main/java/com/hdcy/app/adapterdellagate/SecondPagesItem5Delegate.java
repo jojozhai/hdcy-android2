@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.hdcy.app.R;
 import com.hdcy.app.model.Content;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.SizeUtils;
 import com.squareup.picasso.Picasso;
 import com.zhy.adapter.abslistview.ViewHolder;
@@ -29,6 +30,9 @@ public class SecondPagesItem5Delegate implements ItemViewDelegate<Content>{
 
     @Override
     public boolean isForViewType(Content item, int position) {
+        if(item.getDisplayType() ==null){
+            item.setDisplayType("MIX");
+        }
         if(!item.getDisplayType().equals("MIX")&&item.getBusiness()&&item.getTop()) {
             return true;
         }else {
@@ -42,10 +46,12 @@ public class SecondPagesItem5Delegate implements ItemViewDelegate<Content>{
     public void convert(ViewHolder holder, Content content, int position) {
         iv_info_cover = (ImageView) holder.getView(R.id.iv_article_bg);
         holder.setText(R.id.tv_article_title,content.getTitle());
-        Picasso.with(context).load(content.getImage())
-                .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
-                .error(BaseInfo.PICASSO_ERROR)
-                .resize(width,height)
-                .into(iv_info_cover);
+        if(!BaseUtils.isEmptyString(content.getImage())) {
+            Picasso.with(context).load(content.getImage())
+                    .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
+                    .error(BaseInfo.PICASSO_ERROR)
+                    .resize(width, height)
+                    .into(iv_info_cover);
+        }
     }
 }

@@ -12,6 +12,15 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    sourceSets{
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -20,10 +29,10 @@ android {
     }
     signingConfigs{
         debug{
-/*            storeFile file("..//hdcy.jks")
-            storePassword 'andylau123'
+            storeFile file('..//KeyStore//hdcy.jks')
+            storePassword 'Andylau123'
             keyAlias 'hdcy'
-            keyPassword 'andylau123'*/
+            keyPassword 'Andylau123'
         }
     }
 }
@@ -77,5 +86,15 @@ dependencies {
     //城市选择
     compile 'me.yokeyword:indexablerecyclerview:1.0.5'
     compile 'com.android.support:recyclerview-v7:23'
-
+    //图片压缩
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'top.zibin:Luban:1.0.9'
+    compile files('libs/BaiduLBS_Android.jar')
+    //
+/*    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    //Optional: see how to use the utility.
+    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+    //Optional: see how to use the utility.
+    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'*/
 }

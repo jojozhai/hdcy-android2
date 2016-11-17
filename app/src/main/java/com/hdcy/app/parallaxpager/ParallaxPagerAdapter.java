@@ -2,18 +2,18 @@ package com.hdcy.app.parallaxpager;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.LinkedList;
 
+import static android.view.ViewGroup.LayoutParams;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-/**
- * Created by WeiYanGeorge on 2016-11-10.
- */
 
+/**
+ * @author easonyang
+ */
 public class ParallaxPagerAdapter extends PagerAdapter {
     private int count = 0;
     private final Context context;
@@ -37,7 +37,7 @@ public class ParallaxPagerAdapter extends PagerAdapter {
             view = recycleBin.pop();
         } else {
             view = new View(context);
-            view.setLayoutParams(new ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+            view.setLayoutParams(new LayoutParams(MATCH_PARENT, MATCH_PARENT));
         }
         container.addView(view);
         return view;
@@ -53,4 +53,3 @@ public class ParallaxPagerAdapter extends PagerAdapter {
         return view.equals(object);
     }
 }
-

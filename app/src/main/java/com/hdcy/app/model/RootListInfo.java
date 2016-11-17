@@ -28,4 +28,14 @@ public class RootListInfo implements Serializable{
     public void setLast(boolean last) {
         this.last = last;
     }
+
+    public int getTotalElements() {
+        return totalElements;
+    }
+
+    public void setTotalElements(int totalElements) {
+        this.totalElements = totalElements;
+    }
+
+    private int totalElements;
 }

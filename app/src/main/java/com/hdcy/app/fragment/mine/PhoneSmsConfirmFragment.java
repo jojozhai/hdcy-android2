@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.basefragment.BaseBackFragment;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -52,7 +53,14 @@ public class PhoneSmsConfirmFragment extends BaseBackFragment{
     private boolean checkData() {
         phone_content = edt_phone.getText().toString();
         sms_content = edt_sms.getText().toString();
-        return true;
+        phone_content.trim();
+        sms_content.trim();
+        if(BaseUtils.isEmptyString(phone_content)||BaseUtils.isEmptyString(sms_content)){
+            Toast.makeText(getContext(),"手机和验证码不能为空",Toast.LENGTH_SHORT).show();
+            return false;
+        }else {
+            return true;
+        }
     }
 
     private void initView(View view){
@@ -68,7 +76,6 @@ public class PhoneSmsConfirmFragment extends BaseBackFragment{
             @Override
             public void onClick(View v) {
                 if(checkData()) {
-                    Toast.makeText(getContext(), phone_content +","+sms_content,Toast.LENGTH_SHORT).show();
                     SubmitSmsCode();
                     //_mActivity.onBackPressed();
                 }
@@ -79,17 +86,18 @@ public class PhoneSmsConfirmFragment extends BaseBackFragment{
         NetHelper.getInstance().SubmitPhoneSmsCode(phone_content, sms_content, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Toast.makeText(getContext(),"手机验证成功",Toast.LENGTH_SHORT).show();
                 SubmitNewPhone();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"手机验证失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"手机验证失败",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -98,17 +106,19 @@ public class PhoneSmsConfirmFragment extends BaseBackFragment{
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getActivity(), "修改成功!", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                setFramgentResult(RESULT_OK,bundle);
                 _mActivity.onBackPressed();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getActivity(), "修改失败!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getActivity(), "修改失败!", Toast.LENGTH_SHORT).show();
             }
         });
     }

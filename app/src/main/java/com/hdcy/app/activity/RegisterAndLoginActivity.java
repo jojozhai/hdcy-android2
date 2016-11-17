@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.hdcy.app.R;
 import com.hdcy.app.fragment.login.LoginFragment;
 import com.hdcy.app.model.TextBean;
+import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.BgImageViewHelper;
 
 import java.util.ArrayList;
@@ -104,6 +106,8 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
 
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -141,14 +145,12 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
 
         Intent intent = new Intent(this,RegisterActivity.class);
         startActivityForResult(intent,9001);
-        finish();
     }
 
     private void startLogin(){
         Intent intent = new Intent(this,LoginActivity.class);
         //startActivity(intent);
         startActivityForResult(intent,9002);
-        finish();
     }
 
     /**
@@ -175,6 +177,9 @@ public class RegisterAndLoginActivity extends SupportActivity implements SensorE
     protected void onResume() {
         super.onResume();
         parallelViewHelper.start();
+        if(!BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+            finish();
+        }
     }
 
     @Override

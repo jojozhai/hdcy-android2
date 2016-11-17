@@ -58,4 +58,5 @@
 
     <!-- splashActivity. -->
     <dimen name="image_shift">10dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
 </resources>

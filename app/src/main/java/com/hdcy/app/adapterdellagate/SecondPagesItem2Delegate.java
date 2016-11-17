@@ -31,6 +31,9 @@ public class SecondPagesItem2Delegate implements ItemViewDelegate<Content> {
     }
     @Override
     public boolean isForViewType(Content item, int position) {
+        if(item.getDisplayType() ==null){
+            item.setDisplayType("MIX");
+        }
         if(item.getTop()&&!item.getBusiness()&&item.getDisplayType().equals("MIX")){
             return true;
         }else {
@@ -47,7 +50,11 @@ public class SecondPagesItem2Delegate implements ItemViewDelegate<Content> {
         String nowdate = RelativeTimeUtils.format(time);
         //holder.setText(R.id.tv_created_time, nowdate);
         holder.setText(R.id.tv_article_title,content.getTitle());
-        holder.setText(R.id.bt_tag_title,content.getTagInfos().get(0).getName());
+        if(content.getTagInfos()==null){
+            holder.setText(R.id.bt_tag_title,"");
+        }else {
+            holder.setText(R.id.bt_tag_title,content.getTagInfos().get(0).getName());
+        }
         holder.setText(R.id.tv_info_watched,Count+"");
         Picasso.with(context).load(content.getImage())
                 .placeholder(BaseInfo.PICASSO_PLACEHOLDER)

@@ -47,6 +47,14 @@ public class EditPhoneFragment extends BaseBackFragment{
         return view;
     }
 
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if(requestCode ==8001&& resultCode ==RESULT_OK){
+            _mActivity.onBackPressed();
+        }
+    }
+
     public void initView(View view){
         edt_phone = (EditText) view.findViewById(R.id.edt_phone);
         bt_phone_submit = (Button) view.findViewById(R.id.bt_phone_submit);
@@ -65,7 +73,7 @@ public class EditPhoneFragment extends BaseBackFragment{
             public void onClick(View v) {
                 if(checkData()){
                     GetSmsCode();
-                    _mActivity.onBackPressed();
+
 
                 }
             }
@@ -74,6 +82,10 @@ public class EditPhoneFragment extends BaseBackFragment{
     private boolean checkData() {
         content = edt_phone.getText().toString();
         content.trim();
+        if(BaseUtils.isEmptyString(content)||content.length()!=11){
+            Toast.makeText(getContext(),"手机格式错误,请重新输入",Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -81,17 +93,20 @@ public class EditPhoneFragment extends BaseBackFragment{
         NetHelper.getInstance().GetPhoneSmsCode(content, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                EventBus.getDefault().post(new StartBrotherEvent(PhoneSmsConfirmFragment.newInstance(content)));
+                //EventBus.getDefault().post(new StartBrotherEvent(PhoneSmsConfirmFragment.newInstance(content)));
+                startForResult(PhoneSmsConfirmFragment.newInstance(content),8001);
+                _mActivity.onBackPressed();
+                Toast.makeText(getContext(),"手机号验证成功",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"验证失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"验证失败",Toast.LENGTH_SHORT).show();
             }
         });
     }

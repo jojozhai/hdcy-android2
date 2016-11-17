@@ -63,9 +63,11 @@ public class SecondFragment extends BaseLazyMainFragment {
     }
 
     private void setData(){
+
         for(int i = 0 ; i <newsCategoryList.size();i++){
             mTab.addTab(mTab.newTab());
         }
+        mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         mViewPager.setAdapter(new SecondFragment.ViewPageFragmentAdapter(getChildFragmentManager(),newsCategoryList));
         mTab.setupWithViewPager(mViewPager);
     }

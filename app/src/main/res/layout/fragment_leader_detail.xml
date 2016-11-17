@@ -60,6 +60,16 @@
                     android:text="身边随处可见"
                     android:textColor="#C8C8C8"
                     android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tv_leader_level"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginTop="-15dp"
+                    android:layout_marginLeft="50dp"
+                    android:text="lv0"
+                    android:textSize="15sp"/>
             </FrameLayout>
         </FrameLayout>
 

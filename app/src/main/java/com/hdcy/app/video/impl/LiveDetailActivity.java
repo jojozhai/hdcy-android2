@@ -40,12 +40,18 @@ import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
 import com.ucloud.common.logger.L;
 import com.ucloud.player.widget.v2.UVideoView;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import me.yokeyword.fragmentation.SupportActivity;
+
+import static com.hdcy.base.BaseData.URL_BASE;
 
 /**
  * Created by WeiYanGeorge on 2016-10-25.
@@ -69,6 +75,9 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
     ImageView iv_origin_back;
     ImageView iv_origin_recoverback;
     TextView  tv_live_title;
+
+    //分享按钮
+    ImageView iv_live_share;
 
     private int ratioIndex = 0;
 
@@ -105,6 +114,9 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
     };
     private Handler uiHandler  = new UiHandler();
 
+    private String Url = URL_BASE +"/views/livevideo.html?id=";
+    private String loadurl;
+
     public static void getInstance(Context context, VideoBasicInfo bean){
         Intent intent = new Intent();
         Settings mSetting = new Settings(context);
@@ -124,6 +136,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
         OriginHeight = SizeUtils.dpToPx(200);
         DetailBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         mBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
+        loadurl = Url + mBean.getId();
         GetData();
         Toast.makeText(this, ""+mBean.getStreamId(), Toast.LENGTH_SHORT).show();
         //
@@ -194,6 +207,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
 
 
     private void initView(){
+        iv_live_share = (ImageView) this.findViewById(R.id.iv_live_share);
         tv_live_title = (TextView) this.findViewById(R.id.tv_live_name);
         tv_live_title.setText(mBean.getName());
         iv_icon = (ImageView) this.findViewById(R.id.icon_live);
@@ -280,6 +294,22 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             }
         });
 
+        iv_live_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareAction();
+            }
+        });
+    }
+
+    private void ShareAction(){
+        new ShareAction(this).setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                .withTitle(mBean.getName())
+                .withText("好多车友")
+                .withTargetUrl(loadurl)
+                .withMedia(new UMImage(context,mBean.getSponsorImage()))
+                .setListenerList(umShareListener)
+                .open();
     }
 
     public void toggleRatio(View view) {
@@ -403,6 +433,28 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             }
         });
     }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            com.umeng.socialize.utils.Log.d("plat","platform"+platform);
+            Toast.makeText(getBaseContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(getBaseContext(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+                com.umeng.socialize.utils.Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(getBaseContext(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
+
 
 
 }

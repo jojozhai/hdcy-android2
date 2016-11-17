@@ -155,7 +155,7 @@ public class SecondPagesFragment extends BaseFragment implements BGARefreshLayou
                 isLast = rootListInfo.isLast();
                 contentList.addAll(contentListtemp);
                 Log.e("Articlesize",contentList.size()+"");
-                Log.e("ArticleisLast",isLast+""+tagId);
+                Log.e("ArticleisLast",pagecount+"");
                 setData();
 
             }

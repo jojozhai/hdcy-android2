@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.hdcy.app.R;
 import com.hdcy.app.model.Content;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.RelativeTimeUtils;
 import com.hdcy.base.utils.SizeUtils;
 import com.squareup.picasso.Picasso;
@@ -30,6 +31,9 @@ public class SecondPagesItem3Delegate implements ItemViewDelegate<Content> {
     }
     @Override
     public boolean isForViewType(Content item, int position) {
+        if(item.getDisplayType() ==null){
+            item.setDisplayType("MIX");
+        }
         if (!item.getTop()&&!item.getBusiness()&&item.getDisplayType().equals("MIX")){
             return true;
         }else {
@@ -45,7 +49,11 @@ public class SecondPagesItem3Delegate implements ItemViewDelegate<Content> {
         String nowdate = RelativeTimeUtils.format(time);
         holder.setText(R.id.tv_created_time, nowdate);
         holder.setText(R.id.tv_article_title,content.getTitle());
-        holder.setText(R.id.bt_tag_title,content.getTagInfos().get(0).getName());
+        if(content.getTagInfos().isEmpty()){
+            holder.setText(R.id.bt_tag_title,"观点");
+        }else {
+            holder.setText(R.id.bt_tag_title,content.getTagInfos().get(0).getName());
+        }
         holder.setText(R.id.tv_info_watched,Count+"");
         Picasso.with(context).load(content.getImage())
                 .placeholder(BaseInfo.PICASSO_PLACEHOLDER)

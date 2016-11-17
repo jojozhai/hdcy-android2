@@ -29,6 +29,9 @@ public class SecondPagesItem6Delegate implements ItemViewDelegate<Content> {
 
     @Override
     public boolean isForViewType(Content item, int position) {
+        if(item.getDisplayType() ==null){
+            item.setDisplayType("MIX");
+        }
         if(!item.getDisplayType().equals("MIX")&&item.getBusiness()&&!item.getTop()) {
             return true;
         }else {

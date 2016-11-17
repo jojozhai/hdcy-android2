@@ -46,6 +46,10 @@ import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.json.JSONArray;
 import org.jsoup.Jsoup;
@@ -61,6 +65,8 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerManager;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import me.yokeyword.fragmentation.SupportActivity;
+
+import static com.hdcy.base.BaseData.URL_BASE;
 
 /**
  * Created by WeiYanGeorge on 2016-10-23.
@@ -107,6 +113,10 @@ public class VideoDetailActivity extends SupportActivity {
     int globalposition;
     private RootListInfo rootListInfo = new RootListInfo();
 
+    private View share;
+    private String Url = URL_BASE +"/views/videoDetail.html?id=";
+    private String load;
+
 
     private Handler handler = new Handler(){
         public void handleMessage(android.os.Message msg){
@@ -137,6 +147,7 @@ public class VideoDetailActivity extends SupportActivity {
         Context context;
         DeatailBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
         mBean = (VideoBasicInfo) getIntent().getSerializableExtra("bean");
+        load = Url + mBean.getId();
         String intentAction = getIntent().getAction();
         init();
         GetData();
@@ -144,6 +155,7 @@ public class VideoDetailActivity extends SupportActivity {
         filter.setPriority(1000);
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(mNetworkStateListener, filter);
+        setListener();
     }
 
     @Override
@@ -172,6 +184,7 @@ public class VideoDetailActivity extends SupportActivity {
     private void initView() {
         jcVideoPlayerStandard = (MyPlayView) findViewById(R.id.custom_videoplayer_standard);
 
+        share = this.findViewById(R.id.iv_share);
         String urlForVideo = "http://mediademo.ufile.ucloud.com.cn/ucloud_promo_140s.mp4";
         if (!TextUtils.isEmpty(mBean.getUrl2())) {
             urlForVideo = mBean.getUrl2();
@@ -305,6 +318,25 @@ public class VideoDetailActivity extends SupportActivity {
         },1000);*/
     }
 
+    private void setListener(){
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareAction();
+            }
+        });
+    }
+
+    private void ShareAction(){
+        new ShareAction(this).setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                .withTitle(mBean.getName())
+                .withText("好多车友")
+                .withTargetUrl(load)
+                .withMedia(new UMImage(getBaseContext(),mBean.getImage()))
+                .setListenerList(umShareListener)
+                .open();
+    }
+
 
 
     private BroadcastReceiver mNetworkStateListener = new BroadcastReceiver() {
@@ -395,6 +427,27 @@ public class VideoDetailActivity extends SupportActivity {
     private void showToast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            com.umeng.socialize.utils.Log.d("plat","platform"+platform);
+            Toast.makeText(getBaseContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(getBaseContext(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if(t!=null){
+                com.umeng.socialize.utils.Log.d("throw","throw:"+t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(getBaseContext(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
 
 
 }

@@ -94,7 +94,7 @@ public class MineActivityAdapter extends BaseAdapter {
                 .into(holder.iv_mine_activity_logo);
         holder.tv_mine_activity_name.setText(item.getName()+"");
         holder.tv_mine_activity_locationtime.setText(item.getAddress());
-        if(item.getFinish()){
+        if(item.getState().equals("FINISH")){
             holder.tv_mine_activity_status.setText("已结束");
         }else {
             holder.tv_mine_activity_status.setText("正在进行");

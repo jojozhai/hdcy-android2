@@ -17,6 +17,7 @@ import com.hdcy.app.activity.LoginActivity;
 import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.model.LoginResult;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.CustomCountDownTimer;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -110,7 +111,13 @@ public class RegisterThirdFragment extends BaseBackFragment {
         NetHelper.getInstance().SubmitPhoneSmsCode(phone, smscode, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                SubmitRegisterInfo();
+                if(!BaseUtils.isEmptyString(phone)&&!BaseUtils.isEmptyString(password)&&!BaseUtils.isEmptyString(sex)
+                        &&!BaseUtils.isEmptyString(city)&&!BaseUtils.isEmptyString(nickname)) {
+                    SubmitRegisterInfo();
+                }else {
+                    Toast.makeText(getContext(),"数据不全",Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(getActivity(),"验证码校验成功",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -130,24 +137,23 @@ public class RegisterThirdFragment extends BaseBackFragment {
         NetHelper.getInstance().RegisterAccount(phone, password, sex, city, nickname, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                result = responseInfo.getLoginResult();
-                Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
-/*                Intent intent = new Intent();
+/*                result = responseInfo.getLoginResult();
+                Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();*/
+                Toast.makeText(getContext(),"注册成功",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
                 intent.setClass(getActivity(), LoginActivity.class);
                 startActivity(intent);
-                _mActivity.onBackPressed();*/
+                _mActivity.onBackPressed();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                result = responseInfo.getLoginResult();
-                Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"手机号已存在",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                result = responseInfo.getLoginResult();
-                Toast.makeText(getContext(),result.getContent(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"手机号已存在",Toast.LENGTH_SHORT).show();
             }
         });
     }

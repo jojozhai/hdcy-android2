@@ -213,7 +213,6 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
                 for (int i = 0; i < praisestatus.size(); i++){
                     commentsList.get(i+pagecount*10).setLike(praisestatus.get(i));
                 }
-                Log.e("realstatus",commentsList.get(commentsList.size()-1).isLike()+","+commentsList.size()+"");
                 setData();
             }
 

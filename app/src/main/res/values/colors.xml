@@ -12,7 +12,6 @@
     <color name="tab_unselect">#c9c9c9</color>
     <color name="bg_btn">#dadada</color>
 
-    <color name="transparent">@android:color/transparent</color><!--透明色-->
     <color name="transparent_black_20">#33000000</color><!--半透明黑色-->
     <color name="transparent_black_50">#80000000</color><!--半透明黑色-->
     <color name="transparent_black_60">#9A000000</color><!--半透明黑色-->
@@ -46,6 +45,7 @@
     <!--性别选择字体-->
     <color name="color_sex_pressed">#9B9B9B</color>
     <!--splashActivity-->
+    <color name="transparent">#00000000</color>
     <color name="base_shallow_black">#818181</color>
 
 </resources>

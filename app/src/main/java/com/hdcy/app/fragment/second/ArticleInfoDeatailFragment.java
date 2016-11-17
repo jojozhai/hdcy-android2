@@ -16,6 +16,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     private String targetId;
     private String Url = URL_BASE +"/new-articleDetails.html?id=";
     private String loadurl;
+    private String shareurl = URL_BASE+"/views/articleDetail.html?id=";
     private Toolbar mToolbar;
 
     private String target="article";
@@ -86,6 +88,8 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     private List<Boolean> praisestatus = new ArrayList<>();
 
     private int pagecount = 0;
+    private FrameLayout mProgressBar;
+
 
 
     private Handler handler = new Handler(){
@@ -112,6 +116,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
             targetId = bundle.getString("targetid");
         }
         loadurl = Url + targetId;
+        shareurl += targetId;
         initView(view);
         handler.postDelayed(new Runnable() {
             @Override
@@ -149,6 +154,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
 
 
     private void initView(View view){
+        mProgressBar = (FrameLayout) view.findViewById(R.id.progress);
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         title = (TextView) view.findViewById(R.id.toolbar_title);
         iv_nav_menu_comment = (ImageView) view.findViewById(R.id.iv_nav_menu_comment);
@@ -185,6 +191,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         webSettings.setDomStorageEnabled(true);
         myWebView.canGoBack();
         myWebView.loadUrl(loadurl);
+        mProgressBar.setVisibility(View.GONE);
 
     }
 
@@ -215,7 +222,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
                 new ShareAction(getActivity()).setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withTitle(articleInfo.getTitle()+"")
                         .withText("好多车友")
-                        .withTargetUrl(loadurl+"&show=YES")
+                        .withTargetUrl(shareurl)
                         .withMedia(new UMImage(getContext(),articleInfo.getImage()))
                         .setListenerList(umShareListener)
                         .open();

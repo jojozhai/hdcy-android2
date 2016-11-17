@@ -31,6 +31,7 @@ import com.hdcy.app.fragment.third.child.PhotoScaleFragment;
 import com.hdcy.app.model.ActivityDetails;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Result;
+import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.view.NoScrollListView;
 import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
@@ -86,6 +87,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
     private TextView tv_more_comment;
     private TextView tv_activity_comment_status;
     private ImageView fl_activity_dialog;
+    private TextView tv_activity_ask;
 
 
     private String target="activity";
@@ -119,11 +121,12 @@ public class OfflineActivityFragment extends BaseBackFragment{
     private Result result;
     private List<CommentsContent> commentsList = new ArrayList<>();
     private CommentsContent commentsContent =new CommentsContent();
+    private RootListInfo rootListInfo = new RootListInfo();
 
     private List<String> imgurls = new ArrayList<String>();
 
     private String htmlcontent;
-    private String Url = URL_BASE + "/activityDetails.html?id=";
+    private String Url = URL_BASE + "/views/activityDetail.html?id=";
     private String loadurl;
 
     private AlertDialog alertDialogphone;
@@ -197,6 +200,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
         bt_show_more = (Button) view.findViewById(R.id.tv_show_more);
         iv_activity_phone = (ImageView) view.findViewById(R.id.iv_activity_phone);
         fl_activity_dialog = (ImageView) view.findViewById(R.id.iv_activity_fl_bt);
+        tv_activity_ask = (TextView) view.findViewById(R.id.tv_activity_ask);
 
         //iv_activity_comment = (ImageView) view.findViewById(R.id.iv_activity_comment);
         button_submit = (Button) view.findViewById(R.id.bt_send);
@@ -217,11 +221,10 @@ public class OfflineActivityFragment extends BaseBackFragment{
                 new ShareAction(getActivity()).setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
                         .withTitle(activityDetails.getName())
                         .withText("好多车友")
-                        .withTargetUrl(loadurl+"&show=YES")
+                        .withTargetUrl(loadurl)
                         .withMedia(new UMImage(getContext(),activityDetails.getImage()))
                         .setListenerList(umShareListener)
                         .open();
-                Toast.makeText(getActivity(),   " 分享成功啦", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -297,7 +300,6 @@ public class OfflineActivityFragment extends BaseBackFragment{
                 }else {
                     if(activityDetails.getFinish()==false){
                         Toast.makeText(getActivity(), "您已完成报名!", Toast.LENGTH_LONG).show();
-
                     }else {
                         Toast.makeText(getActivity(), "活动已结束!", Toast.LENGTH_LONG).show();
                     }
@@ -307,8 +309,9 @@ public class OfflineActivityFragment extends BaseBackFragment{
         });
 
         //填充数据
+        tv_activity_ask.setText("("+rootListInfo.getTotalElements()+")");
         tv_actvity_title.setText(activityDetails.getName()+"");
-        tv_attend_count.setText(activityDetails.getHot()+"");
+        tv_attend_count.setText(activityDetails.getSignCount()+"");
         tv_activity_sponsor.setText(activityDetails.getSponsorName()+"");
         SimpleDateFormat foramt = new SimpleDateFormat("yyyy年MM月dd日");
         String dateformat1 = foramt.format(activityDetails.getStartTime()).toString();
@@ -406,6 +409,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
                     List<CommentsContent> commentListFragmentListtemp = responseInfo.getCommentsContentList();
                     commentsList.addAll(commentListFragmentListtemp);
                     Log.e("CommentListsize", commentsList.size() + "");
+                    rootListInfo = responseInfo.getRootListInfo();
                     GetActivityDetails();
                 }
 

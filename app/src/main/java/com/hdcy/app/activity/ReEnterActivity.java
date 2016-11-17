@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.hdcy.app.R;
 import com.hdcy.app.model.TextBean;
+import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.BgImageViewHelper;
 
 import java.util.ArrayList;
@@ -165,6 +167,9 @@ public class ReEnterActivity extends SupportActivity implements SensorEventListe
     protected void onResume() {
         super.onResume();
         parallelViewHelper.start();
+        if(!BaseUtils.isEmptyString(BaseInfo.getPp_token())){
+            finish();
+        }
     }
 
     @Override

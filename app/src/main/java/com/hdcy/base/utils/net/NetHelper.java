@@ -86,7 +86,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/article/");
         request.addParam("enable","true");
         request.addParam("page",pagecount);
-        request.addParam("size",20);
+        request.addParam("size",15);
         request.addParam("sort","createdTime,desc");
         return request.postarray(new NetRequestCallBack() {
             @Override
@@ -126,7 +126,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/article/");
         request.addParam("enable","true");
         request.addParam("page",pagecount);
-        request.addParam("size","20");
+        request.addParam("size","15");
         request.addParam("sort","createdTime,desc");
         request.addParam("tagId",tagId);
         return request.postarray(new NetRequestCallBack() {
@@ -315,7 +315,7 @@ public class NetHelper {
         NetRequest request = new NetRequest("/comments/");
         request.addParam("targetId",tagId);
         request.addParam("page",pagecount);
-        request.addParam("size",30);
+        request.addParam("size",10);
         request.addParam("sort","createdTime,desc");
         request.addParam("target",target);
         return request.postarray(new NetRequestCallBack() {
@@ -1017,7 +1017,7 @@ public class NetHelper {
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                callBack.onSuccess(requestInfo, responseInfo);
             }
 
             @Override
@@ -1074,12 +1074,14 @@ public class NetHelper {
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("SmsCode","error");
+                callBack.onError(requestInfo, responseInfo);
 
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Log.e("SmsCode","onfailure");
+                callBack.onFailure(requestInfo, responseInfo);
 
             }
         });
@@ -1139,14 +1141,14 @@ public class NetHelper {
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
 
                 Log.e("password","error");
-                callBack.onSuccess(requestInfo, responseInfo);
+                callBack.onError(requestInfo, responseInfo);
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
 
                 Log.e("password","failure");
-                callBack.onSuccess(requestInfo, responseInfo);
+                callBack.onFailure(requestInfo, responseInfo);
             }
         });
     }
@@ -1208,24 +1210,24 @@ public class NetHelper {
         return request.postinfo(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                JSONObject dataObj = responseInfo.getDataObj();
+/*                JSONObject dataObj = responseInfo.getDataObj();
                 if (dataObj != null){
                     responseInfo.setLoginResult(JSON.parseObject(dataObj.toString(), LoginResult.class));
-                }
-                Log.e("login","success");
+                }*/
+                Log.e("register","success");
                 callBack.onSuccess(requestInfo, responseInfo);
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                Log.e("login","error");
+                Log.e("register","error");
                 callBack.onError(requestInfo, responseInfo);
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                Log.e("login","faillure");
-                callBack.onFailure(requestInfo, responseInfo);
+                Log.e("register","faillure");
+                callBack.onError(requestInfo, responseInfo);
             }
         });
     }

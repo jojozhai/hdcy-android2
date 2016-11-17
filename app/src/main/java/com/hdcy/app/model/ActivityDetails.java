@@ -87,6 +87,16 @@ public class ActivityDetails implements Serializable {
 
     private WaiterInfo waiterInfo;
 
+    public int getSignCount() {
+        return signCount;
+    }
+
+    public void setSignCount(int signCount) {
+        this.signCount = signCount;
+    }
+
+    private int signCount;
+
 
     public void setId(int id){
         this.id = id;

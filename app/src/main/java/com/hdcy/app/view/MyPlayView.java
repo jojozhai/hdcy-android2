@@ -45,6 +45,7 @@ public class MyPlayView extends JCVideoPlayerStandard {
         view4Back = this.findViewById(R.id.back);
         view4Back.setOnClickListener(this);
         view4Share.setOnClickListener(this);
+       // view4Share.setVisibility(GONE);
     }
 
     @Override

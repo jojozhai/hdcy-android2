@@ -145,7 +145,6 @@ public class VideoCommentListAdapter  extends BaseAdapter{
         }
         Date time = item.getCreatedTime();
         String nowdate = RelativeTimeUtils.format(time);
-
         holder.tv_time.setText(nowdate);
         holder.tv_comment_content.setText(item.getContent());
         holder.tv_praise_count.setText(item.getPraiseCount()+"");

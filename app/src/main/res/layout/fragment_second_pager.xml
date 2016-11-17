@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.design.widget.TabLayout
         android:id="@+id/tab"
         android:layout_width="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@mipmap/bg_main_tab"
         app:tabIndicatorColor="@android:color/white"
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="#8FAFCA"
         app:tabBackground="@drawable/maintabselector"
         app:tabTextAppearance="@style/tab_appearance"
+        app:tabMaxWidth="80dp"
         android:layout_height="45dp"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+<!--
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:id="@+id/tab1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/bg_main_tab"
+        app:stl_indicatorColor="@color/white"
+        app:stl_defaultTabTextColor="@color/white"
+        app:stl_defaultTabTextAllCaps="true"
+        app:stl_defaultTabTextSize="16sp"
+        app:stl_defaultTabTextMinWidth="0dp"
+        app:stl_defaultTabBackground="@drawable/maintabselector"
+        app:stl_clickable="true"
+        />
+-->
 
 </LinearLayout>

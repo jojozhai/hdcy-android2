@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,6 +65,10 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
     private TextView  tv_mine_douyou;
     private TextView tv_mine_nickname;
 
+    private boolean isLogin;
+
+    private FrameLayout mProgressBar;
+
     public static MineFragment newInstance(){
         Bundle args = new Bundle();
         MineFragment fragment = new MineFragment();
@@ -70,12 +76,19 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
         return fragment;
     }
 
+    private Handler handler = new Handler(){
+        public void handleMessage(android.os.Message msg){
+
+        }
+    };
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         initView(view);
+        isLogin = true;
         GetUserCurrentInfo();
         setListener();
         return view;
@@ -84,16 +97,24 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
     @Override
     public void onResume() {
         super.onResume();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setVisibility(View.GONE);
+            }
+        },500);
+
         GetUserCurrentInfo();
         /*        if(BaseUtils.isEmptyString(BaseInfo.getPp_token())){
             Intent intent = new Intent();
             intent.setClass(getContext(), ReLoginActivity.class);
             startActivityForResult(intent,REQUEST_LOGIN_INFO);
         }*/
-        if(BaseUtils.isEmptyString(BaseInfo.getPp_token())){
-            //showHideFragment(MessageFragment.newInstance(),getTopFragment());
-           // replaceFragment(MessageFragment.newInstance(),true);
-            //startWithPop(MessageFragment.newInstance());
+        if(BaseUtils.isEmptyString(BaseInfo.getPp_token())&&isLogin==true){
+            isLogin =false;
+            Intent intent = new Intent();
+            intent.setClass(getContext(), ReEnterActivity.class);
+            startActivityForResult(intent,REQUEST_LOGIN_INFO);
         }
     }
 
@@ -152,10 +173,17 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
         mRefreshLayout.setDelegate(this);
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
+        mProgressBar = (FrameLayout) view.findViewById(R.id.progress);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setVisibility(View.GONE);
+            }
+        },500);
     }
 
     private void setData(){
-        tv_mine_level.setText(userBaseInfo.getLevel());
+        tv_mine_level.setText("lv"+userBaseInfo.getLevel());
         tv_mine_credits.setText(userBaseInfo.getPoint()+"");
         tv_mine_douyou.setText(userBaseInfo.getBeans()+"");
         tv_mine_nickname.setText(userBaseInfo.getNickname());
@@ -206,7 +234,7 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
             @Override
             public void onClick(View v) {
                 /*startForResult(LoginFragment.newInstance(),REQUEST_LOGIN_INFO);*/
-
+                isLogin = false;
                 BaseInfo.doExitLogin();
                 userBaseInfo = null;
                 Intent intent = new Intent();
@@ -235,6 +263,7 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
                 userBaseInfo = responseInfo.getUserBaseInfo();
                 Log.e("userBaseInfo",userBaseInfo.getNickname()+"");
                 setData();
+
             }
 
             @Override

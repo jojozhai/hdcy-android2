@@ -62,6 +62,8 @@ import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 
 /**
@@ -201,9 +203,31 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             List<String> selectPath = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             File file = new File(selectPath.get(0));
             long size = file.length();
-            avatarfile =file;
-            Log.e("photo url:",file.getAbsolutePath()+"size"+size);
-            UploadAvatar();
+
+            Luban.get(getActivity())
+                    .load(file)
+                    .putGear(Luban.THIRD_GEAR)
+                    .setCompressListener(new OnCompressListener() {
+                        @Override
+                        public void onStart() {
+                            Log.e("resultok:","开始");
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            avatarfile = file;
+                            UploadAvatar();
+                            Log.e("resultok:","成功");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("resultok:","失败");
+                        }
+                    }).launch();
+/*            avatarfile =file;
+            Log.e("photo url:",file.getAbsolutePath()+"size"+size);*/
+
         }
     }
 
@@ -585,6 +609,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
                 content = "1";
                 PublishPersonalInfo();
                 tv_mine_personalinfo_gender.setText("男");
+                sexAlertDialog.dismiss();
             }
         });
         tv_sex_woman = (TextView) view.findViewById(R.id.tv_sex_woman);
@@ -595,6 +620,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
                 content = "2";
                 PublishPersonalInfo();
                 tv_mine_personalinfo_gender.setText("女");
+                sexAlertDialog.dismiss();
             }
         });
 
@@ -657,6 +683,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
                 editType = "headimgurl";
                 content = avatarResult.getContent();
                 PublishPersonalInfo();
+                avatarAlertDialog.dismiss();
 
             }
 
