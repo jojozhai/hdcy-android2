@@ -13,15 +13,24 @@
         android:clipChildren="false"
         android:background="@android:color/white"
         >
-        <android.support.v4.view.ViewPager
-            android:id="@+id/id_viewpager"
+        <cn.bingoogolapple.bgabanner.BGABanner
+            android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_height="200dp"
+            android:clipChildren="false"
             android:layout_gravity="center"
-            >
-        </android.support.v4.view.ViewPager>
+            app:banner_indicatorGravity="bottom|center_horizontal"
+            app:banner_numberIndicatorBackground="@drawable/shape_number_indicator_background"
+            app:banner_pointContainerBackground="@android:color/transparent"
+            app:banner_tipTextColor="#FFFFFF"
+            app:banner_tipTextSize="20sp"
+            app:banner_transitionEffect="defaultEffect"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"            >
+        </cn.bingoogolapple.bgabanner.BGABanner>
 
     </FrameLayout>
 

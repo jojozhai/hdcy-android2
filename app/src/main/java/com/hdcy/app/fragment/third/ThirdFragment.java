@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.CommonsAdapter;
 import com.hdcy.app.adapter.ThirdPageFragmentAdapter;
@@ -40,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bingoogolapple.bgabanner.BGABanner;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
@@ -54,11 +56,16 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
     private TextView title;
     private ListView mListView;
     private BGARefreshLayout mRefreshLayout;
+    private BGABanner mBanner;
 
     private ThirdPageFragmentAdapter mAdapter;
 
     private List<ActivityContent> activityContentList = new ArrayList<>();
     private List<ActivityContent> activityHotList = new ArrayList<>();
+
+
+    private List<String> imgurls = new ArrayList<>();
+    private List<String> tips = new ArrayList<>();
 
 
     private ViewPager mViewPager;
@@ -121,7 +128,9 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
         width = SizeUtils.getScreenWidth();
         imgheight = SizeUtils.dpToPx(200);
         initView(view);
+        GetTopActivityListBanner();
         initData();
+        setListener();
         return view;
     }
 
@@ -132,9 +141,15 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
         mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
         mAdapter = new ThirdPageFragmentAdapter(getContext(), activityContentList);
         View headview = View.inflate(getContext(), R.layout.item_headerview_third,null);
-        mViewPager = (ViewPager) headview.findViewById(R.id.id_viewpager);
-        initHeaderBanner();
+        mBanner = (BGABanner) headview.findViewById(R.id.banner);
         mListView.addHeaderView(headview);
+        mBanner.setAdapter(new BGABanner.Adapter() {
+            @Override
+            public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+                Glide.with(banner.getContext()).load(model).placeholder(R.mipmap.icon_chat_camera).error(R.mipmap.icon_chat_camera).dontAnimate().thumbnail(0.1f).into((ImageView) view);
+
+            }
+        });
         mListView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new ThirdPageFragmentAdapter.OnItemClickListener() {
             @Override
@@ -147,12 +162,23 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
 
     private void initData(){
         GetNewActivityList();
-        GetTopActivityListBanner();
+    }
+
+    private void setListener(){
+        mBanner.setOnItemClickListener(new BGABanner.OnItemClickListener() {
+            @Override
+            public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
+                EventBus.getDefault().post(new StartBrotherEvent(OfflineActivityFragment.newInstance(activityHotList.get(position).getId()+"")));
+            }
+        });
+    }
+
+    private void setData1(){
+        mBanner.setData(imgurls,tips);
     }
 
     private void setData(){
         mAdapter.notifyDataSetChanged();
-        mAdapter4Banner.notifyDataSetChanged();
         mRefreshLayout.endLoadingMore();
     }
 
@@ -202,26 +228,40 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
     }
 
     public void GetTopActivityListBanner(){
-        NetHelper.getInstance().GetActivityTopBanner( new NetRequestCallBack() {
-            @Override
-            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                if(activityHotList.isEmpty()){
+        if(activityHotList.isEmpty()) {
+            NetHelper.getInstance().GetActivityTopBanner(new NetRequestCallBack() {
+                @Override
+                public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
                     List<ActivityContent> hottemp = responseInfo.getActivityContentList();
                     activityHotList.addAll(hottemp);
-                    setData();
+                    for (int i = 0; i < activityHotList.size(); i++) {
+                        imgurls.add(i, activityHotList.get(i).getImage());
+                        tips.add(i, activityHotList.get(i).getName());
+                    }
+                    setData1();
                 }
+
+
+                @Override
+                public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                }
+
+                @Override
+                public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                }
+            });
+        }else {
+            imgurls.clear();
+            tips.clear();
+            for (int i = 0; i < activityHotList.size(); i++) {
+                imgurls.add(i, activityHotList.get(i).getImage());
+                tips.add(i, "");
             }
-
-            @Override
-            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-            }
-
-            @Override
-            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
-            }
-        });
+            setData1();
+        }
     }
 
     private void initHeaderBanner(){

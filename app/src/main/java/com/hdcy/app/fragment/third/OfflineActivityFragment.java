@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -131,6 +132,8 @@ public class OfflineActivityFragment extends BaseBackFragment{
 
     private AlertDialog alertDialogphone;
 
+    private FrameLayout mProgressBar;
+
 
     public static OfflineActivityFragment newInstance(String ActivityId){
         OfflineActivityFragment fragment = new OfflineActivityFragment();
@@ -201,6 +204,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
         iv_activity_phone = (ImageView) view.findViewById(R.id.iv_activity_phone);
         fl_activity_dialog = (ImageView) view.findViewById(R.id.iv_activity_fl_bt);
         tv_activity_ask = (TextView) view.findViewById(R.id.tv_activity_ask);
+        mProgressBar = (FrameLayout) view.findViewById(R.id.progress);
 
         //iv_activity_comment = (ImageView) view.findViewById(R.id.iv_activity_comment);
         button_submit = (Button) view.findViewById(R.id.bt_send);
@@ -295,7 +299,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(result.getContent() == false && activityDetails.getFinish() ==false) {
+                if(result.getContent() == false || activityDetails.getFinish() ==false || activityDetails.isSignFinish() ==false) {
                     startForResult(RegisterActivityFragment.newInstance(activityid),REQ_REGISTER_FRAGMENT);
                 }else {
                     if(activityDetails.getFinish()==false){
@@ -305,6 +309,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
                     }
                     return;
                 }
+
             }
         });
 
@@ -335,6 +340,12 @@ public class OfflineActivityFragment extends BaseBackFragment{
             tv_activity_comment_status.setVisibility(View.GONE);
             bt_show_more.setVisibility(View.VISIBLE);
         }
+        if(activityDetails.isSignFinish() ==true&& result.getContent() == false ){
+            button_submit.setBackgroundResource((R.color.main_font_gray_2));
+            button_submit.setText("报名已截止");
+        }
+
+        mProgressBar.setVisibility(View.GONE);
     }
 
     private void ShowPhoneAlertDialog(){

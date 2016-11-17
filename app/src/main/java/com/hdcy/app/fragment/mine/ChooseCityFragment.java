@@ -93,7 +93,7 @@ public class ChooseCityFragment extends BaseBackFragment {
         mAdapter.setOnItemContentClickListener(new IndexableAdapter.OnItemContentClickListener<CityEntity>() {
             @Override
             public void onItemClick(View v, int originalPosition, int currentPosition, CityEntity entity) {
-                Toast.makeText(getContext(),"选中: " + entity.getName() +" 当前位置:"+ currentPosition,Toast.LENGTH_SHORT ).show();
+                //Toast.makeText(getContext(),"选中: " + entity.getName() +" 当前位置:"+ currentPosition,Toast.LENGTH_SHORT ).show();
                 Bundle bundle = new Bundle();
                 bundle.putString(MineInfoFragment.KEY_RESULT_CHOOSE_CITY,entity.getName());
                 setFramgentResult(RESULT_OK,bundle);

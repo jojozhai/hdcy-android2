@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hdcy.app.R;
@@ -45,6 +46,8 @@ public class RegisterFirstFragment extends BaseBackFragment {
     String nick_name;
     Bundle bundle = new Bundle();
 
+    TextView tv_rg_city;
+
     private static final int REQUEST_SELECT_CITY = 1001;
     static final String KEY_RESULT_CHOOSE_CITY = "choose_city";
 
@@ -71,6 +74,7 @@ public class RegisterFirstFragment extends BaseBackFragment {
             city_string = data.getString(KEY_RESULT_CHOOSE_CITY);
             bundle.putString("register_city",city_string);
             Log.e("CITYCHOOSE",city_string);
+            tv_rg_city.setText(city_string);
         }
     }
 
@@ -91,6 +95,7 @@ public class RegisterFirstFragment extends BaseBackFragment {
         bt_rg_sex2 = (Button) view.findViewById(R.id.bt_rg_sex2);
         bt_rg_sex1.setClickable(false);
         bt_rg_sex2.setClickable(false);
+        tv_rg_city = (TextView) view.findViewById(R.id.tv_rg_city);
 
     }
     @Override
