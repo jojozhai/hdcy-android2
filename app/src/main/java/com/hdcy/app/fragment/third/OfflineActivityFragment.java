@@ -299,7 +299,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(result.getContent() == false || activityDetails.getFinish() ==false || activityDetails.isSignFinish() ==false) {
+                if(result.getContent() == false && activityDetails.getFinish() ==false || activityDetails.isSignFinish() ==true) {
                     startForResult(RegisterActivityFragment.newInstance(activityid),REQ_REGISTER_FRAGMENT);
                 }else {
                     if(activityDetails.getFinish()==false){
@@ -340,9 +340,10 @@ public class OfflineActivityFragment extends BaseBackFragment{
             tv_activity_comment_status.setVisibility(View.GONE);
             bt_show_more.setVisibility(View.VISIBLE);
         }
-        if(activityDetails.isSignFinish() ==true&& result.getContent() == false ){
+        if(activityDetails.isSignFinish() ==true&& result.getContent() == false&&activityDetails.getFinish()==false ){
             button_submit.setBackgroundResource((R.color.main_font_gray_2));
             button_submit.setText("报名已截止");
+            button_submit.setClickable(false);
         }
 
         mProgressBar.setVisibility(View.GONE);

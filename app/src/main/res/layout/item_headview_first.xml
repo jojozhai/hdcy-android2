@@ -26,7 +26,7 @@
             app:banner_numberIndicatorBackground="@drawable/shape_number_indicator_background"
             app:banner_pointContainerBackground="@android:color/transparent"
             app:banner_tipTextColor="#FFFFFF"
-            app:banner_tipTextSize="20sp"
+            app:banner_tipTextSize="15sp"
             app:banner_transitionEffect="defaultEffect"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
