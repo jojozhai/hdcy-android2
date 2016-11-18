@@ -3,6 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@mipmap/bg_main"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_activity_comment_status"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="暂无评论"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        android:visibility="gone" />
     <cn.bingoogolapple.refreshlayout.BGARefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"

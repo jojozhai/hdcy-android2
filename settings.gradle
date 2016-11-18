@@ -1,1 +1,1 @@
-include ':app', ':fragmentation', ':base-adapter-library', ':ulive-android-sdk', ':RefreshLayout', ':banners', ':multi-image-selector'
+include ':app', ':fragmentation', ':base-adapter-library', ':ulive-android-sdk', ':RefreshLayout', ':banners', ':multi-image-selector', ':LUBAN'

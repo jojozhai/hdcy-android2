@@ -50,6 +50,7 @@ import com.hdcy.base.utils.net.NetResponseInfo;
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -225,8 +226,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
                             Log.e("resultok:","失败");
                         }
                     }).launch();
-/*            avatarfile =file;
-            Log.e("photo url:",file.getAbsolutePath()+"size"+size);*/
+
 
         }
     }
@@ -641,6 +641,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
                 if(generalalertDialog !=null) {
                     generalalertDialog.dismiss();
                 }
+                GetPersonalInfo();
             }
 
             @Override

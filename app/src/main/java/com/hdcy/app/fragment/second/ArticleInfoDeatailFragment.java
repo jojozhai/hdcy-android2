@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,7 +31,9 @@ import com.hdcy.app.fragment.MainFragment;
 import com.hdcy.app.model.ArticleInfo;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.view.NoScrollListView;
+import com.hdcy.base.BaseInfo;
 import com.hdcy.base.MerchantWebView;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -60,7 +63,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
 
     private static final int REQ_PUBLISH_FRAGMENT = 1;
 
-    MerchantWebView myWebView;
+    WebView myWebView;
     TextView tv_comment_count;
     TextView title;
     TextView tv_show_more;
@@ -168,7 +171,12 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         iv_article_fl_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (BaseUtils.isEmptyString(BaseInfo.getPp_token())) {
+                    Toast.makeText(getContext(),"登陆后才可以进行评论",Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
                 startForResult(PublishCommentFragment.newInstance(targetId+"","article"),REQ_PUBLISH_FRAGMENT);
+                }
             }
         });
 
@@ -182,13 +190,41 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     }
 
     private void initWebview(View view) {
-        myWebView = (MerchantWebView) view.findViewById(R.id.mywebview);
+        myWebView = (WebView) view.findViewById(R.id.mywebview);
         Log.e("WebUrl", loadurl);
         final WebSettings webSettings = myWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setSupportZoom(true);
-        webSettings.setDomStorageEnabled(true);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSettings.setUseWideViewPort(true);//关键点
+
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+
+        webSettings.setDisplayZoomControls(false);
+        webSettings.setJavaScriptEnabled(true); // 设置支持javascript脚本
+        webSettings.setAllowFileAccess(true); // 允许访问文件
+        webSettings.setBuiltInZoomControls(true); // 设置显示缩放按钮
+        webSettings.setSupportZoom(true); // 支持缩放
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setBuiltInZoomControls(true);
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int mDensity = metrics.densityDpi;
+        Log.d("maomao", "densityDpi = " + mDensity);
+        if (mDensity == 240) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        } else if (mDensity == 160) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
+        } else if(mDensity == 120) {
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.CLOSE);
+        }else if(mDensity == DisplayMetrics.DENSITY_XHIGH){
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        }else if (mDensity == DisplayMetrics.DENSITY_TV){
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.FAR);
+        }else{
+            webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
+        }
+        myWebView.setWebViewClient(new WebViewClient());
+        myWebView.setWebChromeClient(new WebChromeClient());
         myWebView.canGoBack();
         myWebView.loadUrl(loadurl);
         mProgressBar.setVisibility(View.GONE);
@@ -226,33 +262,34 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
                         .withMedia(new UMImage(getContext(),articleInfo.getImage()))
                         .setListenerList(umShareListener)
                         .open();
-                Toast.makeText(getActivity(),   " 分享成功啦", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(),   " 分享成功啦", Toast.LENGTH_SHORT).show();
             }
         });
+        if(commentsList.size() == 0){
+            tv_show_more.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-/*        myWebView.clearCache(true);
+        myWebView.clearCache(true);
+        myWebView.removeAllViews();
+        myWebView.goBack();
         myWebView.destroy();
-        //myWebView =null;*/
+        myWebView =null;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-/*        myWebView.reload();
-        myWebView.onResume();
-        //myWebView.destroy();*/
+       // myWebView.destroy();
     }
 
     @Override
     public void onPause() {
+        myWebView.reload();
         super.onPause();
-/*        myWebView.reload();
-        myWebView.onPause();
-        //myWebView.destroy();*/
     }
 
     private void GetArticleInfo() {

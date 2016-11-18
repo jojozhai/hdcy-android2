@@ -33,11 +33,13 @@ import com.hdcy.app.fragment.first.FirstTabVideoChatFragment;
 import com.hdcy.app.model.VideoBasicInfo;
 import com.hdcy.app.video.preference.Settings;
 import com.hdcy.app.view.MyLiveView;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.SizeUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
+import com.squareup.picasso.Picasso;
 import com.ucloud.common.logger.L;
 import com.ucloud.player.widget.v2.UVideoView;
 import com.umeng.socialize.ShareAction;
@@ -46,12 +48,14 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import me.yokeyword.fragmentation.SupportActivity;
 
 import static com.hdcy.base.BaseData.URL_BASE;
+import static com.hdcy.base.utils.DateUtil.date2Str;
 
 /**
  * Created by WeiYanGeorge on 2016-10-25.
@@ -84,6 +88,14 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
     private int ScreenWidth ;
     private int ScreenHeight ;
     private int OriginHeight;
+
+    //直播预告的样式
+    private ImageView iv_live_background;
+    private TextView tv_live_starttime;
+
+    //直播sponsor
+    private ImageView iv_live_sponsor;
+    private TextView tv_live_sponsor;
 
 
 
@@ -207,6 +219,12 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
 
 
     private void initView(){
+
+        iv_live_sponsor = (ImageView) this.findViewById(R.id.iv_live_sponsor_image);
+        tv_live_sponsor = (TextView)  this.findViewById(R.id.tv_live_sponsor);
+
+        iv_live_background = (ImageView) this.findViewById(R.id.iv_live_bakground);
+        tv_live_starttime = (TextView) this.findViewById(R.id.tv_live_starttime);
         iv_live_share = (ImageView) this.findViewById(R.id.iv_live_share);
         tv_live_title = (TextView) this.findViewById(R.id.tv_live_name);
         tv_live_title.setText(mBean.getName());
@@ -367,7 +385,7 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             if(position==0){
                 return "直播介绍";
             }else {
-                return "直播交流";
+                return "直播交流"+"("+mBean.getCommentCount()+")";
             }
         }
     }
@@ -420,6 +438,31 @@ public class LiveDetailActivity extends SupportActivity implements UVideoView.Ca
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 mBean = responseInfo.getVideoBasicInfo();
+                Picasso.with(getBaseContext()).load(mBean.getSponsorImage())
+                        .into(iv_live_sponsor);
+                tv_live_sponsor.setText(mBean.getSponsorName()+"");
+
+                //预告样式
+                Picasso.with(getBaseContext()).load(mBean.getImage())
+                        .into(iv_live_background);
+                Date date = mBean.getStartTime();
+                String dataFormate;
+                dataFormate = date2Str(date, "yyyy-MM-dd");
+
+                Log.e("LiveStatus",mBean.getLiveState()+"");
+                Log.e("LiveDate",dataFormate+"");
+                if (mBean.getLiveState().equals("预告")) {
+                    iv_live_background.setVisibility(View.VISIBLE);
+                    tv_live_starttime.setVisibility(View.VISIBLE);
+                    Picasso.with(getBaseContext()).load(mBean.getImage())
+                            .into(iv_live_background);
+                    tv_live_starttime.setText("开始时间"+dataFormate);
+                    iv_icon.setVisibility(View.GONE);;
+                }else   {
+
+                    iv_live_background.setVisibility(View.GONE);
+                    tv_live_starttime.setVisibility(View.GONE);
+                }
             }
 
             @Override

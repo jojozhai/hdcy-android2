@@ -2,9 +2,16 @@ package com.hdcy.app.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -136,6 +143,20 @@ public class VideoCommentListAdapter  extends BaseAdapter{
         replysAdapter = new ReplysVideoAdapter(context, replysList);
         holder.lv_replys.setTag(replysList);
         holder.lv_replys.setAdapter(replysAdapter);
+        replysAdapter.setOnItemsClickListeners(new ReplysVideoAdapter.OnItemsClickListeners() {
+            @Override
+            public void onFrameLayout(int replyposition) {
+                int tag = (int) holder.getTag();
+                if (tag == position){
+                    replysList =data.get(position).getReplys();
+                }
+                replyid = replysList.get(replyposition).getId() + "";
+                target = "article";
+                targetid = replysList.get(replyposition).getTargetId() + "";
+                //Toast.makeText(context, "点击的位置" + replyid, Toast.LENGTH_SHORT).show();
+                ShowInputDialog();
+            }
+        });
         holder.tv_name.setText(item.getCreaterName()+"");
         if(!BaseUtils.isEmptyString(item.getCreaterHeadimgurl())) {
             Picasso.with(context).load((item.getCreaterHeadimgurl()))
@@ -259,8 +280,112 @@ public class VideoCommentListAdapter  extends BaseAdapter{
         }
     }
 
+    public void PublishComment() {
+        NetHelper.getInstance().PublishComments(targetid, content, target, replyid, new NetRequestCallBack() {
+            @Override
+            public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Log.e("评论成功后的数据", responseInfo.toString());
+                alertDialog.dismiss();
+                replys = responseInfo.getReplys();
+                replysList.add(0, replys);
+                replysAdapter.notifyDataSetChanged();
+                Toast.makeText(context, "评论发布成功", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+                Toast.makeText(context,"评论发布失败,请进入我的界面进行登录操作",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
+
+                Toast.makeText(context,"评论发布失败,请进入我的界面进行登录操作",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public interface OnAvatarClickListener {
         void onAvatar(int position);
+    }
+
+    public void OnAvatarClickListener(OnAvatarClickListener onAvatarClickListener) {
+        this.onAvatarClickListener = onAvatarClickListener;
+    }
+
+    public interface OnReplyClickListener {
+        void onReplyClick(int position, Replys replys);
+    }
+
+    private boolean checkData() {
+        content = editText.getText().toString();
+        return true;
+    }
+
+    /**
+     * 刷新控件数据
+     */
+    private void resetViewData() {
+        int fontcount = 250 - editText.length();
+        tv_limit.setText(fontcount + "");
+    }
+
+    public void ShowInputDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+
+        View view = mInflater.inflate(R.layout.fragment_edit_dialog, null);
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                isEdit = s.length() > 0;
+                resetViewData();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        tv_limit = (TextView) view.findViewById(R.id.tv_limit);
+        tv_comment_submit = (TextView) view.findViewById(R.id.tv_submit_comment);
+        tv_comment_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkData()) {
+                    PublishComment();
+                }
+            }
+        });
+        tv_comment_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+        tv_comment_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        editText = (EditText) view.findViewById(R.id.edt_comment);
+        editText.addTextChangedListener(textWatcher);
+        editText.requestFocus();
+        builder.setView(view);
+        builder.create();
+        alertDialog = builder.create();
+        Window windowManager = alertDialog.getWindow();
+        windowManager.setGravity(Gravity.BOTTOM);
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            public void onShow(DialogInterface dialog) {
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+        alertDialog.show();
     }
 
 }

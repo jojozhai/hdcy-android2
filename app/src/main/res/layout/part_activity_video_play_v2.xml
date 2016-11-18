@@ -166,6 +166,7 @@
         android:layout_gravity="center_vertical"
         android:src="@drawable/jc_click_play_selector"/>
     <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_video_sponsor"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
@@ -174,6 +175,7 @@
         android:src="@drawable/ic_launcher"
         app:riv_corner_radius="100dp"/>
     <TextView
+        android:id="@+id/tv_video_sponsor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -22,10 +22,10 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.hdcy.base.MerchantWebView
+                <WebView
                     android:id="@+id/mywebview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></com.hdcy.base.MerchantWebView>
+                    android:layout_height="match_parent"></WebView>
 
                 <TextView
                     android:layout_width="match_parent"

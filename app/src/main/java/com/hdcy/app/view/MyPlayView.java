@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hdcy.app.R;
@@ -18,9 +20,14 @@ public class MyPlayView extends JCVideoPlayerStandard {
 
     public View view4Share;
 
+
     private Context mContext;
 
     public View view4Back;
+
+    public TextView tv_video_sponsor;
+    public ImageView iv_video_sponsor;
+
 
     public MyPlayView(Context context){
         super(context);
@@ -43,6 +50,8 @@ public class MyPlayView extends JCVideoPlayerStandard {
         Log.d(TAG,"init() called with: "+ "context = [" + context +"]" );
         view4Share = this.findViewById(R.id.iv_share);
         view4Back = this.findViewById(R.id.back);
+        tv_video_sponsor = (TextView) this.findViewById(R.id.tv_video_sponsor);
+        iv_video_sponsor =(ImageView) this.findViewById(R.id.iv_video_sponsor);
         view4Back.setOnClickListener(this);
         view4Share.setOnClickListener(this);
        // view4Share.setVisibility(GONE);

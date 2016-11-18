@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -104,7 +105,7 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         activityContentList.clear();
         pagecount = 0;
-        GetActivityList();
+        initData();
         mRefreshLayout.endRefreshing();
     }
 
@@ -151,13 +152,7 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
             }
         });
         mListView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new ThirdPageFragmentAdapter.OnItemClickListener() {
-            @Override
-            public void onItem(int position) {
-                String ActivityId = activityContentList.get(position).getId() + "";
-                EventBus.getDefault().post(new StartBrotherEvent(OfflineActivityFragment.newInstance(ActivityId)));
-            }
-        });
+
     }
 
     private void initData(){
@@ -169,6 +164,13 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
             @Override
             public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
                 EventBus.getDefault().post(new StartBrotherEvent(OfflineActivityFragment.newInstance(activityHotList.get(position).getId()+"")));
+            }
+        });
+        mAdapter.setOnItemClickListener(new ThirdPageFragmentAdapter.OnItemClickListener() {
+            @Override
+            public void onItem(int position) {
+                String ActivityId = activityContentList.get(position).getId() + "";
+                EventBus.getDefault().post(new StartBrotherEvent(OfflineActivityFragment.newInstance(ActivityId)));
             }
         });
     }
@@ -258,7 +260,7 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
             tips.clear();
             for (int i = 0; i < activityHotList.size(); i++) {
                 imgurls.add(i, activityHotList.get(i).getImage());
-                tips.add(i, "");
+                tips.add(i, activityHotList.get(i).getName());
             }
             setData1();
         }

@@ -119,7 +119,7 @@ public class RegisterFirstFragment extends BaseBackFragment {
         bt_rg_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkData()&&!BaseUtils.isEmptyString(city_string)&&!BaseUtils.isEmptyString(sex_string)) {
+                if(checkData()&&!BaseUtils.isEmptyString(city_string)&&!BaseUtils.isEmptyString(sex_string)&&!BaseUtils.isEmptyString(nick_name)) {
                     start(RegisterSecondFragment.newInstance(bundle));
                 }else {
                     Toast.makeText(getContext(),"请完善注册的内容",Toast.LENGTH_SHORT).show();

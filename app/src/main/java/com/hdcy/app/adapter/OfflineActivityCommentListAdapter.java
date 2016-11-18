@@ -14,6 +14,7 @@ import com.hdcy.app.R;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Replys;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.RelativeTimeUtils;
 import com.squareup.picasso.Picasso;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -87,11 +88,15 @@ public class OfflineActivityCommentListAdapter extends BaseAdapter {
 
     private void setView(final int position, final ViewHolder holder){
         CommentsContent item = getItem(position);
-        holder.tv_name.setText(item.getCreaterName()+"");
-        Picasso.with(context).load((item.getCreaterHeadimgurl()))
-                .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
-                .resize(50,50)
-                .into(holder.iv_avatar);
+        if (!BaseUtils.isEmptyString(item.getCreaterName())) {
+            holder.tv_name.setText(item.getCreaterName() + "");
+        }
+        if(!BaseUtils.isEmptyString(item.getCreaterHeadimgurl())) {
+            Picasso.with(context).load((item.getCreaterHeadimgurl()))
+                    .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
+                    .resize(50, 50)
+                    .into(holder.iv_avatar);
+        }
         holder.tv_comment_content.setText(item.getContent());
 
 /*        if(replysList.isEmpty()){

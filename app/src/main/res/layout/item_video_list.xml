@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="200dp"
     android:id="@+id/fl_item_video_list"
     android:background="@color/transparent_black_60">
@@ -43,5 +45,38 @@
         android:textColor="#FFFFFF"
         android:layout_gravity="center_horizontal"
         />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="130dp"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/tv_video_daojishi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:textColor="#FFFFFF"
+            android:text="距离直播开始时间"
+            android:textSize="14sp"
+            android:visibility="visible"/>
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/CV_video_time"
+            android:layout_width="wrap_content"
+            android:padding="2dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            app:isHideTimeBackground="true"
+            app:isShowHour="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:suffixHour="时"
+            app:suffixMinute="分"
+            app:suffixSecond="秒"
+            app:suffixTextColor="@color/white"
+            app:timeTextColor="@color/white"
+            android:visibility="visible"/>
+    </LinearLayout>
 
 </FrameLayout>

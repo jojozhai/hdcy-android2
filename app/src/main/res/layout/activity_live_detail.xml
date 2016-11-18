@@ -15,10 +15,19 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
     <com.ucloud.player.widget.v2.UVideoView
         android:id="@+id/custom_liveview"
         android:layout_width="wrap_content"
         android:layout_height="200dp"/>
+        <ImageView
+            android:id="@+id/iv_live_bakground"
+            android:layout_width="match_parent"
+            android:src="@drawable/ic_launcher"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
+            android:visibility="visible"/>
         <ImageView
             android:id="@+id/iv_live_originback"
             android:layout_height="30dp"
@@ -68,7 +77,7 @@
             android:textSize="15sp"
             android:text="视频直播"/>
         <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/iv_"
+            android:id="@+id/iv_live_sponsor_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="left|bottom"
@@ -76,6 +85,7 @@
             android:layout_marginLeft="15dp"
             android:src="@drawable/ic_launcher"
             app:riv_corner_radius="100dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +94,21 @@
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="70dp"
             android:text="好多车友"
-            android:textColor="@color/colorTopbar"/>
+            android:textColor="@color/colorTopbar"
+            android:id="@+id/tv_live_sponsor" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:textSize="15sp"
+            android:layout_marginBottom="55dp"
+            android:layout_marginLeft="70dp"
+            android:text="开始时间"
+            android:textColor="@color/colorTopbar"
+            android:id="@+id/tv_live_starttime" />
+
+
     </FrameLayout>
 
     <LinearLayout

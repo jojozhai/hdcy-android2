@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:id="@+id/tv_more"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"

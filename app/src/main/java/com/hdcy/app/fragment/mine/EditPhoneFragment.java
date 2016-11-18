@@ -73,8 +73,6 @@ public class EditPhoneFragment extends BaseBackFragment{
             public void onClick(View v) {
                 if(checkData()){
                     GetSmsCode();
-
-
                 }
             }
         });
@@ -95,7 +93,6 @@ public class EditPhoneFragment extends BaseBackFragment{
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 //EventBus.getDefault().post(new StartBrotherEvent(PhoneSmsConfirmFragment.newInstance(content)));
                 startForResult(PhoneSmsConfirmFragment.newInstance(content),8001);
-                _mActivity.onBackPressed();
                 Toast.makeText(getContext(),"手机号验证成功",Toast.LENGTH_SHORT).show();
             }
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,8 @@ public class LeaderDetailInfoFragment extends BaseBackFragment {
     private TextView tv_leader_info;
     private TextView tv_leader_level;
 
+    private Button bt_leader_tag;
+
     private String Url = URL_BASE +"/views/leaderDetail.html?id=";
     private String loadurl;
 
@@ -82,6 +85,7 @@ public class LeaderDetailInfoFragment extends BaseBackFragment {
         tv_leader_desc = (TextView) view.findViewById(R.id.tv_leader_desc);
         tv_leader_info = (TextView) view.findViewById(R.id.tv_leader_info);
         tv_leader_level = (TextView) view.findViewById(R.id.tv_leader_level);
+        bt_leader_tag = (Button) view.findViewById(R.id.bt_leader_tag);
         setData();
     }
 
@@ -113,6 +117,8 @@ public class LeaderDetailInfoFragment extends BaseBackFragment {
         tv_leader_name.setText(leaderInfo.getName());
         tv_leader_info.setText(leaderInfo.getIntro());
         tv_leader_desc.setText(leaderInfo.getSlogan());
+        tv_leader_level.setText("lv"+leaderInfo.getLevel());
+        bt_leader_tag.setText(leaderInfo.getTags());
     }
 
     private UMShareListener umShareListener = new UMShareListener() {

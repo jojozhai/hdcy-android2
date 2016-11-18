@@ -85,7 +85,7 @@ public class RegisterSecondFragment extends BaseBackFragment {
             public void onClick(View v) {
                 if(checkData()) {
                     GetSmsMessage();
-                    start(RegisterThirdFragment.newInstance(bundle));
+
                 }
             }
         });
@@ -95,7 +95,7 @@ public class RegisterSecondFragment extends BaseBackFragment {
         NetHelper.getInstance().GetPhoneSmsCode(content_phone, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                start(RegisterThirdFragment.newInstance(bundle));
             }
 
             @Override

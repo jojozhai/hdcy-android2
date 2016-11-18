@@ -16,6 +16,7 @@ import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.fragment.Message.MessageFragment;
 import com.hdcy.app.fragment.mine.EditPhoneFragment;
 import com.hdcy.app.fragment.register.RegisterSecondFragment;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.CustomCountDownTimer;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -55,6 +56,14 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
         return view;
     }
 
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if(requestCode ==7001&& resultCode == RESULT_OK){
+            _mActivity.onBackPressed();
+        }
+    }
+
     private void initView(View view){
         edt_reset_phone = (EditText) view.findViewById(R.id.edt_rest_phone);
         edt_reset_smscode = (EditText) view.findViewById(R.id.edt_reset_smscode);
@@ -92,6 +101,10 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
 
     private boolean checkPhone(){
         phone_content = edt_reset_phone.getText().toString();
+        if(phone_content.length()<11){
+            Toast.makeText(getContext(),"手机格式不对",Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -100,6 +113,10 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
         phone_content.trim();
         smscode_content = edt_reset_smscode.getText().toString();
         smscode_content.trim();
+        if (phone_content.length()<11&& BaseUtils.isEmptyString(smscode_content)){
+            Toast.makeText(getContext(),"您输入的数据有误",Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -109,18 +126,16 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getContext(),"验证码发送成功",Toast.LENGTH_SHORT).show();
-                start(ResetPasswordSecondFragment.newInstance(phone_content));
-                _mActivity.onBackPressed();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"验证码发送失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"验证码发送失败",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -130,18 +145,18 @@ public class ResetPasswordFirstFragment extends BaseBackFragment{
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getContext(),"手机验证成功",Toast.LENGTH_SHORT).show();
-                startWithPop(ResetPasswordSecondFragment.newInstance(phone_content));
+                startForResult(ResetPasswordSecondFragment.newInstance(phone_content),7001);
                 //_mActivity.onBackPressed();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"手机验证失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                Toast.makeText(getContext(),"手机验证失败",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     lintOptions{
         checkReleaseBuilds false
@@ -85,16 +86,14 @@ dependencies {
     compile files('libs/Rong_IMKit_v2_6_4.jar')
     //城市选择
     compile 'me.yokeyword:indexablerecyclerview:1.0.5'
-    compile 'com.android.support:recyclerview-v7:23'
-    //图片压缩
+    compile files('libs/BaiduLBS_Android.jar')
+    //倒计时
+    compile 'com.github.iwgang:countdownview:2.1.2'
+
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
+
     compile 'top.zibin:Luban:1.0.9'
-    compile files('libs/BaiduLBS_Android.jar')
-    //
-/*    compile 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
-    //Optional: see how to use the utility.
-    compile 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
-    //Optional: see how to use the utility.
-    compile 'com.ogaclejapan.smarttablayout:utils-v13:1.6.1@aar'*/
+
+
 }

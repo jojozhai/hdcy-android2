@@ -183,7 +183,11 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
     }
 
     private void setData(){
-        tv_mine_level.setText("lv"+userBaseInfo.getLevel());
+        if(userBaseInfo.getLevel()==null){
+            tv_mine_level.setText("lv"+"1");
+        }else {
+            tv_mine_level.setText("lv"+userBaseInfo.getLevel());
+        }
         tv_mine_credits.setText(userBaseInfo.getPoint()+"");
         tv_mine_douyou.setText(userBaseInfo.getBeans()+"");
         tv_mine_nickname.setText(userBaseInfo.getNickname());

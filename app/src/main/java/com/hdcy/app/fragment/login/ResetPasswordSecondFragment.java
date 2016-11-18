@@ -88,6 +88,8 @@ public class ResetPasswordSecondFragment extends BaseBackFragment {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getContext(), "修改密码成功",Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                setFramgentResult(RESULT_OK,bundle);
                 _mActivity.onBackPressed();
             }
 

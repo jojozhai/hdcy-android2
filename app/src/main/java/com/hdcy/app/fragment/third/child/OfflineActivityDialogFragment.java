@@ -19,6 +19,8 @@ import com.hdcy.app.basefragment.BaseBackFragment;
 import com.hdcy.app.fragment.second.PublishCommentFragment;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.RootListInfo;
+import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
@@ -128,7 +130,12 @@ public class OfflineActivityDialogFragment extends BaseBackFragment implements B
         iv_activity_fl_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startForResult(PublishCommentFragment.newInstance(activityid, target),REQ_PUBLISH_FRAGMENT );
+                if (BaseUtils.isEmptyString(BaseInfo.getPp_token())) {
+                    Toast.makeText(getContext(),"登陆后才可以进行评论",Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    startForResult(PublishCommentFragment.newInstance(activityid, target), REQ_PUBLISH_FRAGMENT);
+                }
             }
         });
 

@@ -189,12 +189,12 @@ public class NetHelper {
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                callBack.onError(requestInfo, responseInfo);
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                callBack.onFailure(requestInfo, responseInfo);
             }
         });
     }
@@ -1243,7 +1243,7 @@ public class NetHelper {
         }
         request.addParamjson(obj.toString());
         Log.e("requesturl", request.toString()+"");
-        return request.putinfo(new NetRequestCallBack() {
+        return request.putmineinfo(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 JSONObject dataObj = responseInfo.getDataObj();

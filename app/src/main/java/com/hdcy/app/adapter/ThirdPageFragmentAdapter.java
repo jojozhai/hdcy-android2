@@ -20,10 +20,12 @@ import com.zhy.autolayout.utils.AutoUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import cn.iwgang.countdownview.CountdownView;
 
 /**
  * Created by WeiYanGeorge on 2016-08-30.
@@ -108,6 +110,19 @@ public class ThirdPageFragmentAdapter extends BaseAdapter {
                     .config(Bitmap.Config.RGB_565)
                     .into(holder.iv_activity_background);
         }
+        long i = System.currentTimeMillis();
+        Date now = new Date(i);
+        long interval = item.getSignEndTime().getTime() - now.getTime();
+        long time= interval;
+        if (interval<(24*60*60*1000*3)&&!item.getState().equals("FINISH")&&interval>0){
+            Log.e("interval",time+"");
+            holder.cd_activity_time.setVisibility(View.VISIBLE);
+            holder.cd_activity_time.start(time);
+            holder.tv_activity_daojishi.setVisibility(View.VISIBLE);
+        }else {
+            holder.tv_activity_daojishi.setVisibility(View.GONE);
+            holder.cd_activity_time.setVisibility(View.GONE);
+        }
 /*        if(!BaseUtils.isEmptyString(item.getSponsorImage())){
             String sponsor = item.getSponsorImage();
             Picasso.with(context).load(sponsor)
@@ -151,9 +166,10 @@ public class ThirdPageFragmentAdapter extends BaseAdapter {
         private Object tag;
 
 
-        private TextView tv_activity_title, tv_activity_subtitle,tv_activity_persons_count;
+        private TextView tv_activity_title, tv_activity_subtitle,tv_activity_persons_count,tv_activity_daojishi;
         private ImageView iv_activity_background,iv_activity_status,iv_activity_sponsor;
         private FrameLayout fl_item_activity_list;
+        private CountdownView cd_activity_time;
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
 
@@ -164,6 +180,8 @@ public class ThirdPageFragmentAdapter extends BaseAdapter {
             //tv_activity_persons_count =(TextView) view.findViewById(R.id.tv_activity_persons_count);
             fl_item_activity_list =(FrameLayout) view.findViewById(R.id.fl_item_activity_list);
             //iv_activity_sponsor = (ImageView) view.findViewById(R.id.iv_activity_sponsor);
+            cd_activity_time = (CountdownView) view.findViewById(R.id.CV_activity_time);
+            tv_activity_daojishi = (TextView) view.findViewById(R.id.tv_activity_daojishi);
         }
 
         //@ViewInject(R.id.tv_content)

@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.hdcy.app.R;
 import com.hdcy.app.model.CommentsContent;
+import com.hdcy.app.model.Replys;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.RelativeTimeUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -36,11 +38,18 @@ public class ArticleCommentListAdapter extends BaseAdapter {
 
     private List<CommentsContent> data = new ArrayList<>();
     private List<Boolean> status = new ArrayList<>();
+    List<Replys> replysList = new ArrayList<>();
+
+    ReplysAdapter replysAdapter;
 
     private LayoutInflater mInflater;
     private Context context;
 
     private int actualcount;
+
+    private String replyid;
+    private String targetid;
+    private String target;
 
     public ArticleCommentListAdapter(Context context, List<CommentsContent> data, List<Boolean> status){
         super();
@@ -87,12 +96,40 @@ public class ArticleCommentListAdapter extends BaseAdapter {
 
     private void setView(final int position, final ViewHolder holder){
         final CommentsContent item = getItem(position);
+        replysList = item.getReplys();
+        if(replysList.isEmpty()){
+            holder.lv_replys.setVisibility(View.GONE);
+        }else {
+            holder.lv_replys.setVisibility(View.VISIBLE);
+        }
+        replysAdapter = new ReplysAdapter(context,replysList);
+        holder.lv_replys.setTag(replysList);// set tags
+        holder.lv_replys.setAdapter(replysAdapter);
+        holder.tv_more.setTag(replysList);
+        if(replysList.size()>2){
+            holder.tv_more.setVisibility(View.VISIBLE);
+            holder.tv_more.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replysList=(ArrayList<Replys>)v.getTag();
+                    replysAdapter = new ReplysAdapter(context, replysList);
+                    holder.lv_replys.setAdapter(replysAdapter);
+                    replysAdapter.addItemNum(replysList.size());
+                    replysAdapter.notifyDataSetChanged();
+                    holder.tv_more.setVisibility(View.GONE);
+                }
+            });
+        }else {
+            holder.tv_more.setVisibility(View.GONE);
+        }
 
         holder.tv_name.setText(item.getCreaterName()+"");
-        Picasso.with(context).load((item.getCreaterHeadimgurl()))
-                .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
-                .resize(50,50)
-                .into(holder.iv_avatar);
+        if(!BaseUtils.isEmptyString(item.getCreaterHeadimgurl())) {
+            Picasso.with(context).load((item.getCreaterHeadimgurl()))
+                    .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
+                    .resize(50, 50)
+                    .into(holder.iv_avatar);
+        }
         Date time = item.getCreatedTime();
         String nowdate = RelativeTimeUtils.format(time);
 
@@ -111,7 +148,7 @@ public class ArticleCommentListAdapter extends BaseAdapter {
         holder.iv_praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,   actualcount+"点击位置"+position, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context,   actualcount+"点击位置"+position, Toast.LENGTH_SHORT).show();
                 int tag = (int) holder.getTag();
                 if(tag == position) {
                     if (item.isLike()==true) {
@@ -160,8 +197,6 @@ public class ArticleCommentListAdapter extends BaseAdapter {
             }
         });
 
-        holder.lv_replys.setVisibility(View.GONE);
-        holder.ly_sub_replys.setVisibility(View.GONE);
 
 
     }
@@ -172,6 +207,7 @@ public class ArticleCommentListAdapter extends BaseAdapter {
         private TextView tv_name, tv_praise_count, tv_time, tv_comment_content;
         private ListView lv_replys;
         private LinearLayout ly_sub_replys;
+        private LinearLayout tv_more;
 
         private Object tag;
 
@@ -195,7 +231,10 @@ public class ArticleCommentListAdapter extends BaseAdapter {
             ly_sub_replys = (LinearLayout) itemView.findViewById(R.id.ly_sub_reply);
             lv_replys = (ListView) itemView.findViewById(R.id.lv_replys);
             tv_comment_content = (TextView) itemView.findViewById(R.id.tv_comment_content);
+            tv_more = (LinearLayout) itemView.findViewById(R.id.tv_more);
 
         }
     }
+
+
 }

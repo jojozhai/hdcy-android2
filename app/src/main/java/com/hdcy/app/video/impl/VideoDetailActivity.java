@@ -46,6 +46,7 @@ import com.hdcy.base.utils.net.NetRequestCallBack;
 import com.hdcy.base.utils.net.NetRequestInfo;
 import com.hdcy.base.utils.net.NetResponseInfo;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -114,6 +115,9 @@ public class VideoDetailActivity extends SupportActivity {
     private RootListInfo rootListInfo = new RootListInfo();
 
     private View share;
+    private TextView tv_video_sponsor;
+    private ImageView iv_video_sponsor;
+
     private String Url = URL_BASE +"/views/videoDetail.html?id=";
     private String load;
 
@@ -185,6 +189,9 @@ public class VideoDetailActivity extends SupportActivity {
         jcVideoPlayerStandard = (MyPlayView) findViewById(R.id.custom_videoplayer_standard);
 
         share = this.findViewById(R.id.iv_share);
+        tv_video_sponsor = (TextView) this.findViewById(R.id.tv_video_sponsor);
+        iv_video_sponsor =(ImageView) this.findViewById(R.id.iv_video_sponsor);
+
         String urlForVideo = "http://mediademo.ufile.ucloud.com.cn/ucloud_promo_140s.mp4";
         if (!TextUtils.isEmpty(mBean.getUrl2())) {
             urlForVideo = mBean.getUrl2();
@@ -304,7 +311,7 @@ public class VideoDetailActivity extends SupportActivity {
         }
         tv_video_comment_count.setText("("+mBean.getCommentCount()+")");*/
         Log.e("videocount",mBean.getCommentCount()+"");
-        mFragments.add(FirstVideoCommentFragment.newInstance(mBean.getId()+"","article",mBean.getCommentCount()+"",mBean.getDesc()));
+        mFragments.add(FirstVideoCommentFragment.newInstance(mBean.getId()+"","video",mBean.getCommentCount()+"",mBean.getDesc()));
         loadRootFragment(R.id.fl_container_live,mFragments.get(0));
 /*        mListView = (ListView) findViewById(R.id.lv_video_dianbo);
 
@@ -356,11 +363,24 @@ public class VideoDetailActivity extends SupportActivity {
         mAdapter.notifyDataSetChanged();
     }
 
+    private void setData1(){
+        if(!BaseUtils.isEmptyString(mBean.getSponsorName())) {
+            tv_video_sponsor.setText(mBean.getSponsorName());
+        }
+        if (!BaseUtils.isEmptyString(mBean.getSponsorImage())){
+            Picasso.with(getBaseContext()).load(mBean.getSponsorImage()+"")
+                    .centerCrop()
+                    .resize(50,50)
+                    .into(iv_video_sponsor);
+        }
+    }
+
     private void GetData(){
         NetHelper.getInstance().getOneVedioDetail(DeatailBean.getId(), new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 mBean = responseInfo.getVideoBasicInfo();
+                setData1();
             }
 
             @Override

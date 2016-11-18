@@ -87,9 +87,10 @@ public class ActivityDetails implements Serializable {
 
     private WaiterInfo waiterInfo;
 
-
-
     private boolean signFinish;
+
+
+    private int signCountPlus;
 
     public int getSignCount() {
         return signCount;
@@ -342,6 +343,15 @@ public class ActivityDetails implements Serializable {
 
     public void setSignFinish(boolean signFinish) {
         this.signFinish = signFinish;
+    }
+
+
+    public int getSignCountPlus() {
+        return signCountPlus;
+    }
+
+    public void setSignCountPlus(int signCountPlus) {
+        this.signCountPlus = signCountPlus;
     }
 
 

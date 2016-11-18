@@ -34,6 +34,7 @@ import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Result;
 import com.hdcy.app.model.RootListInfo;
 import com.hdcy.app.view.NoScrollListView;
+import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -158,7 +159,6 @@ public class OfflineActivityFragment extends BaseBackFragment{
     @Override
     public void onResume() {
         super.onResume();
-        initData();
     }
 
     @Override
@@ -265,7 +265,12 @@ public class OfflineActivityFragment extends BaseBackFragment{
         fl_activity_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startForResult(PublishCommentFragment.newInstance(activityid, target),REQ_PUBLISH_FRAGMENT );
+                if (BaseUtils.isEmptyString(BaseInfo.getPp_token())) {
+                    Toast.makeText(getContext(),"登陆后才可以进行评论",Toast.LENGTH_SHORT).show();
+                    return;
+                }else {
+                    startForResult(PublishCommentFragment.newInstance(activityid, target), REQ_PUBLISH_FRAGMENT);
+                }
             }
         });
     }
@@ -299,6 +304,13 @@ public class OfflineActivityFragment extends BaseBackFragment{
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(BaseUtils.isEmptyString(BaseInfo.pp_token)){
+                    Toast.makeText(getActivity(), "请登录后再报名!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (result.getContent()==true){
+                    return;
+                }
                 if(result.getContent() == false && activityDetails.getFinish() ==false || activityDetails.isSignFinish() ==true) {
                     startForResult(RegisterActivityFragment.newInstance(activityid),REQ_REGISTER_FRAGMENT);
                 }else {
@@ -316,7 +328,8 @@ public class OfflineActivityFragment extends BaseBackFragment{
         //填充数据
         tv_activity_ask.setText("("+rootListInfo.getTotalElements()+")");
         tv_actvity_title.setText(activityDetails.getName()+"");
-        tv_attend_count.setText(activityDetails.getSignCount()+"");
+        int count = activityDetails.getSignCount()+activityDetails.getSignCountPlus();
+        tv_attend_count.setText(count+"");
         tv_activity_sponsor.setText(activityDetails.getSponsorName()+"");
         SimpleDateFormat foramt = new SimpleDateFormat("yyyy年MM月dd日");
         String dateformat1 = foramt.format(activityDetails.getStartTime()).toString();
@@ -332,7 +345,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
 
         tv_activity_address.setText(activityDetails.getProvince()+activityDetails.getCity()+activityDetails.getAddress()+"");
 
-        mAdapter.notifyDataSetChanged();
+
         if(commentsList.isEmpty()){
             tv_activity_comment_status.setVisibility(View.VISIBLE);
             bt_show_more.setVisibility(View.GONE);
@@ -340,13 +353,15 @@ public class OfflineActivityFragment extends BaseBackFragment{
             tv_activity_comment_status.setVisibility(View.GONE);
             bt_show_more.setVisibility(View.VISIBLE);
         }
+
         if(activityDetails.isSignFinish() ==true&& result.getContent() == false&&activityDetails.getFinish()==false ){
             button_submit.setBackgroundResource((R.color.main_font_gray_2));
             button_submit.setText("报名已截止");
-            button_submit.setClickable(false);
         }
+        mAdapter.notifyDataSetChanged();
 
-        mProgressBar.setVisibility(View.GONE);
+
+
     }
 
     private void ShowPhoneAlertDialog(){
@@ -397,6 +412,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
                     button_submit.setText("已结束");
                 }
                 Log.e("activitydetail", activityDetails.getName()+"");
+                mProgressBar.setVisibility(View.GONE);
                 setData();
                 //setData();
             }
@@ -424,6 +440,7 @@ public class OfflineActivityFragment extends BaseBackFragment{
                     rootListInfo = responseInfo.getRootListInfo();
                     GetActivityDetails();
                 }
+
 
                 //setData();
             }

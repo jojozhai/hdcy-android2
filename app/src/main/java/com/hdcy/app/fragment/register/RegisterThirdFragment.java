@@ -143,17 +143,25 @@ public class RegisterThirdFragment extends BaseBackFragment {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), LoginActivity.class);
                 startActivity(intent);
-                _mActivity.onBackPressed();
+                _mActivity.finish();
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getContext(),"手机号已存在",Toast.LENGTH_SHORT).show();
+/*                Intent intent = new Intent();
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                _mActivity.finish();*/
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 Toast.makeText(getContext(),"手机号已存在",Toast.LENGTH_SHORT).show();
+/*                Intent intent = new Intent();
+                intent.setClass(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                _mActivity.finish();*/
             }
         });
     }

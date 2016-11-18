@@ -38,17 +38,31 @@
                     app:riv_border_color="@color/white"
                     app:riv_border_width="0dp"
                     app:riv_corner_radius="100dp" />
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="90dp"
+                    android:layout_marginTop="-15dp"
+                    android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_leader_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="90dp"
-                    android:layout_marginTop="-15dp"
                     android:text="喜欢一个人"
                     android:textColor="@color/white"
                     android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tv_leader_level"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginLeft="30dp"
+                        android:text="lv0"
+                        android:textSize="15sp"/>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_leader_desc"
@@ -60,16 +74,19 @@
                     android:text="身边随处可见"
                     android:textColor="#C8C8C8"
                     android:textSize="12sp" />
-                <TextView
-                    android:id="@+id/tv_leader_level"
-                    android:layout_height="wrap_content"
+                <Button
+                    android:id="@+id/bt_leader_tag"
+                    android:layout_height="20dp"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:layout_marginTop="-15dp"
-                    android:layout_marginLeft="50dp"
-                    android:text="lv0"
-                    android:textSize="15sp"/>
+                    android:background="@drawable/leader_tag"
+                    android:text="赛车手"
+                    android:textColor="#C8C8C8"
+                    android:textSize="10sp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="100dp"
+                    />
+
             </FrameLayout>
         </FrameLayout>
 
@@ -77,17 +94,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="22dp"
-            android:background="@color/white"
             android:isScrollContainer="true"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_height="20dp"
+                    android:layout_width="2dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="14dp"
+
+                    android:background="@color/black"
+                    />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="14dp"
+                android:layout_gravity="center"
                 android:text="个人简介"
                 android:textColor="#303030"
                 android:textSize="15sp" />
+                </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_leader_info"
@@ -95,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:textColor="#494949"
+                android:paddingBottom="50dp"
                 android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>

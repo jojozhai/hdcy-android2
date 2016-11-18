@@ -5,7 +5,13 @@ import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
@@ -51,7 +57,7 @@ public class MerchantWebView extends WebView {
 
 
     private void init(){
-        WebSettings setting = getSettings();
+/*        WebSettings setting = getSettings();
         setting.setJavaScriptEnabled(true);
         setting.setJavaScriptCanOpenWindowsAutomatically(true);//允许js弹出窗口
         setting.setBuiltInZoomControls(true); // 原网页基础上缩放
@@ -64,8 +70,16 @@ public class MerchantWebView extends WebView {
         setting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);//支持内容重新布局
         this.setVerticalScrollBarEnabled(false);
         this.setHorizontalScrollBarEnabled(false);// 水平不显示
-        this.setVerticalScrollBarEnabled(false); // 垂直不显示
+        this.setVerticalScrollBarEnabled(false); // 垂直不显示*/
         //setPageCacheCapacity(setting);
+        WebSettings webSettings = getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         setWebViewClient(this);
         setWebChromeClient(new WebChromeClient() {
             @Override

@@ -25,6 +25,7 @@ import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.PraiseResult;
 import com.hdcy.app.model.Replys;
 import com.hdcy.base.BaseInfo;
+import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.RelativeTimeUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -182,11 +183,12 @@ public class CommentListViewFragmentAdapter extends BaseAdapter {
 
 
         holder.tv_name.setText(item.getCreaterName() + "");
+        if(!BaseUtils.isEmptyString(item.getCreaterHeadimgurl())){
         Picasso.with(context).load(item.getCreaterHeadimgurl())
                 .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
                 .resize(50, 50)
                 .centerCrop()
-                .into(holder.iv_avatar);
+                .into(holder.iv_avatar);}
         Date time = item.getCreatedTime();
         String nowdate = RelativeTimeUtils.format(time);
         holder.tv_time.setText(nowdate);

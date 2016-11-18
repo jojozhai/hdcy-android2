@@ -86,8 +86,11 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
     private String content;
     String replyid;
     int globalposition;
+    String targetid;
 
     private List<BaseFragment> mFragments = new ArrayList<>();
+
+    TextView tv_activity_comment_status;
 
 
 
@@ -146,6 +149,7 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
         iv_live_edit_button = (ImageView) view.findViewById(R.id.iv_edt_button);
         mAdapter  = new VideoCommentListAdapter(getContext(),commentsList);
         mListView.setAdapter(mAdapter);
+        tv_activity_comment_status = (TextView) view.findViewById(R.id.tv_activity_comment_status);
 
     }
 
@@ -153,6 +157,18 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
         iv_live_edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                replyid =null;
+                ShowInputDialog();
+            }
+        });
+        mAdapter.setOnAvatarClickListener(new VideoCommentListAdapter.OnAvatarClickListener() {
+            @Override
+            public void onAvatar(int position) {
+                Log.e("replyid", position+"");
+                replyid = commentsList.get(position).getId() + "";
+                Log.e("replyid", replyid);
+                targetid = tagId;
+                globalposition = position;
                 ShowInputDialog();
             }
         });
@@ -163,8 +179,14 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
     }
 
     private void setData(){
-
+        mAdapter.notifyDataSetChanged();
         mRefreshLayout.endLoadingMore();
+        if(commentsList.isEmpty()){
+            tv_activity_comment_status.setVisibility(View.VISIBLE);
+        }else {
+            tv_activity_comment_status.setVisibility(View.GONE);
+        }
+
     }
 
     public void GetCommentSList(){
@@ -215,26 +237,40 @@ public class FirstTabVideoChatFragment extends BaseFragment implements BGARefres
     }
 
     public void PublishComment() {
-        NetHelper.getInstance().PublishComments(tagId, content, target, null, new NetRequestCallBack() {
+        NetHelper.getInstance().PublishComments(tagId, content, target, replyid, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 alertDialog.dismiss();
-                commentsContent = responseInfo.getCommentsContent();
-                commentsContent.setLike(false);
-                commentsList.add(0, commentsContent);
-                setData();
+                if (replyid == null) {
+                    commentsContent = responseInfo.getCommentsContent();
+                    commentsContent.setLike(false);
+                    commentsList.add(0, commentsContent);
+                } else {
+                    Log.e("评论成功后的数据", commentsList.size()+"");
+                    replys = responseInfo.getReplys();
+                    replysList = commentsList.get(globalposition).getReplys();
+                    replysList.add(0, replys);
+                    commentsContent = commentsList.get(globalposition);
+                    commentsContent.setReplys(replysList);
+                    commentsList.set(globalposition,commentsContent);
+                    Log.e("评论成功后的数据", commentsList.size()+"");
+
+                }
+                mAdapter.notifyDataSetChanged();
                 Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onError(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-
+                alertDialog.dismiss();
+                Toast.makeText(getActivity(),"评论发布失败,请进入我的界面进行登录操作",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                Toast.makeText(getContext(), "评论发布失败", Toast.LENGTH_LONG).show();
+                alertDialog.dismiss();
+                Toast.makeText(getContext(), "评论发布失败,请进入我的界面进行登录操作", Toast.LENGTH_LONG).show();
 
 
             }

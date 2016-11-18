@@ -27,6 +27,7 @@ import com.hdcy.app.basefragment.BaseFragment;
 import com.hdcy.app.model.CommentsContent;
 import com.hdcy.app.model.Replys;
 import com.hdcy.app.model.RootListInfo;
+import com.hdcy.base.BaseInfo;
 import com.hdcy.base.utils.BaseUtils;
 import com.hdcy.base.utils.net.NetHelper;
 import com.hdcy.base.utils.net.NetRequestCallBack;
@@ -47,7 +48,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * Created by WeiYanGeorge on 2016-11-15.
  */
 
-public class FirstVideoCommentFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+public class FirstVideoCommentFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate {
     private ListView mListView;
     private BGARefreshLayout mRefreshLayout;
     private RootListInfo rootListInfo = new RootListInfo();
@@ -88,14 +89,19 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
     String replyid;
     int globalposition;
 
+
+    String targetid;
+
     private List<BaseFragment> mFragments = new ArrayList<>();
 
-    public static FirstVideoCommentFragment newInstance(String tagId, String target, String count,String desc){
+    TextView tv_activity_comment_status;
+
+    public static FirstVideoCommentFragment newInstance(String tagId, String target, String count, String desc) {
         FirstVideoCommentFragment fragment = new FirstVideoCommentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("param", tagId);
         bundle.putString("param1", target);
-        bundle.putString("param2",count);
+        bundle.putString("param2", count);
         bundle.putString("param3", desc);
         fragment.setArguments(bundle);
         return fragment;
@@ -104,9 +110,9 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_first_video_comment,container,false);
+        View view = inflater.inflate(R.layout.fragment_first_video_comment, container, false);
         Bundle bundle = getArguments();
-        if (bundle != null){
+        if (bundle != null) {
             tagId = bundle.getString("param");
             target = bundle.getString("param1");
             video_comment_count = bundle.getString("param2");
@@ -122,11 +128,11 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         pagecount++;
-        if(isLast){
+        if (isLast) {
             mRefreshLayout.endLoadingMore();
-            Toast.makeText(getContext(), "没有更多的数据了",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
             return false;
-        }else {
+        } else {
             initData();
             return true;
         }
@@ -140,46 +146,61 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
         mRefreshLayout.endRefreshing();*/
         mRefreshLayout.endRefreshing();
     }
-    private void initView(View view){
+
+    private void initView(View view) {
         mListView = (ListView) view.findViewById(R.id.lv_tab_chat);
         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.refresh_layout);
         mRefreshLayout.setDelegate(this);
-        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(),true));
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(getContext(), true));
         iv_live_edit_button = (ImageView) view.findViewById(R.id.iv_edt_button);
-        mAdapter  = new VideoCommentListAdapter(getContext(),commentsList);
-        View headView = View.inflate(getContext(),R.layout.item_header_video_comment,null);
+        mAdapter = new VideoCommentListAdapter(getContext(), commentsList);
+        View headView = View.inflate(getContext(), R.layout.item_header_video_comment, null);
         tv_video_desc = (TextView) headView.findViewById(R.id.tv_video_desc);
-        tv_video_comment_count = (TextView) headView.findViewById(R.id.tv_video_comment_count) ;
-        if(!BaseUtils.isEmptyString(htmlcontent)) {
+        tv_video_comment_count = (TextView) headView.findViewById(R.id.tv_video_comment_count);
+        if (!BaseUtils.isEmptyString(htmlcontent)) {
             Document document = Jsoup.parse(htmlcontent);
             String content = document.select("html").text();
             tv_video_desc.setText(content);
         }
-        tv_video_comment_count.setText(video_comment_count+"");
+        tv_video_comment_count.setText(video_comment_count + "");
         mListView.addHeaderView(headView);
         mListView.setAdapter(mAdapter);
+        tv_activity_comment_status = (TextView) view.findViewById(R.id.tv_activity_comment_status);
     }
 
-    private void initData(){
+    private void initData() {
         GetCommentSList();
     }
 
-    private void setListener(){
+    private void setListener() {
         iv_live_edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    replyid = null;
+                    ShowInputDialog();
+
+            }
+        });
+        mAdapter.setOnAvatarClickListener(new VideoCommentListAdapter.OnAvatarClickListener() {
+            @Override
+            public void onAvatar(int position) {
+                Log.e("replyid", position + "");
+                replyid = commentsList.get(position).getId() + "";
+                Log.e("replyid", replyid);
+                targetid = tagId;
+                globalposition = position;
                 ShowInputDialog();
             }
         });
     }
 
-    public void GetCommentSList(){
+    public void GetCommentSList() {
         NetHelper.getInstance().GetCommentsList(tagId, "video", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 List<CommentsContent> temp = responseInfo.getCommentsContentList();
                 commentsList.addAll(temp);
-                Log.e("commentsStatus",commentsList.size()+"");
+                Log.e("commentsStatus", commentsList.size() + "");
                 rootListInfo = responseInfo.getRootListInfo();
                 isLast = rootListInfo.isLast();
                 GetPraiseStatus();
@@ -197,21 +218,26 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
         });
     }
 
-    private void setData(){
+    private void setData() {
         mAdapter.notifyDataSetChanged();
         mRefreshLayout.endLoadingMore();
+        if (commentsList.size() == 0) {
+            tv_activity_comment_status.setVisibility(View.VISIBLE);
+        } else {
+            tv_activity_comment_status.setVisibility(View.GONE);
+        }
     }
 
-    public void GetPraiseStatus(){
+    public void GetPraiseStatus() {
         NetHelper.getInstance().GetCommentPraiseStatus(tagId, "video", pagecount, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 praisestatus.clear();
                 JSONArray jsonArray = responseInfo.getDataArr();
-                praisestatus = JSON.parseArray(jsonArray.toString(),Boolean.class);
-                Log.e("praiseStatus",praisestatus.size()+"");
-                for (int i = 0; i < praisestatus.size(); i++){
-                    commentsList.get(i+pagecount*10).setLike(praisestatus.get(i));
+                praisestatus = JSON.parseArray(jsonArray.toString(), Boolean.class);
+                Log.e("praiseStatus", praisestatus.size() + "");
+                for (int i = 0; i < praisestatus.size(); i++) {
+                    commentsList.get(i + pagecount * 10).setLike(praisestatus.get(i));
                 }
                 setData();
             }
@@ -229,14 +255,29 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
     }
 
     public void PublishComment() {
-        NetHelper.getInstance().PublishComments(tagId, content, target, null, new NetRequestCallBack() {
+        NetHelper.getInstance().PublishComments(tagId, content, target, replyid, new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
                 alertDialog.dismiss();
-                commentsContent = responseInfo.getCommentsContent();
-                commentsContent.setLike(false);
-                commentsList.add(0, commentsContent);
-                setData();
+                if (replyid == null) {
+                    commentsContent = responseInfo.getCommentsContent();
+                    commentsContent.setLike(false);
+                    commentsList.add(0, commentsContent);
+                    mAdapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    Log.e("评论成功后的数据", commentsList.size() + "");
+                    replys = responseInfo.getReplys();
+                    replysList = commentsList.get(globalposition).getReplys();
+                    replysList.add(0, replys);
+                    commentsContent = commentsList.get(globalposition);
+                    commentsContent.setReplys(replysList);
+                    commentsList.set(globalposition, commentsContent);
+                    Log.e("评论成功后的数据", commentsList.size() + "");
+
+                }
+                mAdapter.notifyDataSetChanged();
                 Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
 
             }
@@ -314,7 +355,7 @@ public class FirstVideoCommentFragment extends BaseFragment implements BGARefres
 
     private boolean checkData() {
         content = editText.getText().toString();
-        if (BaseUtils.isEmptyString(content)||content.trim().isEmpty()) {
+        if (BaseUtils.isEmptyString(content) || content.trim().isEmpty()) {
             Toast.makeText(getActivity(), "请输入你要发布的文字", Toast.LENGTH_SHORT).show();
             return false;
         }
