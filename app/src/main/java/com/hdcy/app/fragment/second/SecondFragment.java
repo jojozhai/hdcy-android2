@@ -49,6 +49,11 @@ public class SecondFragment extends BaseLazyMainFragment {
 
     }
 
+    @Override
+    public void initLazyData() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -15,5 +15,8 @@ public class FirstsFragment extends BaseLazyMainFragment {
 
     }
 
+    @Override
+    public void initLazyData() {
 
+    }
 }

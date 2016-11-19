@@ -2,6 +2,7 @@ package com.hdcy.app.basefragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.hdcy.app.R;
@@ -18,6 +19,9 @@ public abstract class BaseLazyMainFragment extends BaseFragment {
 
     private boolean mInited = false;
     private Bundle mSavedInstanceState;
+    protected boolean isVisible;
+    private boolean isPrepared;
+    private boolean isFirst = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public abstract class BaseLazyMainFragment extends BaseFragment {
                 initLazyView(savedInstanceState);
             }
         }
+        isPrepared = true;
+        lazyLoad();
     }
 
     @Override
@@ -50,6 +56,29 @@ public abstract class BaseLazyMainFragment extends BaseFragment {
             mInited = true;
             initLazyView(mSavedInstanceState);
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+//        Log.d("TAG", "fragment->setUserVisibleHint");
+        if (getUserVisibleHint()) {
+            isVisible = true;
+            lazyLoad();
+        } else {
+            isVisible = false;
+           // onInvisible();
+        }
+    }
+
+    protected void lazyLoad() {
+        Log.e("Lazystatus",isPrepared +","+ isVisible +","+ isFirst);
+        if (!isPrepared || !isVisible || !isFirst) {
+            return;
+        }
+        Log.d("TAG", getClass().getName() + "->initData()");
+        initLazyData();
+        isFirst = false;
     }
 
     /**
@@ -72,4 +101,6 @@ public abstract class BaseLazyMainFragment extends BaseFragment {
         }
         return true;
     }
+
+    public abstract void initLazyData();
 }

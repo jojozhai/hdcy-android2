@@ -177,6 +177,12 @@ public class VideoDetailActivity extends SupportActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mNetworkStateListener);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
     }
@@ -224,17 +230,17 @@ public class VideoDetailActivity extends SupportActivity {
         JCVideoPlayerManager.setListener(new JCMediaPlayerListener() {
             @Override
             public void onPrepared() {
-
+                Log.e("Video","PrePared");
             }
 
             @Override
             public void onCompletion() {
-
+                Log.e("Video","onCompletion");
             }
 
             @Override
             public void onAutoCompletion() {
-
+                Log.e("Video","onAutoCompletion");
             }
 
             @Override
@@ -244,17 +250,17 @@ public class VideoDetailActivity extends SupportActivity {
 
             @Override
             public void onSeekComplete() {
-
+                Log.e("Video","onSeekComplete");
             }
 
             @Override
             public void onError(int what, int extra) {
-
+                Log.e("Video","onError");
             }
 
             @Override
             public void onInfo(int what, int extra) {
-
+                Log.e("Video","onInfo");
             }
 
             @Override
@@ -268,6 +274,7 @@ public class VideoDetailActivity extends SupportActivity {
 
             @Override
             public boolean goToOtherListener() {
+                Log.e("Video","goToOtherListener");
                 return false;
             }
 
@@ -287,12 +294,14 @@ public class VideoDetailActivity extends SupportActivity {
             }
         });
 
-        handler.postDelayed(new Runnable() {
+        initBottomView();
+
+/*        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                initBottomView();
+
             }
-        },1000);
+        },1000);*/
     }
     private void initBottomView(){
 /*        tv_video_desc = (TextView) findViewById(R.id.tv_video_desc);

@@ -70,6 +70,8 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
 
     private int pagecount = 0;
 
+    private int initlazytimes = 0;
+
     public static FirstFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -85,7 +87,7 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
         View view = inflater.inflate(R.layout.fragment_first_page, container, false);
         initView(view);
         GetBannerDatas();
-        initData();
+
         setListener();
         return view;
     }
@@ -314,7 +316,13 @@ public class FirstFragment extends BaseLazyMainFragment implements BGARefreshLay
 
     @Override
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
+    }
 
+    @Override
+    public void initLazyData() {
+        initlazytimes +=1;
+        Log.e("initlazytimes",initlazytimes+"");
+        initData();
     }
 
     /**

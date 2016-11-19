@@ -85,6 +85,11 @@ public class FourthFragment extends BaseLazyMainFragment{
         mTab.setupWithViewPager(mViewPager);
     }
 
+    @Override
+    public void initLazyData() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

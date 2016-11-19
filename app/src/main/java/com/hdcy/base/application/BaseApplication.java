@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.multidex.MultiDexApplication;
 
 import com.hdcy.base.utils.BaseUtils;
+import com.hdcy.base.utils.CrashHandler;
 import com.hdcy.base.utils.logger.AndroidLogTool;
 import com.hdcy.base.utils.logger.LogF;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -68,7 +69,7 @@ public class BaseApplication extends MultiDexApplication {
 
     private void initData() {
         // 崩溃异常初始化
-        //CrashHandler.getInstance().init(instance);
+        CrashHandler.getInstance().init(instance);
 
         // xUtils 3.0初始化
         x.Ext.init(instance);

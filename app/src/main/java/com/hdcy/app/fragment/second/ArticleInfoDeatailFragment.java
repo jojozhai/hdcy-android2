@@ -2,6 +2,7 @@ package com.hdcy.app.fragment.second;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -102,6 +103,8 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
     };
 
 
+
+
     public static ArticleInfoDeatailFragment newInstance(String id) {
         ArticleInfoDeatailFragment fragment = new ArticleInfoDeatailFragment();
         Bundle bundle = new Bundle();
@@ -120,14 +123,8 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         }
         loadurl = Url + targetId;
         shareurl += targetId;
+        initWebview(view);
         initView(view);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                initWebview(view);
-            }
-        },2000);
 
         return view;
     }
@@ -157,7 +154,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
 
 
     private void initView(View view){
-        mProgressBar = (FrameLayout) view.findViewById(R.id.progress);
+       // mProgressBar = (FrameLayout) view.findViewById(R.id.progress);
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         title = (TextView) view.findViewById(R.id.toolbar_title);
         iv_nav_menu_comment = (ImageView) view.findViewById(R.id.iv_nav_menu_comment);
@@ -186,7 +183,7 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         mAdapter = new ArticleCommentListAdapter(getContext(),commentsList,praisestatus);
         lv_article_comment.setAdapter(mAdapter);
         lv_article_comment.setFocusable(false);
-        initData();
+
     }
 
     private void initWebview(View view) {
@@ -223,11 +220,23 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
         }else{
             webSettings.setDefaultZoom(WebSettings.ZoomDensity.MEDIUM);
         }
-        myWebView.setWebViewClient(new WebViewClient());
+        myWebView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.e("浏览器加载成功","haha");
+                initData();
+            }
+        });
         myWebView.setWebChromeClient(new WebChromeClient());
         myWebView.canGoBack();
         myWebView.loadUrl(loadurl);
-        mProgressBar.setVisibility(View.GONE);
+       // mProgressBar.setVisibility(View.GONE);
 
     }
 
@@ -272,23 +281,42 @@ public class ArticleInfoDeatailFragment extends BaseBackFragment {
 
     @Override
     public void onDestroyView() {
+        Log.e("WebView","Destory");
         super.onDestroyView();
-        myWebView.clearCache(true);
-        myWebView.removeAllViews();
-        myWebView.goBack();
-        myWebView.destroy();
-        myWebView =null;
+        if(myWebView != null) {
+            myWebView.clearCache(true);
+            myWebView.removeAllViews();
+            myWebView.goBack();
+            myWebView.destroy();
+            myWebView = null;
+            handler.removeCallbacks(null);
+            Log.e("WebView","Destory1");
+        }else {
+           // handler.removeCallbacks(null);
+            Log.e("WebView","Destory2");
+        }
     }
 
     @Override
     public void onResume() {
+        Log.e("WebView","Resume");
         super.onResume();
+        if(myWebView != null){
+            myWebView.reload();
+        }
        // myWebView.destroy();
     }
 
     @Override
     public void onPause() {
-        myWebView.reload();
+        Log.e("WebView","Pause");
+        if(myWebView != null){
+            myWebView.reload();
+            Log.e("WebView","Pause1");
+            handler.removeCallbacks(null);
+        }else {
+            Log.e("WebView","Pause2");
+        }
         super.onPause();
     }
 

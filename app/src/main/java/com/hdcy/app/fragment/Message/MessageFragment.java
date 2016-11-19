@@ -39,4 +39,9 @@ public class MessageFragment extends BaseLazyMainFragment{
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
 
     }
+
+    @Override
+    public void initLazyData() {
+
+    }
 }

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.FourthPagesAdapter;
 import com.hdcy.app.basefragment.BaseFragment;
+import com.hdcy.app.basefragment.BaseLazyDataFragment;
 import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.fourth.LeaderDetailInfoFragment;
 import com.hdcy.app.fragment.second.SecondFragment;
@@ -35,7 +36,7 @@ import java.util.List;
  * Created by WeiYanGeorge on 2016-10-19.
  */
 
-public class FourthPagesFragment extends BaseFragment {
+public class FourthPagesFragment extends BaseLazyDataFragment {
 
     private NoScrollListView mListView;
     private List<LeaderInfo> leaderInfoList;
@@ -60,6 +61,11 @@ public class FourthPagesFragment extends BaseFragment {
         initData();
         //setListener();
         return view;
+    }
+
+    @Override
+    public void initLazyData() {
+
     }
 
     private void initView(View view){

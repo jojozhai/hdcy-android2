@@ -102,6 +102,11 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
     }
 
     @Override
+    public void initLazyData() {
+        initData();
+    }
+
+    @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         activityContentList.clear();
         pagecount = 0;
@@ -130,7 +135,6 @@ public class ThirdFragment extends BaseLazyMainFragment implements BGARefreshLay
         imgheight = SizeUtils.dpToPx(200);
         initView(view);
         GetTopActivityListBanner();
-        initData();
         setListener();
         return view;
     }

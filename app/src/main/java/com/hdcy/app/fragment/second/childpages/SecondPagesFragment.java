@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.hdcy.app.R;
 import com.hdcy.app.adapter.SecondPagesAdapter;
 import com.hdcy.app.basefragment.BaseFragment;
+import com.hdcy.app.basefragment.BaseLazyDataFragment;
 import com.hdcy.app.event.StartBrotherEvent;
 import com.hdcy.app.fragment.OutLinkWebFragment;
 import com.hdcy.app.fragment.second.ArticleInfoDeatailFragment;
@@ -41,7 +42,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  * Created by WeiYanGeorge on 2016-10-08.
  */
 
-public class SecondPagesFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
+public class SecondPagesFragment extends BaseLazyDataFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
 
     private ListView mListview;
     private SecondPagesAdapter mAdapter;
@@ -71,8 +72,12 @@ public class SecondPagesFragment extends BaseFragment implements BGARefreshLayou
         //EventBus.getDefault().register(this);
         tagId = getArguments().getInt("param");
         initView(view);
-        initData();
         return view;
+    }
+
+    @Override
+    public void initLazyData() {
+        initData();
     }
 
     @Override

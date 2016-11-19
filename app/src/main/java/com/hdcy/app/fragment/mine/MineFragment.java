@@ -148,6 +148,11 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
     }
 
     @Override
+    public void initLazyData() {
+
+    }
+
+    @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         userBaseInfo =null;
         GetUserCurrentInfo();
@@ -157,6 +162,12 @@ public class MineFragment extends BaseLazyMainFragment implements BGARefreshLayo
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GetUserCurrentInfo();
     }
 
     private void initView(View view){
