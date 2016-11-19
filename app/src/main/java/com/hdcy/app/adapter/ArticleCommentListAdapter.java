@@ -122,19 +122,24 @@ public class ArticleCommentListAdapter extends BaseAdapter {
         }else {
             holder.tv_more.setVisibility(View.GONE);
         }
-
-        holder.tv_name.setText(item.getCreaterName()+"");
+        if(!BaseUtils.isEmptyString(item.getCreaterName())) {
+            holder.tv_name.setText(item.getCreaterName() + "");
+        }
         if(!BaseUtils.isEmptyString(item.getCreaterHeadimgurl())) {
             Picasso.with(context).load((item.getCreaterHeadimgurl()))
                     .placeholder(BaseInfo.PICASSO_PLACEHOLDER)
                     .resize(50, 50)
                     .into(holder.iv_avatar);
         }
-        Date time = item.getCreatedTime();
-        String nowdate = RelativeTimeUtils.format(time);
+        if(!BaseUtils.isEmptyString(item.getCreatedTime().toString())) {
+            Date time = item.getCreatedTime();
+            String nowdate = RelativeTimeUtils.format(time);
 
-        holder.tv_time.setText(nowdate);
+            holder.tv_time.setText(nowdate);
+        }
+        if(!BaseUtils.isEmptyString(item.getContent())){
         holder.tv_comment_content.setText(item.getContent());
+        }
         holder.tv_praise_count.setText(item.getPraiseCount()+"");
         if(item.isLike()){
             holder.iv_praise.setImageResource(R.drawable.content_press_praise);

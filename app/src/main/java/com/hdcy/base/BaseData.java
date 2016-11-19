@@ -25,7 +25,7 @@ public interface BaseData {
     /**
      * 环境
      */
-    ENVIRONMENT ENVIRONMENT_TYPE = ENVIRONMENT.TEST;
+    ENVIRONMENT ENVIRONMENT_TYPE = ENVIRONMENT.FORMAL;
 
     /**
      * 地址头部
