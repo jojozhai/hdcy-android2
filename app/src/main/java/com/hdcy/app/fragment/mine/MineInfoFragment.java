@@ -207,6 +207,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
 
             Luban.get(getActivity())
                     .load(file)
+                    .putGear(Luban.THIRD_GEAR)
                     .setCompressListener(new OnCompressListener() {
                         @Override
                         public void onStart() {
@@ -427,7 +428,7 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
                     .into(iv_mine_personalinfo_avatar);
         }
         tv_mine_personalinfo_nickname.setText(userBaseInfo.getNickname()+"");
-        if(userBaseInfo.getSex()=="1"){
+        if(userBaseInfo.getSex().equals("1")){
             tv_mine_personalinfo_gender.setText("男");
         }else {
             tv_mine_personalinfo_gender.setText("女");
@@ -605,9 +606,9 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             @Override
             public void onClick(View v) {
                 editType = "sex";
-                content = "2";
+                content = "1";
                 PublishPersonalInfo();
-                tv_mine_personalinfo_gender.setText("女");
+                tv_mine_personalinfo_gender.setText("男");
                 sexAlertDialog.dismiss();
             }
         });
@@ -616,11 +617,10 @@ public class MineInfoFragment extends BaseBackFragment implements  OnDateSetList
             @Override
             public void onClick(View v) {
                 editType = "sex";
-                content = "1";
+                content = "2";
                 PublishPersonalInfo();
-                tv_mine_personalinfo_gender.setText("男");
+                tv_mine_personalinfo_gender.setText("女");
                 sexAlertDialog.dismiss();
-
             }
         });
 

@@ -35,6 +35,7 @@ public class SecondFragment extends BaseLazyMainFragment {
     private TabLayout mTab;
     private ViewPager mViewPager;
     private List<NewsCategory> newsCategoryList = new ArrayList<>();
+    private ViewPageFragmentAdapter mAdapter;
 
 
     public static SecondFragment newInstance() {
@@ -45,13 +46,23 @@ public class SecondFragment extends BaseLazyMainFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(!newsCategoryList.isEmpty()){
+            setData();
+        }else {
+            //initData();
+        }
+    }
+
+    @Override
     protected void initLazyView(@Nullable Bundle savedInstanceState) {
 
     }
 
     @Override
     public void initLazyData() {
-
+        initData();
     }
 
     @Nullable
@@ -59,7 +70,6 @@ public class SecondFragment extends BaseLazyMainFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_second_pager,container,false);
         initView(view);
-        initData();
         return view;
     }
 
@@ -68,25 +78,25 @@ public class SecondFragment extends BaseLazyMainFragment {
     }
 
     private void setData(){
-
         for(int i = 0 ; i <newsCategoryList.size();i++){
             mTab.addTab(mTab.newTab());
         }
-        mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
-        mViewPager.setAdapter(new SecondFragment.ViewPageFragmentAdapter(getChildFragmentManager(),newsCategoryList));
+        mAdapter.notifyDataSetChanged();
         mTab.setupWithViewPager(mViewPager);
     }
 
     private void initView(View view){
         mTab =(TabLayout) view.findViewById(R.id.tab);
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        mTab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mAdapter = new ViewPageFragmentAdapter(getChildFragmentManager(),newsCategoryList);
+        mViewPager.setAdapter(mAdapter);
     }
 
     private void getNewsCategory(){
         NetHelper.getInstance().GetNewsCategoryList(new NetRequestCallBack() {
             @Override
             public void onSuccess(NetRequestInfo requestInfo, NetResponseInfo responseInfo) {
-                newsCategoryList.clear();
                 NewsCategory newsCategory = new NewsCategory();
                 newsCategory.setName("全部");
                 newsCategory.setId(1011);

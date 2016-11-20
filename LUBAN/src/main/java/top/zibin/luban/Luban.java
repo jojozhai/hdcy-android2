@@ -24,7 +24,7 @@ import static top.zibin.luban.Preconditions.checkNotNull;
 
 public class Luban {
 
-    private static final int FIRST_GEAR = 1;
+    public static final int FIRST_GEAR = 1;
     public static final int THIRD_GEAR = 3;
 
     private static final String TAG = "Luban";
